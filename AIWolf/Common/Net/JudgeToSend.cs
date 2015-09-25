@@ -1,13 +1,10 @@
 ﻿using AIWolf.Common.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIWolf.Common.Net
 {
     /// <summary>
+    /// 投票情報
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
@@ -15,23 +12,22 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class JudgeToSend
     {
-        public int Day { get; set; }
-        public int Agent { get; set; }
-        public int Target { get; set; }
-        public string Result { get; set; }
+        public int day { get; set; }
+        public int agent { get; set; }
+        public int target { get; set; }
+        public string result { get; set; }
 
         public JudgeToSend()
         {
-
         }
 
         public JudgeToSend(Judge judge)
         {
-            Day = judge.Day;
-            Agent = judge.Agent.AgentIdx;
-            Target = judge.Target.AgentIdx;
-            Result = judge.Result.ToString();
-            if (Result == null)
+            day = judge.Day;
+            agent = judge.Agent.AgentIdx;
+            target = judge.Target.AgentIdx;
+            result = judge.Result.ToString();
+            if (result == null)
             {
                 throw new AIWolfRuntimeException("judge result = null");
             }
@@ -39,7 +35,7 @@ namespace AIWolf.Common.Net
 
         public Judge ToJudge()
         {
-            Judge judge = new Judge(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target), (Species)Enum.Parse(typeof(Species), Result));
+            Judge judge = new Judge(day, Data.Agent.GetAgent(agent), Data.Agent.GetAgent(target), (Species)Enum.Parse(typeof(Species), result));
             return judge;
         }
     }

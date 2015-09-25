@@ -12,11 +12,11 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class GameInfo
     {
-        public int Day { get; }
+        public int Day { get; set; }
         /// <summary>
         /// yourself
         /// </summary>
-        public Agent Agent { get; }
+        public Agent Agent { get; set; }
         /// <summary>
         /// player's role
         /// </summary>
@@ -31,45 +31,45 @@ namespace AIWolf.Common.Net
         /// <summary>
         /// Result of medium. medium only
         /// </summary>
-        public Judge MediumResult { get; }
+        public Judge MediumResult { get; set; }
         /// <summary>
         /// Result of the dvine. seer only
         /// </summary>
-        public Judge DivineResult { get; }
+        public Judge DivineResult { get; set; }
         /// <summary>
         /// agent who executed last night
         /// </summary>
-        public Agent ExecutedAgent { get; }
+        public Agent ExecutedAgent { get; set; }
         /// <summary>
         /// agent who attacked last night
         /// </summary>
-        public Agent AttackedAgent { get; }
+        public Agent AttackedAgent { get; set; }
         /// <summary>
         /// agent who guarded last night
         /// </summary>
-        public Agent GuardedAgent { get; }
+        public Agent GuardedAgent { get; set; }
         /// <summary>
         /// Vote list. You can find who vote to who
         /// </summary>
-        public List<Vote> VoteList { get; }
+        public List<Vote> VoteList { get; set; }
         /// <summary>
         /// Attack vote list. werewolf only
         /// </summary>
-        public List<Vote> AttackVoteList { get; }
+        public List<Vote> AttackVoteList { get; set; }
 
         /// <summary>
         /// Today's talks
         /// </summary>
-        public List<Talk> TalkList { get; }
+        public List<Talk> TalkList { get; set; }
         /// <summary>
         /// today's whispers. werewolf only
         /// </summary>
-        public List<Talk> WhisperList { get; }
+        public List<Talk> WhisperList { get; set; }
 
         /// <summary>
         /// statuses of all agents
         /// </summary>
-        public Dictionary<Agent, Status> StatusMap { get; }
+        public Dictionary<Agent, Status> StatusMap { get; set; }
         /// <summary>
         /// Known roles of agents.
         /// <para>
@@ -77,7 +77,7 @@ namespace AIWolf.Common.Net
         /// if you are werewolf, you know other werewolves.
         /// </para>
         /// </summary>
-        public Dictionary<Agent, Role> RoleMap { get; }
+        public Dictionary<Agent, Role> RoleMap { get; set; }
 
         /// <summary>
         /// list of agents
