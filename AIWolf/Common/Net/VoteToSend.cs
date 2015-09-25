@@ -3,7 +3,7 @@
 namespace AIWolf.Common.Net
 {
     /// <summary>
-    /// vote information
+    /// 投票情報
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
@@ -11,6 +11,7 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class VoteToSend
     {
+        // JSONデータの互換性のため小文字ではじめる
         public int day { get; set; }
         public int agent { get; set; }
         public int target { get; set; }
@@ -28,7 +29,7 @@ namespace AIWolf.Common.Net
 
         public Vote ToVote()
         {
-            Vote vote = new Vote(day, Data.Agent.GetAgent(agent), Data.Agent.GetAgent(target));
+            Vote vote = new Vote(day, Agent.GetAgent(agent), Agent.GetAgent(target));
             return vote;
         }
     }

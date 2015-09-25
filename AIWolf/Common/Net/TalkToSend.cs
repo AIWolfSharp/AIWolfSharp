@@ -11,19 +11,23 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class TalkToSend
     {
+        // JSONデータの互換性のため小文字ではじめる
         /// <summary>
         /// index number of sentence
         /// </summary>
-        int idx { get; set; }
+        public int idx { get; set; }
+
         /// <summary>
         /// told day
         /// </summary>
-        int day { get; set; }
+        public int day { get; set; }
+
         /// <summary>
         /// agent
         /// </summary>
-        int agent { get; set; }
-        string content { get; set; }
+        public int agent { get; set; }
+
+        public string content { get; set; }
 
         public TalkToSend()
         {
@@ -39,7 +43,7 @@ namespace AIWolf.Common.Net
 
         public Talk ToTalk()
         {
-            return new Talk(idx, day, Data.Agent.GetAgent(agent), content);
+            return new Talk(idx, day, Agent.GetAgent(agent), content);
         }
     }
 }

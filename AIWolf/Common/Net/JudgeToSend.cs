@@ -12,6 +12,7 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class JudgeToSend
     {
+        // JSONデータの互換性のため小文字ではじめる
         public int day { get; set; }
         public int agent { get; set; }
         public int target { get; set; }
@@ -35,7 +36,7 @@ namespace AIWolf.Common.Net
 
         public Judge ToJudge()
         {
-            Judge judge = new Judge(day, Data.Agent.GetAgent(agent), Data.Agent.GetAgent(target), (Species)Enum.Parse(typeof(Species), result));
+            Judge judge = new Judge(day, Agent.GetAgent(agent), Agent.GetAgent(target), (Species)Enum.Parse(typeof(Species), result));
             return judge;
         }
     }

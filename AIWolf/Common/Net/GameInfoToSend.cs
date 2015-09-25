@@ -1,4 +1,5 @@
 ﻿using AIWolf.Common.Data;
+using System;
 using System.Collections.Generic;
 
 namespace AIWolf.Common.Net
@@ -12,6 +13,7 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class GameInfoToSend
     {
+        // JSONデータの互換性のため小文字ではじめる
         public int day { get; set; }
         public int agent { get; set; }
 
@@ -46,7 +48,7 @@ namespace AIWolf.Common.Net
         {
             GameInfo gi = new GameInfo();
             gi.Day = day;
-            gi.Agent = Data.Agent.GetAgent(agent);
+            gi.Agent = Agent.GetAgent(agent);
 
             if (mediumResult != null)
             {
@@ -56,41 +58,41 @@ namespace AIWolf.Common.Net
             {
                 gi.DivineResult = divineResult.ToJudge();
             }
-            gi.ExecutedAgent = Data.Agent.GetAgent(executedAgent);
-            gi.AttackedAgent = Data.Agent.GetAgent(attackedAgent);
-            gi.GuardedAgent = Data.Agent.GetAgent(guardedAgent);
+            gi.ExecutedAgent = Agent.GetAgent(executedAgent);
+            gi.AttackedAgent = Agent.GetAgent(attackedAgent);
+            gi.GuardedAgent = Agent.GetAgent(guardedAgent);
 
-            gi.VoteList = new List<Data.Vote>();
+            gi.VoteList = new List<Vote>();
             foreach (VoteToSend vote in voteList)
             {
                 gi.VoteList.Add(vote.ToVote());
             }
-            gi.AttackVoteList = new List<Data.Vote>();
+            gi.AttackVoteList = new List<Vote>();
             foreach (VoteToSend vote in attackVoteList)
             {
                 gi.AttackVoteList.Add(vote.ToVote());
             }
 
-            gi.TalkList = new List<Data.Talk>();
+            gi.TalkList = new List<Talk>();
             foreach (TalkToSend talk in talkList)
             {
                 gi.TalkList.Add(talk.ToTalk());
             }
-            gi.WhisperList = new List<Data.Talk>();
+            gi.WhisperList = new List<Talk>();
             foreach (TalkToSend whisper in whisperList)
             {
                 gi.WhisperList.Add(whisper.ToTalk());
             }
 
-            gi.StatusMap = new Dictionary<Data.Agent, Data.Status>();
+            gi.StatusMap = new Dictionary<Agent, Status>();
             foreach (string agent in statusMap.Keys)
             {
-                gi.StatusMap.Add(Data.Agent.GetAgent(int.Parse(agent)), (Status)System.Enum.Parse(typeof(Status), statusMap[agent]));
+                gi.StatusMap.Add(Agent.GetAgent(int.Parse(agent)), (Status)Enum.Parse(typeof(Status), statusMap[agent]));
             }
-            gi.RoleMap = new Dictionary<Data.Agent, Role>();
+            gi.RoleMap = new Dictionary<Agent, Role>();
             foreach (string agent in roleMap.Keys)
             {
-                gi.RoleMap.Add(Data.Agent.GetAgent(int.Parse(agent)), (Role)System.Enum.Parse(typeof(Role), roleMap[agent]));
+                gi.RoleMap.Add(Agent.GetAgent(int.Parse(agent)), (Role)Enum.Parse(typeof(Role), roleMap[agent]));
             }
 
             return gi;

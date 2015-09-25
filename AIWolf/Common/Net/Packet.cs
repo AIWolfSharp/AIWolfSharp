@@ -26,8 +26,8 @@ namespace AIWolf.Common.Net
         /// <param name="gameInfoToSend"></param>
         public Packet(Request request, GameInfoToSend gameInfoToSend)
         {
-            this.Request = request;
-            this.GameInfo = gameInfoToSend;
+            Request = request;
+            GameInfo = gameInfoToSend;
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace AIWolf.Common.Net
         /// <param name="gameSetting"></param>
         public Packet(Request request, GameInfoToSend gameInfoToSend, GameSetting gameSetting)
         {
-            this.Request = request;
-            this.GameInfo = gameInfoToSend;
-            this.GameSetting = gameSetting;
+            Request = request;
+            GameInfo = gameInfoToSend;
+            GameSetting = gameSetting;
         }
     }
 }

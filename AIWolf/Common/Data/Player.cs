@@ -3,7 +3,10 @@
 namespace AIWolf.Common.Data
 {
     /// <summary>
-    /// Player interface.
+    /// Player for AI Wolf
+    /// <para>
+    /// Implements Player to create Agent for AI Wolf
+    /// </para>
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.

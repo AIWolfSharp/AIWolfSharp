@@ -126,7 +126,7 @@ namespace AIWolf.Common.Net
         public GameSetting()
         {
             RoleNumMap = new Dictionary<Role, int>();
-            RandomSeed = System.Environment.TickCount;
+            RandomSeed = Environment.TickCount;
         }
 
         public int GetRoleNum(Role role)
@@ -151,6 +151,9 @@ namespace AIWolf.Common.Net
             return num;
         }
 
+        /// <summary>
+        /// Create Copy
+        /// </summary>
         public GameSetting Clone()
         {
             GameSetting gameSetting = new GameSetting();

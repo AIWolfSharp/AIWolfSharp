@@ -33,26 +33,26 @@ namespace AIWolf.Common.Net
             return converter;
         }
 
+        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+
         private DataConverter()
         {
         }
 
         public string Convert(object obj)
         {
-            JavaScriptSerializer ser = new System.Web.Script.Serialization.JavaScriptSerializer();
-            return ser.Serialize(obj);
+            return serializer.Serialize(obj);
         }
 
         public Packet ToPacket(string line)
         {
-            JavaScriptSerializer ser = new System.Web.Script.Serialization.JavaScriptSerializer();
-            Dictionary<string, object> map = ser.Deserialize<Dictionary<string, object>>(line);
+            Dictionary<string, object> map = serializer.Deserialize<Dictionary<string, object>>(line);
 
             Request request = (Request)Enum.Parse(typeof(Request), (string)map["request"]);
-            GameInfoToSend gameInfoToSend = ser.Deserialize<GameInfoToSend>((string)map["gameInfo"]);
+            GameInfoToSend gameInfoToSend = serializer.Deserialize<GameInfoToSend>((string)map["gameInfo"]);
             if (map["gameSetting"] != null)
             {
-                GameSetting gameSetting = ser.Deserialize<GameSetting>((string)map["gameSetting"]);
+                GameSetting gameSetting = serializer.Deserialize<GameSetting>((string)map["gameSetting"]);
                 return new Packet(request, gameInfoToSend, gameSetting);
             }
             else
@@ -63,11 +63,11 @@ namespace AIWolf.Common.Net
 
         public Agent ToAgent(object obj)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 return null;
             }
-            if(obj.GetType() == typeof(string))
+            if (obj is string)
             {
                 Match m = new Regex("\\{\"agentIdx\":(\\d+)\\}").Match((string)obj);
                 if (m.Success)
@@ -75,12 +75,19 @@ namespace AIWolf.Common.Net
                     return Agent.GetAgent(int.Parse(m.Value));
                 }
             }
-            if(obj.GetType() == typeof(Agent))
+            if (obj is Agent)
             {
                 return (Agent)obj;
             }
-            //TODO 実装し残しあり
-            return null;
+            else if (obj is Dictionary<string, string>)
+            {
+                return Agent.GetAgent(int.Parse(((Dictionary<string, string>)obj)["agentIdx"])); //TODO あやしい
+            }
+            else
+            {
+                throw new AIWolfRuntimeException("Can not convert to agent " + obj.GetType() + "\t" + obj);
+                //return serializer.Deserialize<Agent>(serializer.Serialize(obj));
+            }
         }
     }
 }

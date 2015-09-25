@@ -11,9 +11,21 @@ namespace AIWolf.Common.Data
     /// </summary>
     public class Talk
     {
+        /// <summary>
+        /// index number of sentence
+        /// </summary>
         public int Idx { get; }
+
+        /// <summary>
+        /// told day
+        /// </summary>
         public int Day { get; }
+
+        /// <summary>
+        /// agent
+        /// </summary>
         public Agent Agent { get; }
+
         public string Content { get; }
 
         public Talk(int idx, int day, Agent agent, string content)

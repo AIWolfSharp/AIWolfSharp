@@ -18,7 +18,7 @@ namespace AIWolf.Common.Data
 
         static public Agent GetAgent(int idx)
         {
-            if(idx < 0)
+            if (idx < 0)
             {
                 return null;
             }
@@ -39,7 +39,7 @@ namespace AIWolf.Common.Data
 
         public override string ToString()
         {
-            return String.Format("Agent[{0:00}]", AgentIdx);
+            return string.Format("Agent[{0:00}]", AgentIdx);
         }
 
         public override int GetHashCode()
@@ -52,20 +52,20 @@ namespace AIWolf.Common.Data
 
         public override bool Equals(object obj)
         {
-            if(this == obj)
+            if (this == obj)
             {
                 return true;
             }
-            if(obj == null)
+            if (obj == null)
             {
                 return false;
             }
-            if(GetType() != obj.GetType())
+            if (GetType() != obj.GetType())
             {
                 return false;
             }
             Agent other = (Agent)obj;
-            if(AgentIdx != other.AgentIdx)
+            if (AgentIdx != other.AgentIdx)
             {
                 return false;
             }
@@ -74,7 +74,7 @@ namespace AIWolf.Common.Data
 
         public int CompareTo(Agent target)
         {
-            if(target == null)
+            if (target == null)
             {
                 return 1;
             }

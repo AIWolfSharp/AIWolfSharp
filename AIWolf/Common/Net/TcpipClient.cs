@@ -22,8 +22,7 @@ namespace AIWolf.Common.Net
         private TcpClient tcpClient;
 
         private Player player;
-
-        public Role RequestRole { get; set; }
+        public Role? RequestRole { get; set; } // Nullable
 
         private bool isRunning;
 
@@ -33,7 +32,7 @@ namespace AIWolf.Common.Net
             Port = port;
         }
 
-        public TcpipClient(string host, int port, Role requestRole)
+        public TcpipClient(string host, int port, Role? requestRole)
         {
             Host = host;
             Port = port;
@@ -44,47 +43,66 @@ namespace AIWolf.Common.Net
         {
             this.player = player;
 
-            tcpClient = new TcpClient();
-            tcpClient.Connect(Dns.GetHostAddresses(Host), Port);
+            try
+            {
+                tcpClient = new TcpClient();
+                tcpClient.Connect(Dns.GetHostAddresses(Host), Port);
 
-            Thread th = new Thread(new ThreadStart(Run));
+                Thread th = new Thread(new ThreadStart(Run));
+                th.Start();
 
-            return true;
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+                return false;
+            }
         }
 
-        private void Run()
+        public void Run()
         {
-            StreamReader sr = new StreamReader(tcpClient.GetStream());
-            StreamWriter sw = new StreamWriter(tcpClient.GetStream());
-            string line;
-            isRunning = true;
-            while ((line = sr.ReadLine()) != null && isRunning)
+            try
             {
-                Packet packet = DataConverter.GetInstance().ToPacket(line);
-
-                object obj = Recieve(packet);
-                if (packet.Request.HasReturn())
+                StreamReader sr = new StreamReader(tcpClient.GetStream());
+                StreamWriter sw = new StreamWriter(tcpClient.GetStream());
+                string line;
+                isRunning = true;
+                while ((line = sr.ReadLine()) != null && isRunning)
                 {
-                    if (obj == null)
+                    Packet packet = DataConverter.GetInstance().ToPacket(line);
+
+                    object obj = Recieve(packet);
+                    if (packet.Request.HasReturn())
                     {
-                        sw.WriteLine();
+                        if (obj == null)
+                        {
+                            sw.WriteLine();
+                        }
+                        if (obj is string)
+                        {
+                            sw.WriteLine(obj);
+                        }
+                        else
+                        {
+                            sw.WriteLine(DataConverter.GetInstance().Convert(obj));
+                        }
+                        sw.Flush();
                     }
-                    if (obj is string)
-                    {
-                        sw.WriteLine(obj);
-                    }
-                    else
-                    {
-                        sw.WriteLine(DataConverter.GetInstance().Convert(obj));
-                    }
-                    sw.Flush();
                 }
+                Console.WriteLine("Close connection of" + player);
+                sr.Close();
+                sw.Close();
+                tcpClient.Close();
             }
-            Console.WriteLine("Close connection of" + player);
-            sr.Close();
-            sw.Close();
-            tcpClient.Close();
-            isRunning = false;
+            catch (Exception e)
+            {
+                throw new AIWolfRuntimeException(e);
+            }
+            finally
+            {
+                isRunning = false;
+            }
         }
 
         public object Recieve(Packet packet)
@@ -152,7 +170,7 @@ namespace AIWolf.Common.Net
                     break;
                 case Request.Finish:
                     player.Update(gameInfo);
-                    finish();
+                    Finish();
                     break;
                 default:
                     break;
@@ -160,7 +178,7 @@ namespace AIWolf.Common.Net
             return returnObject;
         }
 
-        private void finish()
+        private void Finish()
         {
             isRunning = false;
             player.Finish();
