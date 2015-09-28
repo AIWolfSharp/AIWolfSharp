@@ -37,7 +37,7 @@ namespace AIWolf.Common.Net
         {
             idx = talk.Idx;
             day = talk.Day;
-            agent = talk.Agent.AgentIdx;
+            agent = talk.Agent.agentIdx;
             content = talk.Content;
         }
 

@@ -10,59 +10,58 @@ namespace AIWolf
 {
     class TestPlayer : Player
     {
+        GameInfo gi;
+
         Agent Player.Attack()
         {
-            throw new NotImplementedException();
+            return gi.Agent;
         }
 
         void Player.DayStart()
         {
-            throw new NotImplementedException();
         }
 
         Agent Player.Divine()
         {
-            throw new NotImplementedException();
+            return gi.Agent;
         }
 
         void Player.Finish()
         {
-            throw new NotImplementedException();
         }
 
         string Player.GetName()
         {
-            throw new NotImplementedException();
+            return "TestPlayer";
         }
 
         Agent Player.Guard()
         {
-            throw new NotImplementedException();
+            return gi.Agent;
         }
 
         void Player.Initialize(GameInfo gameInfo, GameSetting gameSetting)
         {
-            throw new NotImplementedException();
         }
 
         string Player.Talk()
         {
-            throw new NotImplementedException();
+            return Talk.OVER;
         }
 
         void Player.Update(GameInfo gameInfo)
         {
-            throw new NotImplementedException();
+            gi = gameInfo;
         }
 
         Agent Player.Vote()
         {
-            throw new NotImplementedException();
+            return gi.Agent;
         }
 
         string Player.Whisper()
         {
-            throw new NotImplementedException();
+            return Talk.OVER;
         }
     }
 }

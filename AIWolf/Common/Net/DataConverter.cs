@@ -1,8 +1,8 @@
 ﻿using AIWolf.Common.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Web.Script.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -33,7 +33,7 @@ namespace AIWolf.Common.Net
             return converter;
         }
 
-        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        //private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
         private DataConverter()
         {
@@ -41,18 +41,22 @@ namespace AIWolf.Common.Net
 
         public string Convert(object obj)
         {
-            return serializer.Serialize(obj);
+            //return serializer.Serialize(obj);
+            return JsonConvert.SerializeObject(obj);
         }
 
         public Packet ToPacket(string line)
         {
-            Dictionary<string, object> map = serializer.Deserialize<Dictionary<string, object>>(line);
+            Dictionary<string, object> map = JsonConvert.DeserializeObject<Dictionary<string, object>>(line);
+            //Dictionary<string, object> map = serializer.Deserialize<Dictionary<string, object>>(line);
 
             Request request = (Request)Enum.Parse(typeof(Request), (string)map["request"]);
-            GameInfoToSend gameInfoToSend = serializer.Deserialize<GameInfoToSend>((string)map["gameInfo"]);
+            //GameInfoToSend gameInfoToSend = serializer.Deserialize<GameInfoToSend>(serializer.Serialize(map["gameInfo"]));
+            GameInfoToSend gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"]));
             if (map["gameSetting"] != null)
             {
-                GameSetting gameSetting = serializer.Deserialize<GameSetting>((string)map["gameSetting"]);
+                //GameSetting gameSetting = serializer.Deserialize<GameSetting>(serializer.Serialize(map["gameSetting"]));
+                GameSetting gameSetting = JsonConvert.DeserializeObject<GameSetting>(JsonConvert.SerializeObject(map["gameSetting"]));
                 return new Packet(request, gameInfoToSend, gameSetting);
             }
             else

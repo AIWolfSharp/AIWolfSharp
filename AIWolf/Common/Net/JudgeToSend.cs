@@ -25,8 +25,8 @@ namespace AIWolf.Common.Net
         public JudgeToSend(Judge judge)
         {
             day = judge.Day;
-            agent = judge.Agent.AgentIdx;
-            target = judge.Target.AgentIdx;
+            agent = judge.Agent.agentIdx;
+            target = judge.Target.agentIdx;
             result = judge.Result.ToString();
             if (result == null)
             {

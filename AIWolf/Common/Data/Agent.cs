@@ -30,23 +30,24 @@ namespace AIWolf.Common.Data
             return agentIndexMap[idx];
         }
 
-        public int AgentIdx { get; }
+        // JSONデータ互換性のため小文字で始める
+        public int agentIdx { get; }
 
         private Agent(int idx)
         {
-            AgentIdx = idx;
+            agentIdx = idx;
         }
 
         public override string ToString()
         {
-            return string.Format("Agent[{0:00}]", AgentIdx);
+            return string.Format("Agent[{0:00}]", agentIdx);
         }
 
         public override int GetHashCode()
         {
             const int prime = 31;
             int result = 1;
-            result = prime * result + AgentIdx;
+            result = prime * result + agentIdx;
             return result;
         }
 
@@ -65,7 +66,7 @@ namespace AIWolf.Common.Data
                 return false;
             }
             Agent other = (Agent)obj;
-            if (AgentIdx != other.AgentIdx)
+            if (agentIdx != other.agentIdx)
             {
                 return false;
             }
@@ -78,7 +79,7 @@ namespace AIWolf.Common.Data
             {
                 return 1;
             }
-            return AgentIdx - target.AgentIdx;
+            return agentIdx - target.agentIdx;
         }
     }
 }

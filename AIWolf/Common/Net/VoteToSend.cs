@@ -23,8 +23,8 @@ namespace AIWolf.Common.Net
         public VoteToSend(Vote vote)
         {
             day = vote.Day;
-            agent = vote.Agent.AgentIdx;
-            target = vote.Target.AgentIdx;
+            agent = vote.Agent.agentIdx;
+            target = vote.Target.agentIdx;
         }
 
         public Vote ToVote()
