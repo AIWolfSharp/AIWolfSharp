@@ -8,7 +8,6 @@ namespace AIWolf.Common
         {
         }
 
-
         public AIWolfRuntimeException(string arg0) : base(arg0)
         {
         }

@@ -1,67 +1,74 @@
 ﻿using AIWolf.Common.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AIWolf.Common.Net;
+using System.Collections.Generic;
 
 namespace AIWolf
 {
     class TestPlayer : Player
     {
-        GameInfo gi;
+        private Dictionary<int, GameInfo> gameInfoMap = new Dictionary<int, GameInfo>();
+        private int day;
+        private Agent me;
+        private Role myRole;
+        private GameSetting gameSetting;
 
-        Agent Player.Attack()
+        public Agent Attack()
         {
-            return gi.Agent;
+            return me;
         }
 
-        void Player.DayStart()
-        {
-        }
-
-        Agent Player.Divine()
-        {
-            return gi.Agent;
-        }
-
-        void Player.Finish()
+        public void DayStart()
         {
         }
 
-        string Player.GetName()
+        public Agent Divine()
+        {
+            return me;
+        }
+
+        public void Finish()
+        {
+        }
+
+        public string GetName()
         {
             return "TestPlayer";
         }
 
-        Agent Player.Guard()
+        public Agent Guard()
         {
-            return gi.Agent;
+            return me;
         }
 
-        void Player.Initialize(GameInfo gameInfo, GameSetting gameSetting)
+        public void Initialize(GameInfo gameInfo, GameSetting gameSetting)
         {
+            gameInfoMap.Clear();
+            this.gameSetting = gameSetting;
+            day = gameInfo.Day;
+            gameInfoMap.Add(day, gameInfo);
+            myRole = gameInfo.Role;
+            me = gameInfo.Agent;
         }
 
-        string Player.Talk()
+        public string Talk()
         {
-            return Talk.OVER;
+            return Common.Data.Talk.OVER;
         }
 
-        void Player.Update(GameInfo gameInfo)
+        public void Update(GameInfo gameInfo)
         {
-            gi = gameInfo;
+            day = gameInfo.Day;
+            gameInfoMap.Add(day, gameInfo);
         }
 
-        Agent Player.Vote()
+        public Agent Vote()
         {
-            return gi.Agent;
+            return me;
         }
 
-        string Player.Whisper()
+        public string Whisper()
         {
-            return Talk.OVER;
+            return Common.Data.Talk.OVER;
         }
     }
 }

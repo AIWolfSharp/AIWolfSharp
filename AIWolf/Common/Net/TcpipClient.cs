@@ -16,27 +16,27 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class TcpipClient : GameClient
     {
-        public string Host { get; set; }
-        public int Port { get; set; }
+        private string host;
+        private int port;
 
         private TcpClient tcpClient;
 
         private Player player;
-        public Role? RequestRole { get; set; } // Nullable
+        private Role? requestRole; // Nullable
 
         private bool isRunning;
 
         public TcpipClient(string host, int port)
         {
-            Host = host;
-            Port = port;
+            this.host = host;
+            this.port = port;
         }
 
         public TcpipClient(string host, int port, Role? requestRole)
         {
-            Host = host;
-            Port = port;
-            RequestRole = requestRole;
+            this.host = host;
+            this.port = port;
+            this.requestRole = requestRole;
         }
 
         public bool Connect(Player player)
@@ -46,7 +46,7 @@ namespace AIWolf.Common.Net
             try
             {
                 tcpClient = new TcpClient();
-                tcpClient.Connect(Dns.GetHostAddresses(Host), Port);
+                tcpClient.Connect(Dns.GetHostAddresses(host), port);
 
                 Thread th = new Thread(new ThreadStart(Run));
                 th.Start();
@@ -64,6 +64,7 @@ namespace AIWolf.Common.Net
         {
             try
             {
+                // サーバと接続されたソケットを利用して処理を行う
                 StreamReader sr = new StreamReader(tcpClient.GetStream());
                 StreamWriter sw = new StreamWriter(tcpClient.GetStream());
                 string line;
@@ -127,9 +128,9 @@ namespace AIWolf.Common.Net
                     returnObject = player.GetName();
                     break;
                 case Request.Role:
-                    if (RequestRole != null)
+                    if (requestRole != null)
                     {
-                        returnObject = RequestRole.ToString();
+                        returnObject = requestRole.ToString();
                     }
                     else
                     {

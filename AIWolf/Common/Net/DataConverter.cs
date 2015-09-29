@@ -1,5 +1,6 @@
 ﻿using AIWolf.Common.Data;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -33,30 +34,29 @@ namespace AIWolf.Common.Net
             return converter;
         }
 
-        //private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        private JsonSerializerSettings serializerSetting;
 
         private DataConverter()
         {
+            // C#のUpperCamelCaseとJSONのlowerCamelCaseの変換
+            serializerSetting = new JsonSerializerSettings();
+            serializerSetting.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         public string Convert(object obj)
         {
-            //return serializer.Serialize(obj);
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, serializerSetting);
         }
 
         public Packet ToPacket(string line)
         {
-            Dictionary<string, object> map = JsonConvert.DeserializeObject<Dictionary<string, object>>(line);
-            //Dictionary<string, object> map = serializer.Deserialize<Dictionary<string, object>>(line);
+            Dictionary<string, object> map = JsonConvert.DeserializeObject<Dictionary<string, object>>(line, serializerSetting);
 
             Request request = (Request)Enum.Parse(typeof(Request), (string)map["request"]);
-            //GameInfoToSend gameInfoToSend = serializer.Deserialize<GameInfoToSend>(serializer.Serialize(map["gameInfo"]));
-            GameInfoToSend gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"]));
+            GameInfoToSend gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"], serializerSetting), serializerSetting);
             if (map["gameSetting"] != null)
             {
-                //GameSetting gameSetting = serializer.Deserialize<GameSetting>(serializer.Serialize(map["gameSetting"]));
-                GameSetting gameSetting = JsonConvert.DeserializeObject<GameSetting>(JsonConvert.SerializeObject(map["gameSetting"]));
+                GameSetting gameSetting = JsonConvert.DeserializeObject<GameSetting>(JsonConvert.SerializeObject(map["gameSetting"], serializerSetting), serializerSetting);
                 return new Packet(request, gameInfoToSend, gameSetting);
             }
             else
@@ -83,14 +83,14 @@ namespace AIWolf.Common.Net
             {
                 return (Agent)obj;
             }
-            else if (obj is Dictionary<string, string>)
+            else if (obj is Dictionary<string, object>)
             {
-                return Agent.GetAgent(int.Parse(((Dictionary<string, string>)obj)["agentIdx"])); //TODO あやしい
+                //TODO（互換性あやしい） Java版ではBigDecimalにキャストしていた
+                return Agent.GetAgent((int)((Dictionary<string, object>)obj)["agentIdx"]);
             }
             else
             {
                 throw new AIWolfRuntimeException("Can not convert to agent " + obj.GetType() + "\t" + obj);
-                //return serializer.Deserialize<Agent>(serializer.Serialize(obj));
             }
         }
     }

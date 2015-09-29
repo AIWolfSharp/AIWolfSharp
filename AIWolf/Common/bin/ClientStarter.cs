@@ -2,18 +2,16 @@
 using AIWolf.Common.Net;
 using System;
 
-// TODO 例外処理
-namespace AIWolf.Common.bin
+namespace AIWolf.Common.Bin
 {
     class ClientStarter
     {
-
         public static void Main(string[] args)
         {
             string host = null;
             int port = -1;
             string clsName = null;
-            Role? roleRequest = null;
+            Role? roleRequest = null; // Nullable
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -33,7 +31,6 @@ namespace AIWolf.Common.bin
                     {
                         i++;
                         clsName = args[i];
-
                         i++;
                         try
                         {
@@ -45,7 +42,7 @@ namespace AIWolf.Common.bin
                             }
                             roleRequest = (Role)Enum.Parse(typeof(Role), args[i]);
                         }
-                        catch (ArgumentException e)
+                        catch (ArgumentException)
                         {
                             Console.Error.WriteLine("No such role as " + args[i]);
                             return;

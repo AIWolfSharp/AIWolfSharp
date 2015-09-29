@@ -11,10 +11,9 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class VoteToSend
     {
-        // JSONデータの互換性のため小文字ではじめる
-        public int day { get; set; }
-        public int agent { get; set; }
-        public int target { get; set; }
+        public int Day { get; set; }
+        public int Agent { get; set; }
+        public int Target { get; set; }
 
         public VoteToSend()
         {
@@ -22,14 +21,14 @@ namespace AIWolf.Common.Net
 
         public VoteToSend(Vote vote)
         {
-            day = vote.Day;
-            agent = vote.Agent.agentIdx;
-            target = vote.Target.agentIdx;
+            Day = vote.Day;
+            Agent = vote.Agent.AgentIdx;
+            Target = vote.Target.AgentIdx;
         }
 
         public Vote ToVote()
         {
-            Vote vote = new Vote(day, Agent.GetAgent(agent), Agent.GetAgent(target));
+            Vote vote = new Vote(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target));
             return vote;
         }
     }

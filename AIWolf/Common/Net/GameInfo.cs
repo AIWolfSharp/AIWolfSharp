@@ -119,7 +119,6 @@ namespace AIWolf.Common.Net
                     }
                 }
                 return aliveAgentList;
-
             }
         }
 

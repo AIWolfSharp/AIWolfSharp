@@ -141,20 +141,23 @@ namespace AIWolf.Common.Net
             }
         }
 
-        public int GetPlayerNum()
+        public int PlayerNum
         {
-            int num = 0;
-            foreach (int value in RoleNumMap.Values)
+            get
             {
-                num += value;
+                int num = 0;
+                foreach (int value in RoleNumMap.Values)
+                {
+                    num += value;
+                }
+                return num;
             }
-            return num;
         }
 
         /// <summary>
         /// Create Copy
         /// </summary>
-        public GameSetting Clone()
+        public object Clone()
         {
             GameSetting gameSetting = new GameSetting();
             gameSetting.IsEnableNoAttack = IsEnableNoAttack;
@@ -164,11 +167,6 @@ namespace AIWolf.Common.Net
             gameSetting.RandomSeed = RandomSeed;
             gameSetting.RoleNumMap = new Dictionary<Role, int>(RoleNumMap);
             return gameSetting;
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
     }
 }

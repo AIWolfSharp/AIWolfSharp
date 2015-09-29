@@ -12,11 +12,10 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class JudgeToSend
     {
-        // JSONデータの互換性のため小文字ではじめる
-        public int day { get; set; }
-        public int agent { get; set; }
-        public int target { get; set; }
-        public string result { get; set; }
+        public int Day { get; set; }
+        public int Agent { get; set; }
+        public int Target { get; set; }
+        public string Result { get; set; }
 
         public JudgeToSend()
         {
@@ -24,11 +23,11 @@ namespace AIWolf.Common.Net
 
         public JudgeToSend(Judge judge)
         {
-            day = judge.Day;
-            agent = judge.Agent.agentIdx;
-            target = judge.Target.agentIdx;
-            result = judge.Result.ToString();
-            if (result == null)
+            Day = judge.Day;
+            Agent = judge.Agent.AgentIdx;
+            Target = judge.Target.AgentIdx;
+            Result = judge.Result.ToString();
+            if (Result == null)
             {
                 throw new AIWolfRuntimeException("judge result = null");
             }
@@ -36,7 +35,7 @@ namespace AIWolf.Common.Net
 
         public Judge ToJudge()
         {
-            Judge judge = new Judge(day, Agent.GetAgent(agent), Agent.GetAgent(target), (Species)Enum.Parse(typeof(Species), result));
+            Judge judge = new Judge(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target), (Species)Enum.Parse(typeof(Species), Result));
             return judge;
         }
     }

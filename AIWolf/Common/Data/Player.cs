@@ -40,8 +40,10 @@ namespace AIWolf.Common.Data
 
         /// <summary>
         /// Each player can talk thier opinions throw this method.
+        /// <para>
         /// Return texts must be written in aiwolf protocol.
         /// When you return null, it will be considered as SKIP.
+        /// </para>
         /// </summary>
         /// <returns></returns>
         string Talk();
