@@ -66,6 +66,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Lib\EnumType.cs" />
+    <Compile Include="Client\Lib\State.cs" />
+    <Compile Include="Client\Lib\StateExtensions.cs" />
+    <Compile Include="Client\Lib\TalkType.cs" />
+    <Compile Include="Client\Lib\TalkTypeExtensions.cs" />
+    <Compile Include="Client\Lib\TemplateTalkFactory.cs" />
+    <Compile Include="Client\Lib\TemplateWhisperFactory.cs" />
+    <Compile Include="Client\Lib\Topic.cs" />
+    <Compile Include="Client\Lib\Utterance.cs" />
     <Compile Include="Common\AIWolfRuntimeException.cs" />
     <Compile Include="Common\bin\ClientStarter.cs" />
     <Compile Include="Common\Data\Agent.cs" />
