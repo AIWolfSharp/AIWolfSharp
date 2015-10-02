@@ -1,6 +1,6 @@
 ﻿namespace AIWolf.Common.Data
 {
-    public enum Species
+    enum Species
     {
         HUMAN, WEREWOLF
     }

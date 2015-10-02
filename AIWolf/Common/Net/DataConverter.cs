@@ -1,5 +1,6 @@
 ﻿using AIWolf.Common.Data;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,16 @@ namespace AIWolf.Common.Net
     /// <summary>
     /// AIWolfのObjectを送信形式にEncode,Decodeする．
     /// <para>
-    /// Singleton
+    /// Singleton.
     /// </para>
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class DataConverter
+    class DataConverter
     {
-        private static DataConverter converter;
+        static DataConverter converter;
 
         /// <summary>
         /// 唯一のConverterを取得
@@ -34,13 +35,15 @@ namespace AIWolf.Common.Net
             return converter;
         }
 
-        private JsonSerializerSettings serializerSetting;
+        JsonSerializerSettings serializerSetting;
 
-        private DataConverter()
+        DataConverter()
         {
             // C#のUpperCamelCaseとJSONのlowerCamelCaseの変換
             serializerSetting = new JsonSerializerSettings();
             serializerSetting.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            // enumを文字列のまま変換するため
+            serializerSetting.Converters.Add(new StringEnumConverter());
         }
 
         public string Convert(object obj)
@@ -73,10 +76,10 @@ namespace AIWolf.Common.Net
             }
             if (obj is string)
             {
-                Match m = new Regex("\\{\"agentIdx\":(\\d+)\\}").Match((string)obj);
+                Match m = new Regex(@"{""agentIdx"":(\d+)}").Match((string)obj);
                 if (m.Success)
                 {
-                    return Agent.GetAgent(int.Parse(m.Value));
+                    return Agent.GetAgent(int.Parse(m.Groups[1].Value));
                 }
             }
             if (obj is Agent)

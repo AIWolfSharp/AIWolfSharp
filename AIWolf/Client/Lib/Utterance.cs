@@ -7,7 +7,7 @@ namespace AIWolf.Client.Lib
     /// <summary>
     /// 発話をパースしたもの
     /// </summary>
-    public class Utterance
+    class Utterance
     {
         // 原文
         public string Text { get; }
@@ -127,7 +127,7 @@ namespace AIWolf.Client.Lib
             return;
         }
 
-        private int GetInt(string text)
+        int GetInt(string text)
         {
             var m = new Regex(@"-?[\d]+").Match(text);
             if (m.Success)
@@ -145,7 +145,7 @@ namespace AIWolf.Client.Lib
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        private Topic? GetTopic(string s)
+        Topic? GetTopic(string s)
         {
             foreach (Topic topic in Enum.GetValues(typeof(Topic)))
             {

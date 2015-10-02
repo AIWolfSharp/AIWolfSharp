@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public enum Topic
+    enum Topic
     {
         // AgentはRoleだと思う
         // ESTIMATE Agent Role

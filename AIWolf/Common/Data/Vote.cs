@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class Vote
+    class Vote
     {
         public int Day { get; }
         public Agent Agent { get; }
@@ -24,6 +24,5 @@
         {
             return Agent + " voted " + Target + "@" + Day;
         }
-
     }
 }

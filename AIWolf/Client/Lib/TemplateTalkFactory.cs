@@ -9,7 +9,7 @@ namespace AIWolf.Client.Lib
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class TemplateTalkFactory
+    class TemplateTalkFactory
     {
         /// <summary>
         /// Talk one's estimation.

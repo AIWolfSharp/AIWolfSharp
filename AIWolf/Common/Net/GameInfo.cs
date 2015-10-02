@@ -4,23 +4,23 @@ using System.Collections.Generic;
 namespace AIWolf.Common.Net
 {
     /// <summary>
-    /// Game information which send to each player
+    /// Game information which send to each player.
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class GameInfo
+    class GameInfo
     {
         public int Day { get; set; }
 
         /// <summary>
-        /// yourself
+        /// Yourself.
         /// </summary>
         public Agent Agent { get; set; }
 
         /// <summary>
-        /// player's role
+        /// Player's role.
         /// </summary>
         public Role Role
         {
@@ -31,66 +31,66 @@ namespace AIWolf.Common.Net
         }
 
         /// <summary>
-        /// Result of medium. medium only
+        /// Result of medium. Medium only.
         /// </summary>
         public Judge MediumResult { get; set; }
 
         /// <summary>
-        /// Result of the dvine. seer only
+        /// Result of the dvine. Seer only.
         /// </summary>
         public Judge DivineResult { get; set; }
 
         /// <summary>
-        /// agent who executed last night
+        /// Agent who was executed last night.
         /// </summary>
         public Agent ExecutedAgent { get; set; }
 
         /// <summary>
-        /// agent who attacked last night
+        /// Agent who was attacked last night.
         /// </summary>
         public Agent AttackedAgent { get; set; }
 
         /// <summary>
-        /// agent who guarded last night
+        /// Agent who was guarded last night.
         /// </summary>
         public Agent GuardedAgent { get; set; }
 
         /// <summary>
-        /// Vote list. You can find who vote to who
+        /// Vote list. You can find who vote to who.
         /// </summary>
         public List<Vote> VoteList { get; set; }
 
         /// <summary>
-        /// Attack vote list. werewolf only
+        /// Attack vote list. Werewolf only.
         /// </summary>
         public List<Vote> AttackVoteList { get; set; }
 
         /// <summary>
-        /// Today's talks
+        /// Today's talks.
         /// </summary>
         public List<Talk> TalkList { get; set; }
 
         /// <summary>
-        /// today's whispers. werewolf only
+        /// Today's whispers. Werewolf only.
         /// </summary>
         public List<Talk> WhisperList { get; set; }
 
         /// <summary>
-        /// statuses of all agents
+        /// Statuses of all agents.
         /// </summary>
         public Dictionary<Agent, Status> StatusMap { get; set; }
 
         /// <summary>
         /// Known roles of agents.
         /// <para>
-        /// if you are human, you know only yourself.
-        /// if you are werewolf, you know other werewolves.
+        /// If you are human, you know only yourself.
+        /// If you are werewolf, you know other werewolves.
         /// </para>
         /// </summary>
         public Dictionary<Agent, Role> RoleMap { get; set; }
 
         /// <summary>
-        /// list of agents
+        /// List of agents.
         /// </summary>
         public List<Agent> AgentList
         {
@@ -101,7 +101,7 @@ namespace AIWolf.Common.Net
         }
 
         /// <summary>
-        /// list of alive agents
+        /// List of alive agents.
         /// </summary>
         public List<Agent> AliveAgentList
         {

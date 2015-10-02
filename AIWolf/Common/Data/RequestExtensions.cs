@@ -5,28 +5,28 @@ namespace AIWolf.Common.Data
     /// <summary>
     /// Class to define extension mathod.
     /// <para>
-    /// written by otsuki
+    /// Written by otsuki.
     /// </para>
     /// </summary>
-    public static class RequestExtensions
+    static class RequestExtensions
     {
-        private static Dictionary<Request, bool> hasReturnMap = new Dictionary<Request, bool>();
+        static Dictionary<Request, bool> hasReturnMap = new Dictionary<Request, bool>();
 
         static RequestExtensions()
         {
-            hasReturnMap.Add(Request.Name, true);
-            hasReturnMap.Add(Request.Role, true);
-            hasReturnMap.Add(Request.Talk, true);
-            hasReturnMap.Add(Request.Whisper, true);
-            hasReturnMap.Add(Request.Vote, true);
-            hasReturnMap.Add(Request.Divine, true);
-            hasReturnMap.Add(Request.Guard, true);
-            hasReturnMap.Add(Request.Attack, true);
-            hasReturnMap.Add(Request.Initialize, false);
-            hasReturnMap.Add(Request.DailyInitialize, false);
-            hasReturnMap.Add(Request.DailyFinish, false);
-            //hasReturnMap.Add(Request.Update, true);
-            hasReturnMap.Add(Request.Finish, false);
+            hasReturnMap[Request.Name] = true;
+            hasReturnMap[Request.Role] = true;
+            hasReturnMap[Request.Talk] = true;
+            hasReturnMap[Request.Whisper] = true;
+            hasReturnMap[Request.Vote] = true;
+            hasReturnMap[Request.Divine] = true;
+            hasReturnMap[Request.Guard] = true;
+            hasReturnMap[Request.Attack] = true;
+            hasReturnMap[Request.Initialize] = false;
+            hasReturnMap[Request.DailyInitialize] = false;
+            hasReturnMap[Request.DailyFinish] = false;
+            //hasReturnMap[Request.Update] = false;
+            hasReturnMap[Request.Finish] = false;
         }
 
         public static bool HasReturn(this Request request)

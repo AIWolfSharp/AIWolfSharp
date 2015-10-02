@@ -6,30 +6,30 @@ namespace AIWolf.Client.Lib
     /// <summary>
     /// Class to define extension method.
     /// <para>
-    /// written by otsuki
+    /// Written by otsuki.
     /// </para>
     /// </summary>
-    public static class StateExtensions
+    static class StateExtensions
     {
-        private static Dictionary<State, EnumType> stateEnumTypeMap = new Dictionary<State, EnumType>();
+        static Dictionary<State, EnumType> stateEnumTypeMap = new Dictionary<State, EnumType>();
 
         static StateExtensions()
         {
-            stateEnumTypeMap.Add(State.bodyguard, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.freemason, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.medium, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.possessed, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.seer, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.villager, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.werewolf, EnumType.ROLE);
-            stateEnumTypeMap.Add(State.villagerSide, EnumType.TEAM);
-            stateEnumTypeMap.Add(State.werewolfSide, EnumType.TEAM);
-            stateEnumTypeMap.Add(State.HUMAN, EnumType.SPECIES);
-            //stateEnumTypeMap.Add(State.Wolf, EnumType.SPECIES);
-            stateEnumTypeMap.Add(State.GIFTED, EnumType.GIFTED);
+            stateEnumTypeMap[State.bodyguard] = EnumType.ROLE;
+            stateEnumTypeMap[State.freemason] = EnumType.ROLE;
+            stateEnumTypeMap[State.medium] = EnumType.ROLE;
+            stateEnumTypeMap[State.possessed] = EnumType.ROLE;
+            stateEnumTypeMap[State.seer] = EnumType.ROLE;
+            stateEnumTypeMap[State.villager] = EnumType.ROLE;
+            stateEnumTypeMap[State.werewolf] = EnumType.ROLE;
+            stateEnumTypeMap[State.villagerSide] = EnumType.TEAM;
+            stateEnumTypeMap[State.werewolfSide] = EnumType.TEAM;
+            stateEnumTypeMap[State.HUMAN] = EnumType.SPECIES;
+            //stateEnumTypeMap[State.Wolf]= EnumType.SPECIES;
+            stateEnumTypeMap[State.GIFTED] = EnumType.GIFTED;
         }
 
-        public static EnumType GetEnumType(this State state)
+        static EnumType GetEnumType(this State state)
         {
             return stateEnumTypeMap[state];
         }

@@ -3,26 +3,26 @@
 namespace AIWolf.Common.Net
 {
     /// <summary>
-    /// AI Wolf Talk
+    /// AI Wolf Talk.
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class TalkToSend
+    class TalkToSend
     {
         /// <summary>
-        /// index number of sentence
+        /// Index number of sentence.
         /// </summary>
         public int Idx { get; set; }
 
         /// <summary>
-        /// told day
+        /// Told day.
         /// </summary>
         public int Day { get; set; }
 
         /// <summary>
-        /// agent
+        /// Agent.
         /// </summary>
         public int Agent { get; set; }
 

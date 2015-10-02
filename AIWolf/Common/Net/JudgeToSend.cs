@@ -10,7 +10,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class JudgeToSend
+    class JudgeToSend
     {
         public int Day { get; set; }
         public int Agent { get; set; }
@@ -35,8 +35,7 @@ namespace AIWolf.Common.Net
 
         public Judge ToJudge()
         {
-            Judge judge = new Judge(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target), (Species)Enum.Parse(typeof(Species), Result));
-            return judge;
+            return new Judge(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target), (Species)Enum.Parse(typeof(Species), Result));
         }
     }
 }

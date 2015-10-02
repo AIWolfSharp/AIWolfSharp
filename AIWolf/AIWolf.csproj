@@ -48,11 +48,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>AIWolf.Common.bin.ClientStarter</StartupObject>
+    <StartupObject>AIWolf.Server.Bin.RoleRequestStarter</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.1.2\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -66,6 +70,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Base\Player\AbstractRole.cs" />
+    <Compile Include="Client\Base\Player\AbstractBodyguard.cs" />
+    <Compile Include="Client\Base\Player\AbstractMedium.cs" />
+    <Compile Include="Client\Base\Player\AbstractRoleAssignPlayer.cs" />
+    <Compile Include="Client\Base\Player\AbstractSeer.cs" />
+    <Compile Include="Client\Base\Player\AbstractPossessed.cs" />
+    <Compile Include="Client\Base\Player\AbstractWerewolf.cs" />
+    <Compile Include="Client\Base\Player\AbstractVillager.cs" />
+    <Compile Include="Client\Base\Player\UnsuspectedMethodCallException.cs" />
+    <Compile Include="Client\Base\Smpl\SampleBodyguard.cs" />
+    <Compile Include="Client\Base\Smpl\SampleMedium.cs" />
+    <Compile Include="Client\Base\Smpl\SamplePossessed.cs" />
+    <Compile Include="Client\Base\Smpl\SampleRoleAssignPlayer.cs" />
+    <Compile Include="Client\Base\Smpl\SampleSeer.cs" />
+    <Compile Include="Client\Base\Smpl\SampleVillager.cs" />
+    <Compile Include="Client\Base\Smpl\SampleWerewolf.cs" />
     <Compile Include="Client\Lib\EnumType.cs" />
     <Compile Include="Client\Lib\State.cs" />
     <Compile Include="Client\Lib\StateExtensions.cs" />
@@ -76,11 +96,12 @@
     <Compile Include="Client\Lib\Topic.cs" />
     <Compile Include="Client\Lib\Utterance.cs" />
     <Compile Include="Common\AIWolfRuntimeException.cs" />
-    <Compile Include="Common\bin\ClientStarter.cs" />
+    <Compile Include="Common\Bin\ClientStarter.cs" />
     <Compile Include="Common\Data\Agent.cs" />
     <Compile Include="Common\Data\Guard.cs" />
+    <Compile Include="Client\Base\Player\AbstractPlayer.cs" />
     <Compile Include="Common\Data\Judge.cs" />
-    <Compile Include="Common\Data\Player.cs" />
+    <Compile Include="Common\Data\IPlayer.cs" />
     <Compile Include="Common\Data\Request.cs" />
     <Compile Include="Common\Data\RequestExtensions.cs" />
     <Compile Include="Common\Data\Role.cs" />
@@ -91,7 +112,7 @@
     <Compile Include="Common\Data\Team.cs" />
     <Compile Include="Common\Data\Vote.cs" />
     <Compile Include="Common\Net\DataConverter.cs" />
-    <Compile Include="Common\Net\GameClient.cs" />
+    <Compile Include="Common\Net\IGameClient.cs" />
     <Compile Include="Common\Net\GameInfo.cs" />
     <Compile Include="Common\Net\GameInfoToSend.cs" />
     <Compile Include="Common\Net\GameSetting.cs" />
@@ -100,12 +121,34 @@
     <Compile Include="Common\Net\TalkToSend.cs" />
     <Compile Include="Common\Net\TcpipClient.cs" />
     <Compile Include="Common\Net\VoteToSend.cs" />
+    <Compile Include="Common\Util\CalendarTools.cs" />
+    <Compile Include="Common\Util\ShuffleExtensions.cs" />
+    <Compile Include="MyStarter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\AIWolfGame.cs" />
+    <Compile Include="Server\Bin\DirectStarter.cs" />
+    <Compile Include="Server\Bin\RoleRequestStarter.cs" />
+    <Compile Include="Server\Bin\ServerStarter.cs" />
+    <Compile Include="Server\GameData.cs" />
+    <Compile Include="Server\IllegalPlayerNumException.cs" />
+    <Compile Include="Common\AIWolfAgentException.cs" />
+    <Compile Include="Server\Net\DirectConnectServer.cs" />
+    <Compile Include="Server\Net\IGameServer.cs" />
+    <Compile Include="Server\LostClientException.cs" />
+    <Compile Include="Server\Net\TcpipServer.cs" />
+    <Compile Include="Server\Util\FileGameLogger.cs" />
+    <Compile Include="Server\Util\GameLogger.cs" />
     <Compile Include="TestPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +163,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

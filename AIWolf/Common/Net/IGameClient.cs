@@ -1,6 +1,6 @@
 ﻿namespace AIWolf.Common.Net
 {
-    public interface GameClient
+    interface IGameClient
     {
         object Recieve(Packet packet);
     }

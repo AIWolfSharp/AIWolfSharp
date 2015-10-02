@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common
 {
+    [Serializable]
     class AIWolfRuntimeException : Exception
     {
         public AIWolfRuntimeException()
         {
         }
 
-        public AIWolfRuntimeException(string arg0) : base(arg0)
+        public AIWolfRuntimeException(string message) : base(message)
         {
         }
 
-        public AIWolfRuntimeException(Exception arg0) : base(arg0.ToString(), arg0)
+        public AIWolfRuntimeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected AIWolfRuntimeException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

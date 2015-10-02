@@ -8,23 +8,23 @@ using System.Threading;
 namespace AIWolf.Common.Net
 {
     /// <summary>
-    /// Client Using TCP/IP Connection
+    /// Client Using TCP/IP Connection.
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class TcpipClient : GameClient
+    class TcpipClient : IGameClient
     {
-        private string host;
-        private int port;
+        string host;
+        int port;
 
-        private TcpClient tcpClient;
+        TcpClient tcpClient;
 
-        private Player player;
-        private Role? requestRole; // Nullable
+        IPlayer player;
+        Role? requestRole; // Nullable
 
-        private bool isRunning;
+        bool isRunning;
 
         public TcpipClient(string host, int port)
         {
@@ -39,7 +39,7 @@ namespace AIWolf.Common.Net
             this.requestRole = requestRole;
         }
 
-        public bool Connect(Player player)
+        public bool Connect(IPlayer player)
         {
             this.player = player;
 
@@ -91,14 +91,14 @@ namespace AIWolf.Common.Net
                         sw.Flush();
                     }
                 }
-                Console.WriteLine("Close connection of" + player);
+                Console.WriteLine("Close connection of " + player);
                 sr.Close();
                 sw.Close();
                 tcpClient.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new AIWolfRuntimeException(e);
+                throw new AIWolfRuntimeException();
             }
             finally
             {
@@ -125,7 +125,7 @@ namespace AIWolf.Common.Net
                     player.Update(gameInfo);
                     break;
                 case Request.Name:
-                    returnObject = player.GetName();
+                    returnObject = player.Name;
                     break;
                 case Request.Role:
                     if (requestRole != null)
@@ -179,7 +179,7 @@ namespace AIWolf.Common.Net
             return returnObject;
         }
 
-        private void Finish()
+        public void Finish()
         {
             isRunning = false;
             player.Finish();

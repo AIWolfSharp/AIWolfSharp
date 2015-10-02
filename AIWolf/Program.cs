@@ -1,7 +1,10 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
+using AIWolf.Common.Util;
+using AIWolf.Server.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AIWolf
 {
@@ -10,6 +13,7 @@ namespace AIWolf
         public static void Main(string[] args)
         {
             Agent[] agents = new Agent[10];
+            Random rand = new Random();
 
             for (int i = 0; i < 10; i++)
             {
@@ -66,7 +70,51 @@ namespace AIWolf
             role.Add(0, "VILLAGER");
             role.Add(1, "WEREWOLF");
             gi.RoleMap = role;
-            System.Console.WriteLine(dc.Convert(gi));
+            Console.WriteLine(dc.Convert(gi));
+
+            Console.WriteLine(CalendarTools.ToDateTime(DateTime.Now.Ticks));
+            Console.WriteLine(CalendarTools.ToTimeString(DateTime.Now));
+            //var logger = new FileGameLogger("Log.log");
+            //logger.Log("Log.log");
+            //logger.Flush();
+            //logger.Close();
+
+            List<Agent> aList = agents.Shuffle().ToList();
+            Dictionary<Agent, int> counter = new Dictionary<Agent, int>();
+            foreach (Agent a in aList)
+            {
+                if (!counter.ContainsKey(a))
+                {
+                    counter.Add(a, rand.Next());
+                }
+                else
+                {
+                    counter[a]++;
+                }
+            }
+            foreach (Agent a in counter.Keys)
+            {
+                Console.WriteLine(a + " " + counter[a]);
+            }
+            foreach (Agent a in aList)
+            {
+                if (!counter.ContainsKey(a))
+                {
+                    counter.Add(a, rand.Next());
+                }
+                else
+                {
+                    counter[a]++;
+                }
+            }
+            Console.WriteLine();
+            var v = counter.OrderBy(x => x.Value);
+            foreach (var x in v)
+            {
+                Console.WriteLine(x.Key + " " + x.Value);
+            }
+            Console.WriteLine("max =" + v.Last().Value);
+            Console.WriteLine(aList.Shuffle().First());
         }
     }
 }

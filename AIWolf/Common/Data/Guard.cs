@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class Guard
+    class Guard
     {
         public int Day { get; }
         public Agent Agent { get; }

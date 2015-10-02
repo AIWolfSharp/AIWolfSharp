@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public enum Status
+    enum Status
     {
         ALIVE,
         DEAD

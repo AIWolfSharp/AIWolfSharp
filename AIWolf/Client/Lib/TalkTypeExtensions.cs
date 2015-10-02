@@ -3,10 +3,10 @@
     /// <summary>
     /// Class to define extension method.
     /// <para>
-    /// written by otsuki
+    /// Written by otsuki.
     /// </para>
     /// </summary>
-    public static class TalkTypeExtensions
+    static class TalkTypeExtensions
     {
         public static bool IsWhisper(this TalkType talkType)
         {

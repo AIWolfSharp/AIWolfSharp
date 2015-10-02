@@ -5,37 +5,37 @@ namespace AIWolf.Common.Data
     /// <summary>
     /// Class to define extension mathod.
     /// <para>
-    /// written by otsuki
+    /// Written by otsuki.
     /// </para>
     /// </summary>
-    public static class RoleExtensions
+    static class RoleExtensions
     {
-        private static Dictionary<Role, Team> roleTeamMap = new Dictionary<Role, Team>();
-        private static Dictionary<Role, Species> roleSpeciesMap = new Dictionary<Role, Species>();
+        static Dictionary<Role, Team> roleTeamMap = new Dictionary<Role, Team>();
+        static Dictionary<Role, Species> roleSpeciesMap = new Dictionary<Role, Species>();
 
         static RoleExtensions()
         {
-            roleTeamMap.Add(Role.BODYGUARD, Team.VILLAGER);
-            roleSpeciesMap.Add(Role.BODYGUARD, Species.HUMAN);
+            roleTeamMap[Role.BODYGUARD] = Team.VILLAGER;
+            roleSpeciesMap[Role.BODYGUARD] = Species.HUMAN;
 
             //ver0.1.xでは使用されません
-            roleTeamMap.Add(Role.FREEMASON, Team.VILLAGER);
-            roleSpeciesMap.Add(Role.FREEMASON, Species.HUMAN);
+            roleTeamMap[Role.FREEMASON] = Team.VILLAGER;
+            roleSpeciesMap[Role.FREEMASON] = Species.HUMAN;
 
-            roleTeamMap.Add(Role.MEDIUM, Team.VILLAGER);
-            roleSpeciesMap.Add(Role.MEDIUM, Species.HUMAN);
+            roleTeamMap[Role.MEDIUM] = Team.VILLAGER;
+            roleSpeciesMap[Role.MEDIUM] = Species.HUMAN;
 
-            roleTeamMap.Add(Role.POSSESSED, Team.WEREWOLF);
-            roleSpeciesMap.Add(Role.POSSESSED, Species.HUMAN);
+            roleTeamMap[Role.POSSESSED] = Team.WEREWOLF;
+            roleSpeciesMap[Role.POSSESSED] = Species.HUMAN;
 
-            roleTeamMap.Add(Role.SEER, Team.VILLAGER);
-            roleSpeciesMap.Add(Role.SEER, Species.HUMAN);
+            roleTeamMap[Role.SEER] = Team.VILLAGER;
+            roleSpeciesMap[Role.SEER] = Species.HUMAN;
 
-            roleTeamMap.Add(Role.VILLAGER, Team.VILLAGER);
-            roleSpeciesMap.Add(Role.VILLAGER, Species.HUMAN);
+            roleTeamMap[Role.VILLAGER] = Team.VILLAGER;
+            roleSpeciesMap[Role.VILLAGER] = Species.HUMAN;
 
-            roleTeamMap.Add(Role.WEREWOLF, Team.WEREWOLF);
-            roleSpeciesMap.Add(Role.WEREWOLF, Species.WEREWOLF);
+            roleTeamMap[Role.WEREWOLF] = Team.WEREWOLF;
+            roleSpeciesMap[Role.WEREWOLF] = Species.WEREWOLF;
         }
 
         public static Team GetTeam(this Role role)

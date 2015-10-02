@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public enum EnumType
+    enum EnumType
     {
         ROLE,
         TEAM,

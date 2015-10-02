@@ -9,7 +9,7 @@ namespace AIWolf.Client.Lib
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class TemplateWhisperFactory
+    class TemplateWhisperFactory
     {
         public static string Attack(Agent target)
         {

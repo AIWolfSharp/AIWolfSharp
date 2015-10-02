@@ -3,38 +3,37 @@
 namespace AIWolf.Common.Data
 {
     /// <summary>
-    /// Player for AI Wolf
+    /// Player for AI Wolf.
     /// <para>
-    /// Implements Player to create Agent for AI Wolf
+    /// Implements Player to create Agent for AI Wolf.
     /// </para>
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public interface Player
+    interface IPlayer
     {
         /// <summary>
-        /// get player name
+        /// Player name.
         /// </summary>
-        /// <returns></returns>
-        string GetName();
+        string Name { get; }
 
         /// <summary>
-        /// Called when the game information updated
+        /// Called when the game information updated.
         /// </summary>
         /// <param name="gameInfo"></param>
         void Update(GameInfo gameInfo);
 
         /// <summary>
-        /// Called when the game started
+        /// Called when the game started.
         /// </summary>
-        /// <param name="gameInfo">information about current game status</param>
-        /// <param name="gameSetting">Game settings</param>
+        /// <param name="gameInfo">Information about current game status.</param>
+        /// <param name="gameSetting">Game settings.</param>
         void Initialize(GameInfo gameInfo, GameSetting gameSetting);
 
         /// <summary>
-        /// Called when the day started
+        /// Called when the day started.
         /// </summary>
         void DayStart();
 
@@ -49,31 +48,31 @@ namespace AIWolf.Common.Data
         string Talk();
 
         /// <summary>
-        /// Each wolves can talk their opinions throw this method
+        /// Each wolves can talk their opinions throw this method.
         /// </summary>
-        /// <returns>aiwolf protocol based whisper</returns>
+        /// <returns>AIWolf protocol based whisper.</returns>
         string Whisper();
 
         /// <summary>
-        /// Vote agent to execute
+        /// Vote agent to execute.
         /// </summary>
         /// <returns></returns>
         Agent Vote();
 
         /// <summary>
-        /// Decide agent who to be attacked by wolves
+        /// Decide agent who to be attacked by wolves.
         /// </summary>
         /// <returns></returns>
         Agent Attack();
 
         /// <summary>
-        /// Decide agent to divine by Seer
+        /// Decide agent to divine by seer.
         /// </summary>
         /// <returns></returns>
         Agent Divine();
 
         /// <summary>
-        /// Decide agent to guard by BodyGuard
+        /// Decide agent to guard by bodyguard.
         /// </summary>
         /// <returns></returns>
         Agent Guard();

@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 namespace AIWolf
 {
-    class TestPlayer : Player
+    class TestPlayer : IPlayer
     {
-        private Dictionary<int, GameInfo> gameInfoMap = new Dictionary<int, GameInfo>();
-        private int day;
-        private Agent me;
-        private Role myRole;
-        private GameSetting gameSetting;
+        Dictionary<int, GameInfo> gameInfoMap = new Dictionary<int, GameInfo>();
+        int day;
+        Agent me;
+        Role myRole;
+        GameSetting gameSetting;
+
+        public string Name { get; } = "TestPlayer";
 
         public Agent Attack()
         {
@@ -30,11 +32,6 @@ namespace AIWolf
         {
         }
 
-        public string GetName()
-        {
-            return "TestPlayer";
-        }
-
         public Agent Guard()
         {
             return me;
@@ -45,7 +42,7 @@ namespace AIWolf
             gameInfoMap.Clear();
             this.gameSetting = gameSetting;
             day = gameInfo.Day;
-            gameInfoMap.Add(day, gameInfo);
+            gameInfoMap[day] = gameInfo;
             myRole = gameInfo.Role;
             me = gameInfo.Agent;
         }
@@ -58,7 +55,7 @@ namespace AIWolf
         public void Update(GameInfo gameInfo)
         {
             day = gameInfo.Day;
-            gameInfoMap.Add(day, gameInfo);
+            gameInfoMap[day] = gameInfo;
         }
 
         public Agent Vote()

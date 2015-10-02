@@ -3,7 +3,7 @@
     /// <summary>
     /// 元々はTemplateTalkFactoryクラス内のenum
     /// </summary>
-    public enum TalkType
+    enum TalkType
     {
         TALK,
         WHISPER

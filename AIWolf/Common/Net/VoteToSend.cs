@@ -9,7 +9,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class VoteToSend
+    class VoteToSend
     {
         public int Day { get; set; }
         public int Agent { get; set; }
@@ -28,8 +28,7 @@ namespace AIWolf.Common.Net
 
         public Vote ToVote()
         {
-            Vote vote = new Vote(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target));
-            return vote;
+            return new Vote(Day, Data.Agent.GetAgent(Agent), Data.Agent.GetAgent(Target));
         }
     }
 }

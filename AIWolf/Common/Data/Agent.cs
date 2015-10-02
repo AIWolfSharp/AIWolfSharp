@@ -12,16 +12,16 @@ namespace AIWolf.Common.Data
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class Agent : IComparable<Agent>
+    class Agent : IComparable<Agent>
     {
-        private static Dictionary<int, Agent> agentIndexMap = new Dictionary<int, Agent>();
+        static Dictionary<int, Agent> agentIndexMap = new Dictionary<int, Agent>();
 
         /// <summary>
-        /// Get agent of idx
+        /// Get agent of idx.
         /// </summary>
         /// <param name="idx">agent's idx</param>
         /// <returns>agent</returns>
-        static public Agent GetAgent(int idx)
+        public static Agent GetAgent(int idx)
         {
             if (idx < 0)
             {
@@ -29,8 +29,7 @@ namespace AIWolf.Common.Data
             }
             if (!agentIndexMap.ContainsKey(idx))
             {
-                Agent agent = new Agent(idx);
-                agentIndexMap.Add(idx, agent);
+                agentIndexMap[idx] = new Agent(idx);
             }
             return agentIndexMap[idx];
         }
@@ -38,7 +37,7 @@ namespace AIWolf.Common.Data
         public int AgentIdx { get; }
 
         /// <summary>
-        /// create new agent
+        /// Create new agent.
         /// </summary>
         /// <param name="idx"></param>
         private Agent(int idx)

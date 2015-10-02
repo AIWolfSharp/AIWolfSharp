@@ -1,25 +1,26 @@
 ﻿using AIWolf.Common.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AIWolf.Common.Net
 {
     /// <summary>
-    /// Settings of game
+    /// Settings of game.
     /// <para>
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    public class GameSetting : ICloneable
+    class GameSetting : ICloneable
     {
         /// <summary>
         /// Num of each roles.
         /// <para>
-        /// Bodyguard, FreeMason, Medium, Possessed, Seer, Villager, Werewolf
+        /// Bodyguard, FreeMason, Medium, Possessed, Seer, Villager, Werewolf.
         /// </para>
         /// </summary>
-        private static readonly int[][] roleNumArray =
+        static readonly int[][] roleNumArray =
         {
             null,//0
             null,//1
@@ -48,7 +49,7 @@ namespace AIWolf.Common.Net
         /// 村人8， 人狼3， 占い，狩人
         /// </para>
         /// </summary>
-        private static readonly int[] seminarArray =
+        static readonly int[] seminarArray =
         {
             1, 0, 0, 0, 1, 8, 3 //13
         };
@@ -70,10 +71,10 @@ namespace AIWolf.Common.Net
             setting.IsVoteVisible = true;
             setting.IsVotableInFirstDay = false;
 
-            Role[] roles = (Role[])Enum.GetValues(typeof(Enum));
+            Role[] roles = (Role[])Enum.GetValues(typeof(Role));
             for (int i = 0; i < roles.Length; i++)
             {
-                setting.RoleNumMap.Add(roles[i], roleNumArray[agentNum][i]);
+                setting.RoleNumMap[roles[i]] = roleNumArray[agentNum][i];
             }
             return setting;
         }
@@ -88,28 +89,28 @@ namespace AIWolf.Common.Net
             Role[] roles = (Role[])Enum.GetValues(typeof(Enum));
             for (int i = 0; i < roles.Length; i++)
             {
-                setting.RoleNumMap.Add(roles[i], seminarArray[i]);
+                setting.RoleNumMap[roles[i]] = seminarArray[i];
             }
             return setting;
         }
 
         /// <summary>
-        /// number of each characters
+        /// Number of each characters.
         /// </summary>
         public Dictionary<Role, int> RoleNumMap { get; set; }
 
         /// <summary>
-        /// max number of talk
+        /// Max number of talk.
         /// </summary>
         public int MaxTalk { get; set; }
 
         /// <summary>
-        /// Is the game permit to attack no one
+        /// Is the game permit to attack no one?
         /// </summary>
         public bool IsEnableNoAttack { get; set; }
 
         /// <summary>
-        /// Can agents see who vote to who
+        /// Can agents see who vote to who?
         /// </summary>
         public bool IsVoteVisible { get; set; }
 
@@ -119,9 +120,9 @@ namespace AIWolf.Common.Net
         public bool IsVotableInFirstDay { get; private set; }
 
         /// <summary>
-        /// Random Seed
+        /// Random seed.
         /// </summary>
-        public long RandomSeed { get; set; }
+        public int RandomSeed { get; set; }
 
         public GameSetting()
         {
@@ -131,31 +132,19 @@ namespace AIWolf.Common.Net
 
         public int GetRoleNum(Role role)
         {
-            if (RoleNumMap.ContainsKey(role))
-            {
-                return RoleNumMap[role];
-            }
-            else
-            {
-                return 0;
-            }
+            return RoleNumMap.ContainsKey(role) ? RoleNumMap[role] : 0;
         }
 
         public int PlayerNum
         {
             get
             {
-                int num = 0;
-                foreach (int value in RoleNumMap.Values)
-                {
-                    num += value;
-                }
-                return num;
+                return RoleNumMap.Values.Sum();
             }
         }
 
         /// <summary>
-        /// Create Copy
+        /// Create copy.
         /// </summary>
         public object Clone()
         {

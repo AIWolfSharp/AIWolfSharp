@@ -55,7 +55,7 @@ namespace AIWolf.Common.Bin
                 Console.Error.WriteLine("Usage:" + typeof(ClientStarter) + " -h host -p port -c clientClass");
                 return;
             }
-            Player player = (Player)Activator.CreateInstance(Type.GetType(clsName));
+            IPlayer player = (IPlayer)Activator.CreateInstance(Type.GetType(clsName));
             TcpipClient client = new TcpipClient(host, port, roleRequest);
             if (client.Connect(player))
             {
