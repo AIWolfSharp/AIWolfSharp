@@ -154,7 +154,7 @@ namespace AIWolf.Server
                     gi.AttackedAgent = attacked.AgentIdx;
                 }
 
-                if (gameSetting.IsVoteVisible)
+                if (gameSetting.VoteVisible)
                 {
                     List<VoteToSend> voteList = new List<VoteToSend>();
                     foreach (Vote vote in yesterday.VoteList)

@@ -467,7 +467,7 @@ namespace AIWolf.Server
                     }
                 }
             }
-            if (!gameSetting.IsEnableNoAttack)
+            if (!gameSetting.EnableNoAttack)
             {
                 foreach (Agent agent in AliveHumanList)
                 {

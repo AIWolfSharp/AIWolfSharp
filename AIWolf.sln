@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLibClient", "AIWolfLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlayer", "TestPlayer\TestPlayer.csproj", "{232775F6-0E40-448E-9D40-D786EDF4F7E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLib", "AIWolfLib\AIWolfLib.csproj", "{DC7559B9-1291-4241-AC49-DB3D85FF215A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{232775F6-0E40-448E-9D40-D786EDF4F7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{232775F6-0E40-448E-9D40-D786EDF4F7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{232775F6-0E40-448E-9D40-D786EDF4F7E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7559B9-1291-4241-AC49-DB3D85FF215A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7559B9-1291-4241-AC49-DB3D85FF215A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7559B9-1291-4241-AC49-DB3D85FF215A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7559B9-1291-4241-AC49-DB3D85FF215A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

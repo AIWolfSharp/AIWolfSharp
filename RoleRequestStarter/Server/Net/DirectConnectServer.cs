@@ -102,7 +102,7 @@ namespace AIWolf.Server.Net
         {
             try
             {
-                string name = agentPlayerMap[agent].Name;
+                string name = agentPlayerMap[agent].GetName();
                 if (name != null)
                 {
                     return name;

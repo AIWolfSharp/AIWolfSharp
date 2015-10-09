@@ -12,6 +12,13 @@ namespace AIWolf
     {
         public static void Main(string[] args)
         {
+            DataConverter dc = DataConverter.GetInstance();
+            Agent agent = Agent.GetAgent(2);
+            Console.WriteLine(dc.Convert(agent));
+        }
+
+        public static void Test()
+        {
             Agent[] agents = new Agent[10];
             Random rand = new Random();
 

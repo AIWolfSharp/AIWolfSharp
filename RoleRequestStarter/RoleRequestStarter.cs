@@ -36,7 +36,7 @@ namespace AIWolf.Server.Bin
         {
             List<KeyValuePair<string, Role?>> playerRoleList = new List<KeyValuePair<string, Role?>>();
             string defaultClsName = "AIWolf.Client.Base.Smpl.SampleRoleAssignPlayer";
-            string defaultAssemblyName = "AIWolfLibClient.dll";
+            string defaultAssemblyName = "AIWolfLib.dll";
             string playerAssemblyName = null;
             int playerNum = -1;
             string logDir = "./log/";

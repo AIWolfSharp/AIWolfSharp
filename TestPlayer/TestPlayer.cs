@@ -1,18 +1,31 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
 using System.Collections.Generic;
+using System;
 
 namespace AIWolf
 {
     public class TestPlayer : IPlayer
     {
+        static int numInstance = 0;
+
         Dictionary<int, GameInfo> gameInfoMap = new Dictionary<int, GameInfo>();
         int day;
         Agent me;
-        Role myRole;
+        Role? myRole;
         GameSetting gameSetting;
+        int id;
 
-        public string Name { get; } = "TestPlayer";
+
+        public TestPlayer()
+        {
+            id = numInstance++;
+        }
+
+        public string GetName()
+        {
+            return "TestPlayer" + id;
+        }
 
         public Agent Attack()
         {
