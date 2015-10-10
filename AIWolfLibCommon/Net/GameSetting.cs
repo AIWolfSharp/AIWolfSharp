@@ -67,9 +67,9 @@ namespace AIWolf.Common.Net
 
             GameSetting setting = new GameSetting();
             setting.MaxTalk = 10;
-            setting.IsEnableNoAttack = false;
-            setting.IsVoteVisible = true;
-            setting.IsVotableInFirstDay = false;
+            setting.EnableNoAttack = false;
+            setting.VoteVisible = true;
+            setting.VotableInFirstDay = false;
 
             Role[] roles = (Role[])Enum.GetValues(typeof(Role));
             for (int i = 0; i < roles.Length; i++)
@@ -83,8 +83,8 @@ namespace AIWolf.Common.Net
         {
             GameSetting setting = new GameSetting();
             setting.MaxTalk = 10;
-            setting.IsEnableNoAttack = false;
-            setting.IsVoteVisible = true;
+            setting.EnableNoAttack = false;
+            setting.VoteVisible = true;
 
             Role[] roles = (Role[])Enum.GetValues(typeof(Enum));
             for (int i = 0; i < roles.Length; i++)
@@ -107,17 +107,17 @@ namespace AIWolf.Common.Net
         /// <summary>
         /// Is the game permit to attack no one?
         /// </summary>
-        public bool IsEnableNoAttack { get; set; }
+        public bool EnableNoAttack { get; set; }
 
         /// <summary>
         /// Can agents see who vote to who?
         /// </summary>
-        public bool IsVoteVisible { get; set; }
+        public bool VoteVisible { get; set; }
 
         /// <summary>
         /// Are there vote in first day?
         /// </summary>
-        public bool IsVotableInFirstDay { get; private set; }
+        public bool VotableInFirstDay { get; private set; }
 
         /// <summary>
         /// Random seed.
@@ -149,9 +149,9 @@ namespace AIWolf.Common.Net
         public object Clone()
         {
             GameSetting gameSetting = new GameSetting();
-            gameSetting.IsEnableNoAttack = IsEnableNoAttack;
-            gameSetting.IsVotableInFirstDay = IsVotableInFirstDay;
-            gameSetting.IsVoteVisible = IsVoteVisible;
+            gameSetting.EnableNoAttack = EnableNoAttack;
+            gameSetting.VotableInFirstDay = VotableInFirstDay;
+            gameSetting.VoteVisible = VoteVisible;
             gameSetting.MaxTalk = MaxTalk;
             gameSetting.RandomSeed = RandomSeed;
             gameSetting.RoleNumMap = new Dictionary<Role, int>(RoleNumMap);

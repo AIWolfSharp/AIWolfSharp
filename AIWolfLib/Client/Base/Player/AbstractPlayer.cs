@@ -13,7 +13,7 @@ namespace AIWolf.Client.Base.Player
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    abstract class AbstractPlayer : IPlayer
+    public abstract class AbstractPlayer : IPlayer
     {
         /// <summary>
         /// Get player name.

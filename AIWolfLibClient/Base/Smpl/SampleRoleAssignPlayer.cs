@@ -2,7 +2,7 @@
 
 namespace AIWolf.Client.Base.Smpl
 {
-    public class SampleRoleAssignPlayer : AbstractRoleAssignPlayer
+    class SampleRoleAssignPlayer : AbstractRoleAssignPlayer
     {
         public SampleRoleAssignPlayer()
         {
@@ -14,12 +14,9 @@ namespace AIWolf.Client.Base.Smpl
             WerewolfPlayer = new SampleWerewolf();
         }
 
-        public override string Name
+        public override string GetName()
         {
-            get
-            {
-                return typeof(SampleRoleAssignPlayer).Name;
-            }
+            return typeof(SampleRoleAssignPlayer).Name;
         }
     }
 }

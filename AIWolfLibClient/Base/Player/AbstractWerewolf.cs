@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AIWolf.Client.Base.Player
 {
-    abstract class AbstractWerewolf : AbstractRole
+    public abstract class AbstractWerewolf : AbstractRole
     {
         protected List<Agent> WolfList
         {

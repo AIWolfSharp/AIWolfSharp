@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AIWolf.Client.Base.Player
 {
-    abstract class AbstractSeer : AbstractRole
+    public abstract class AbstractSeer : AbstractRole
     {
         // 占い結果のリスト
         protected List<Judge> MyJudgeList { get; set; } = new List<Judge>();

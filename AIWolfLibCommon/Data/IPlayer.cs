@@ -3,9 +3,9 @@
 namespace AIWolf.Common.Data
 {
     /// <summary>
-    /// Player for AI Wolf.
+    /// Player for AI Wolf
     /// <para>
-    /// Implements Player to create Agent for AI Wolf.
+    /// Implements IPlayer to create Agent for AI Wolf.
     /// </para>
     /// <para>
     /// Original Java code was written by tori,
@@ -15,9 +15,10 @@ namespace AIWolf.Common.Data
     public interface IPlayer
     {
         /// <summary>
-        /// Player name.
+        /// Get player name.
         /// </summary>
-        string Name { get; }
+        // string Name { get; }
+        string GetName();
 
         /// <summary>
         /// Called when the game information updated.

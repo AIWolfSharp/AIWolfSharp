@@ -22,11 +22,11 @@ namespace AIWolf.Common.Net
         /// <summary>
         /// Player's role.
         /// </summary>
-        public Role Role
+        public Role? Role
         {
             get
             {
-                return RoleMap[Agent];
+                return Agent != null ? (Role?)RoleMap[Agent] : null;
             }
         }
 

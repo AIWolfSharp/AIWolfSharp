@@ -4,7 +4,7 @@ using AIWolf.Common.Net;
 
 namespace AIWolf.Client.Base.Player
 {
-    abstract class AbstractRoleAssignPlayer : AbstractPlayer
+    public abstract class AbstractRoleAssignPlayer : AbstractPlayer
     {
         protected AbstractRole VillagerPlayer { get; set; } = new SampleVillager();
         protected AbstractRole SeerPlayer { get; set; } = new SampleSeer();

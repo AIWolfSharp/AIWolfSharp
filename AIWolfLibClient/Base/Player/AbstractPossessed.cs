@@ -2,7 +2,7 @@
 
 namespace AIWolf.Client.Base.Player
 {
-    abstract class AbstractPossessed : AbstractRole
+    public abstract class AbstractPossessed : AbstractRole
     {
         public abstract override void DayStart();
 

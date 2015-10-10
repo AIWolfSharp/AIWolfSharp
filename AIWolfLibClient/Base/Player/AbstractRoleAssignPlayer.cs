@@ -15,7 +15,7 @@ namespace AIWolf.Client.Base.Player
 
         AbstractRole rolePlayer;
 
-        public abstract override string Name { get; }
+        public abstract override string GetName();
 
         sealed public override void Update(GameInfo gameInfo)
         {
@@ -24,7 +24,7 @@ namespace AIWolf.Client.Base.Player
 
         sealed public override void Initialize(GameInfo gameInfo, GameSetting gameSetting)
         {
-            Role myRole = gameInfo.Role;
+            Role? myRole = gameInfo.Role;
             switch (myRole)
             {
                 case Role.VILLAGER:

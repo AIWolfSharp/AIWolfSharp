@@ -44,14 +44,14 @@ namespace AIWolf.Common.Data
         public const string OVER = "Over";
         public const string SKIP = "Skip";
 
-        public bool IsSkip()
+        public bool Skip
         {
-            return Content.Equals(SKIP);
+            get { return Content.Equals(SKIP); }
         }
 
-        public bool IsOver()
+        public bool Over
         {
-            return Content.Equals(OVER);
+            get { return Content.Equals(OVER); }
         }
     }
 }

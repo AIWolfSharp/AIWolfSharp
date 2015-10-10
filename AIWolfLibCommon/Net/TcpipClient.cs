@@ -125,7 +125,7 @@ namespace AIWolf.Common.Net
                     player.Update(gameInfo);
                     break;
                 case Request.Name:
-                    returnObject = player.Name;
+                    returnObject = player.GetName();
                     break;
                 case Request.Role:
                     if (requestRole != null)

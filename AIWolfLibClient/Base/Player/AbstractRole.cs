@@ -12,7 +12,7 @@ namespace AIWolf.Client.Base.Player
 
         protected Agent Me { get; set; }
 
-        protected Role MyRole { get; set; }
+        protected Role? MyRole { get; set; }
 
         protected GameSetting GameSetting { get; set; }
 

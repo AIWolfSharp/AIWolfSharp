@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AIWolf.Client.Base.Player
 {
-    abstract class AbstractRole
+    public abstract class AbstractRole
     {
         protected Dictionary<int, GameInfo> GameInfoMap { get; set; } = new Dictionary<int, GameInfo>();
 
