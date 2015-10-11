@@ -21,12 +21,12 @@ namespace AIWolf.Server.Bin
     {
         static readonly string description =
             "このクラスを利用して，自作Playerごとに役職を決めてゲームをスタートできます．\n" +
-             "Usage:" + typeof(RoleRequestStarter) + " -a dllName -n agentNum -c playerClass role [-c playerClass role] [-d defaultPlayer]\n" +
-            "-a プレイヤーdllファイル名を指定します．\n" +
+             "Usage:" + typeof(RoleRequestStarter) + " -n agentNum -a dllName -c playerClass role [-c playerClass role] [-d defaultPlayer]\n" +
             "-n ゲームに参加するエージェント数を決定します．\n" +
-            "-c 'プレイヤークラス'　'設定したい役職'　を設定します．\n" +
+            "-a プレイヤーdllファイル名を指定します．\n" +
+            "-c 'プレイヤークラス'　'設定したい役職'　で，役職を指定して利用するPlayerを設定します．\n" +
             "-c 'プレイヤークラス'　で，役職を指定せずに利用するPlayerを指定します．\n" +
-            "-d デフォルトのプレイヤークラスを指定します．指定しなければSamplePlayerが使われます．\n" +
+            "-d デフォルトのプレイヤークラスを指定します．指定しなければSampleRoleAssignPlayerが使われます．\n" +
             "-l ログを保存するディレクトリの指定．デフォルトは./log/\n" +
             "例えば，MyPlayer.dll中の自作のAIWolf.MyPlayerをbodyguardとして12体のエージェントで人狼を実行したければ\n" +
             typeof(RoleRequestStarter) + " -n 12 -a MyPlayer.dll -c AIWolf.MyPlayer bodyguard\n" +
@@ -167,7 +167,7 @@ namespace AIWolf.Server.Bin
         /// <param name="playerMap"></param>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public static AIWolfGame Start(Dictionary<IPlayer, Role?> playerMap, GameLogger logger)
+        public static AIWolfGame Start(Dictionary<IPlayer, Role?> playerMap, IGameLogger logger)
         {
             DirectConnectServer gameServer = new DirectConnectServer(playerMap);
             GameSetting gameSetting = GameSetting.GetDefaultGame(playerMap.Count);

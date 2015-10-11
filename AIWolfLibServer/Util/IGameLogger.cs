@@ -1,6 +1,6 @@
 ﻿namespace AIWolf.Server.Util
 {
-    interface GameLogger
+    public interface IGameLogger
     {
         void Log(string log);
         void Flush();

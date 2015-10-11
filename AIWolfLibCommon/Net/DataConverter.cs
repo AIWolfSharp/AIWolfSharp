@@ -19,7 +19,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class DataConverter
+    public class DataConverter
     {
         static DataConverter converter;
 

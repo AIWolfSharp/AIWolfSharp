@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLibCommon", "AIWolfLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLibClient", "AIWolfLibClient\AIWolfLibClient.csproj", "{F4F1A7A1-55C1-47FB-A3FE-CE17D413B054}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLibServer", "AIWolfLibServer\AIWolfLibServer.csproj", "{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F4F1A7A1-55C1-47FB-A3FE-CE17D413B054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4F1A7A1-55C1-47FB-A3FE-CE17D413B054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4F1A7A1-55C1-47FB-A3FE-CE17D413B054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

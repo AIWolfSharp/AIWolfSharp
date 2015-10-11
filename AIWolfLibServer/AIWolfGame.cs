@@ -16,7 +16,7 @@ namespace AIWolf.Server
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class AIWolfGame
+    public class AIWolfGame
     {
         Random rand;
 
@@ -42,7 +42,7 @@ namespace AIWolf.Server
         /// <summary>
         /// Logger.
         /// </summary>
-        public GameLogger GameLogger { get; set; }
+        public IGameLogger GameLogger { get; set; }
 
         /// <summary>
         /// Name of Agents.

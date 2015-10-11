@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AIWolf.Server.Net
 {
-    interface IGameServer
+    public interface IGameServer
     {
         List<Agent> ConnectedAgentList { get; }
 

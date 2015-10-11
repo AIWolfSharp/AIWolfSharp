@@ -9,7 +9,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class Packet
+    public class Packet
     {
         public Request Request { get; set; }
         public GameInfoToSend GameInfo { get; set; }

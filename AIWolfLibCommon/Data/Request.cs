@@ -4,7 +4,7 @@
     /// Original Java code was written by tori,
     /// and translated into C# by otsuki.
     /// </summary>
-    enum Request
+    public enum Request
     {
         Name,
         Role,

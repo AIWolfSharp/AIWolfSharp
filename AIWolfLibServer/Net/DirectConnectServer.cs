@@ -14,7 +14,7 @@ namespace AIWolf.Server.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class DirectConnectServer : IGameServer
+    public class DirectConnectServer : IGameServer
     {
         /// <summary>
         /// Agents connected to the server.

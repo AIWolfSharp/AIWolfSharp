@@ -11,7 +11,7 @@ namespace AIWolf.Server.Util
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class FileGameLogger : GameLogger
+    class FileGameLogger : IGameLogger
     {
         string logFile;
         TextWriter writer;

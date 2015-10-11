@@ -11,7 +11,7 @@ namespace AIWolf.Server
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class GameData
+    public class GameData
     {
         const int firstDay = 1;
 
