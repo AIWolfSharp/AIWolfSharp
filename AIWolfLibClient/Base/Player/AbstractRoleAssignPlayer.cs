@@ -15,7 +15,7 @@ namespace AIWolf.Client.Base.Player
 
         AbstractRole rolePlayer;
 
-        public abstract override string GetName();
+        public abstract override string Name { get; }
 
         sealed public override void Update(GameInfo gameInfo)
         {

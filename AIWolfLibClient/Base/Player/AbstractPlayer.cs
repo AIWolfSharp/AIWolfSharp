@@ -16,10 +16,9 @@ namespace AIWolf.Client.Base.Player
     public abstract class AbstractPlayer : IPlayer
     {
         /// <summary>
-        /// Get player name.
+        /// Player name.
         /// </summary>
-        public abstract string GetName();
-
+        public abstract string Name { get; }
 
         /// <summary>
         /// Called when the game information updated.

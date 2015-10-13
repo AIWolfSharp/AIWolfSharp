@@ -15,10 +15,9 @@ namespace AIWolf.Common.Data
     public interface IPlayer
     {
         /// <summary>
-        /// Get player name.
+        /// Player name.
         /// </summary>
-        // string Name { get; }
-        string GetName();
+        string Name { get; }
 
         /// <summary>
         /// Called when the game information updated.

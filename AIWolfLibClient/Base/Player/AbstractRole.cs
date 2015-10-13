@@ -32,7 +32,7 @@ namespace AIWolf.Client.Base.Player
             }
         }
 
-        public void Update(GameInfo gameInfo)
+        public virtual void Update(GameInfo gameInfo)
         {
             Day = gameInfo.Day;
             GameInfoMap[Day] = gameInfo;
@@ -43,7 +43,7 @@ namespace AIWolf.Client.Base.Player
             return GameInfoMap.ContainsKey(day) ? GameInfoMap[day] : null;
         }
 
-        public void Initialize(GameInfo gameInfo, GameSetting gameSetting)
+        public virtual void Initialize(GameInfo gameInfo, GameSetting gameSetting)
         {
             GameInfoMap.Clear();
             GameSetting = gameSetting;

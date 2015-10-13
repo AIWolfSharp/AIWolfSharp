@@ -14,9 +14,9 @@ namespace AIWolf.Client.Base.Smpl
             WerewolfPlayer = new SampleWerewolf();
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return typeof(SampleRoleAssignPlayer).Name;
+            get { return typeof(SampleRoleAssignPlayer).Name; }
         }
     }
 }
