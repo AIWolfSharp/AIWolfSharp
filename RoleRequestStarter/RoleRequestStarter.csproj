@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIWolfLibClient\AIWolfLibClient.csproj">
+      <Project>{f4f1a7a1-55c1-47fb-a3fe-ce17d413b054}</Project>
+      <Name>AIWolfLibClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AIWolfLibCommon\AIWolfLibCommon.csproj">
       <Project>{5831b857-0557-4daf-960a-a75fa6fd9864}</Project>
       <Name>AIWolfLibCommon</Name>

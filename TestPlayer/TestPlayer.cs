@@ -20,9 +20,12 @@ namespace AIWolf
             WerewolfPlayer = new SimplePlayer();
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return GetType().Name;
+            get
+            {
+                return GetType().Name;
+            }
         }
     }
 

@@ -270,7 +270,8 @@ namespace AIWolf.Client.Base.Smpl
                 foreach (Agent agent in aliveAgentList)
                 {
                     // まだ偽占いしてないプレイヤー，かつ対抗CO者じゃないプレイヤーは偽占い候補
-                    if (!IsJudgedAgent(agent) && fakeRole != agi.ComingoutMap[agent])
+                    Role? comingoutRole = agi.ComingoutMap.ContainsKey(agent) ? agi.ComingoutMap[agent] : null;
+                    if (!IsJudgedAgent(agent) && fakeRole != comingoutRole)
                     {
                         fakeGiftTargetCandidateList.Add(agent);
                     }

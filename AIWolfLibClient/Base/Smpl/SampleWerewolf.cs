@@ -332,7 +332,8 @@ namespace AIWolf.Client.Base.Smpl
                 foreach (Agent agent in aliveAgentList)
                 {
                     // まだ偽占いしてないプレイヤー，かつ対抗CO者じゃないプレイヤーは偽占い候補
-                    if (!IsJudgedAgent(agent) && fakeRole != agi.ComingoutMap[agent])
+                    Role? comingoutRole = agi.ComingoutMap.ContainsKey(agent) ? agi.ComingoutMap[agent] : null;
+                    if (!IsJudgedAgent(agent) && fakeRole != comingoutRole)
                     {
                         fakeGiftTargetCandidateList.Add(agent);
                     }
@@ -385,12 +386,12 @@ namespace AIWolf.Client.Base.Smpl
                 {
                     return;
                 }
-                 // 人狼が偽占い対象の場合
+                // 人狼が偽占い対象の場合
                 if (WolfList.Contains(fakeGiftTarget))
                 {
                     fakeResult = Species.HUMAN;
                 }
-                 // 人間が偽占い対象の場合
+                // 人間が偽占い対象の場合
                 else
                 {
                     // 狂人(暫定)，または非COプレイヤー
