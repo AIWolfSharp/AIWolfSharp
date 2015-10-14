@@ -8,42 +8,40 @@ namespace AIWolf
     {
         public override void DayStart()
         {
-            throw new NotImplementedException();
         }
 
         public override string Talk()
         {
-            throw new NotImplementedException();
+            return Common.Data.Talk.OVER;
         }
 
         public override string Whisper()
         {
-            throw new NotImplementedException();
+            return Common.Data.Talk.OVER;
         }
 
         public override Agent Vote()
         {
-            throw new NotImplementedException();
+            return Me;
         }
 
         public override Agent Attack()
         {
-            throw new NotImplementedException();
+            return Me;
         }
 
         public override Agent Divine()
         {
-            throw new NotImplementedException();
+            return Me;
         }
 
         public override Agent Guard()
         {
-            throw new NotImplementedException();
+            return Me;
         }
 
         public override void Finish()
         {
-            throw new NotImplementedException();
         }
     }
 }

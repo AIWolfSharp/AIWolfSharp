@@ -1,4 +1,5 @@
 ﻿using AIWolf.Common.Data;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -9,10 +10,16 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class Packet
     {
+        [DataMember(Name = "request")]
         public Request Request { get; set; }
+
+        [DataMember(Name = "gameInfo")]
         public GameInfoToSend GameInfo { get; set; }
+
+        [DataMember(Name = "gameSetting")]
         public GameSetting GameSetting { get; }
 
         public Packet()

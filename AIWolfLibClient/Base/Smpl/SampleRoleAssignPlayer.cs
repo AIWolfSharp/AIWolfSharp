@@ -2,7 +2,7 @@
 
 namespace AIWolf.Client.Base.Smpl
 {
-    class SampleRoleAssignPlayer : AbstractRoleAssignPlayer
+    public class SampleRoleAssignPlayer : AbstractRoleAssignPlayer
     {
         public SampleRoleAssignPlayer()
         {

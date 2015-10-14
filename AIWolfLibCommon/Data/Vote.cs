@@ -1,4 +1,6 @@
-﻿namespace AIWolf.Common.Data
+﻿using System.Runtime.Serialization;
+
+namespace AIWolf.Common.Data
 {
     /// <summary>
     /// 投票情報
@@ -7,10 +9,16 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class Vote
     {
+        [DataMember(Name = "day")]
         public int Day { get; }
+
+        [DataMember(Name = "agent")]
         public Agent Agent { get; }
+
+        [DataMember(Name = "target")]
         public Agent Target { get; }
 
         public Vote(int day, Agent agent, Agent target)

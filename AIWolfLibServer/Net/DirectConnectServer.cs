@@ -122,7 +122,7 @@ namespace AIWolf.Server.Net
         {
             try
             {
-                return requestRoleMap[agent];
+                return agent != null && requestRoleMap.ContainsKey(agent) ? requestRoleMap[agent] : null;
             }
             catch (Exception e)
             {

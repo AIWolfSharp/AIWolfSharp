@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -12,6 +13,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class GameSetting : ICloneable
     {
         /// <summary>
@@ -97,31 +99,37 @@ namespace AIWolf.Common.Net
         /// <summary>
         /// Number of each characters.
         /// </summary>
+        [DataMember(Name = "roleNumMap")]
         public Dictionary<Role, int> RoleNumMap { get; set; }
 
         /// <summary>
         /// Max number of talk.
         /// </summary>
+        [DataMember(Name = "maxTalk")]
         public int MaxTalk { get; set; }
 
         /// <summary>
         /// Is the game permit to attack no one?
         /// </summary>
+        [DataMember(Name = "enableNoAttack")]
         public bool EnableNoAttack { get; set; }
 
         /// <summary>
         /// Can agents see who vote to who?
         /// </summary>
+        [DataMember(Name = "voteVisible")]
         public bool VoteVisible { get; set; }
 
         /// <summary>
         /// Are there vote in first day?
         /// </summary>
+        [DataMember(Name = "votableInFirstDay")]
         public bool VotableInFirstDay { get; private set; }
 
         /// <summary>
         /// Random seed.
         /// </summary>
+        [DataMember(Name = "randomSeed")]
         public int RandomSeed { get; set; }
 
         public GameSetting()
@@ -135,6 +143,7 @@ namespace AIWolf.Common.Net
             return RoleNumMap.ContainsKey(role) ? RoleNumMap[role] : 0;
         }
 
+        [DataMember(Name = "playerNum")]
         public int PlayerNum
         {
             get

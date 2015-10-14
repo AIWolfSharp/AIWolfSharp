@@ -1,6 +1,7 @@
 ﻿using AIWolf.Common.Data;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -11,23 +12,46 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class GameInfoToSend
     {
+        [DataMember(Name = "day")]
         public int Day { get; set; }
+
+        [DataMember(Name = "agent")]
         public int Agent { get; set; }
 
+        [DataMember(Name = "mediumResult")]
         public JudgeToSend MediumResult { get; set; }
+
+        [DataMember(Name = "divineResult")]
         public JudgeToSend DivineResult { get; set; }
+
+        [DataMember(Name = "executedAgent")]
         public int ExecutedAgent { get; set; }
+
+        [DataMember(Name = "attackedAgent")]
         public int AttackedAgent { get; set; }
+
+        [DataMember(Name = "guardedAgent")]
         public int GuardedAgent { get; set; }
+
+        [DataMember(Name = "voteList")]
         public List<VoteToSend> VoteList { get; set; }
+
+        [DataMember(Name = "attackVoteList")]
         public List<VoteToSend> AttackVoteList { get; set; }
 
+        [DataMember(Name = "talkList")]
         public List<TalkToSend> TalkList { get; set; }
+
+        [DataMember(Name = "whisperList")]
         public List<TalkToSend> WhisperList { get; set; }
 
+        [DataMember(Name = "statusMap")]
         public Dictionary<int, string> StatusMap { get; set; }
+
+        [DataMember(Name = "roleMap")]
         public Dictionary<int, string> RoleMap { get; set; }
 
         public GameInfoToSend()

@@ -42,7 +42,7 @@ namespace AIWolf.Common.Net
         {
             // C#のUpperCamelCaseとJSONのlowerCamelCaseの変換
             serializerSetting = new JsonSerializerSettings();
-            serializerSetting.ContractResolver = new OrderedCamelCasePropertyNamesContractResolver();
+            serializerSetting.ContractResolver = new OrderedContractResolver();
             // enumを文字列のまま変換するため
             serializerSetting.Converters.Add(new StringEnumConverter());
         }
@@ -109,4 +109,13 @@ namespace AIWolf.Common.Net
             return base.CreateProperties(type, memberSerialization).OrderBy(p => p.PropertyName).ToList();
         }
     }
+
+    class OrderedContractResolver : DefaultContractResolver
+    {
+        protected override System.Collections.Generic.IList<JsonProperty> CreateProperties(System.Type type, MemberSerialization memberSerialization)
+        {
+            return base.CreateProperties(type, memberSerialization).OrderBy(p => p.PropertyName).ToList();
+        }
+    }
+
 }

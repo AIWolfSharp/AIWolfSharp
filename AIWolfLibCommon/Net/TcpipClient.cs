@@ -14,7 +14,7 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    class TcpipClient : IGameClient
+    public class TcpipClient : IGameClient
     {
         string host;
         int port;

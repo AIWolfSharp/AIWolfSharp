@@ -10,7 +10,7 @@ using System.Net.Sockets;
 
 namespace AIWolf.Server.Net
 {
-    class TcpipServer : IGameServer
+    public class TcpipServer : IGameServer
     {
         /// <summary>
         /// Server Port.

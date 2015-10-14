@@ -1,5 +1,6 @@
 ﻿using AIWolf.Common.Data;
 using System;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -10,11 +11,19 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class JudgeToSend
     {
+        [DataMember(Name = "day")]
         public int Day { get; set; }
+
+        [DataMember(Name = "agent")]
         public int Agent { get; set; }
+
+        [DataMember(Name = "target")]
         public int Target { get; set; }
+
+        [DataMember(Name = "result")]
         public string Result { get; set; }
 
         public JudgeToSend()

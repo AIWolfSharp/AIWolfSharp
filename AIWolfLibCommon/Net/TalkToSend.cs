@@ -1,4 +1,5 @@
 ﻿using AIWolf.Common.Data;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
 {
@@ -9,23 +10,28 @@ namespace AIWolf.Common.Net
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class TalkToSend
     {
         /// <summary>
         /// Index number of sentence.
         /// </summary>
+        [DataMember(Name = "idx")]
         public int Idx { get; set; }
 
         /// <summary>
         /// Told day.
         /// </summary>
+        [DataMember(Name = "day")]
         public int Day { get; set; }
 
         /// <summary>
         /// Agent.
         /// </summary>
+        [DataMember(Name = "agent")]
         public int Agent { get; set; }
 
+        [DataMember(Name = "content")]
         public string Content { get; set; }
 
         public TalkToSend()

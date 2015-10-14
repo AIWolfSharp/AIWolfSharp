@@ -1,4 +1,6 @@
-﻿namespace AIWolf.Common.Data
+﻿using System.Runtime.Serialization;
+
+namespace AIWolf.Common.Data
 {
     /// <summary>
     /// Guard class.
@@ -7,10 +9,16 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class Guard
     {
+        [DataMember(Name = "day")]
         public int Day { get; }
+
+        [DataMember(Name = "agent")]
         public Agent Agent { get; }
+
+        [DataMember(Name = "target")]
         public Agent Target { get; }
 
         public Guard(int day, Agent agent, Agent target)

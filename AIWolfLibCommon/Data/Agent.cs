@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Data
 {
@@ -12,6 +13,7 @@ namespace AIWolf.Common.Data
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
+    [DataContract]
     public class Agent : IComparable<Agent>
     {
         static Dictionary<int, Agent> agentIndexMap = new Dictionary<int, Agent>();
@@ -34,6 +36,7 @@ namespace AIWolf.Common.Data
             return agentIndexMap[idx];
         }
 
+        [DataMember(Name = "agentIdx")]
         public int AgentIdx { get; }
 
         /// <summary>
