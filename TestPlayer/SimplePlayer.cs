@@ -1,8 +1,7 @@
 ﻿using AIWolf.Client.Base.Player;
 using AIWolf.Common.Data;
-using System;
 
-namespace AIWolf
+namespace AIWolf.TestPlayer
 {
     public class SimplePlayer : AbstractRole
     {

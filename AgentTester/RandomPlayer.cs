@@ -16,11 +16,13 @@ namespace AIWolf.AgentTester
 
         Agent me;
 
-        Role myRole;
+        Role? myRole;
 
         GameSetting gameSetting;
 
         List<Agent> aliveAgent;
+
+        Random rand = new Random(Guid.NewGuid().GetHashCode());
 
         public Agent Attack()
         {
@@ -42,7 +44,10 @@ namespace AIWolf.AgentTester
         {
         }
 
-        public string Name { get { return "RandomAgent"; } }
+        public string Name
+        {
+            get { return "RandomAgent"; }
+        }
 
         public Agent Guard()
         {
@@ -55,39 +60,38 @@ namespace AIWolf.AgentTester
             this.gameSetting = gameSetting;
             day = gameInfo.Day;
             gameInfoMap[day] = gameInfo;
-            myRole = (Role)gameInfo.Role;
+            myRole = gameInfo.Role;
             me = gameInfo.Agent;
-            return;
         }
 
-        public GameInfo LatestDayGameInfo { get { return gameInfoMap[day]; } }
+        public GameInfo LatestDayGameInfo
+        {
+            get { return gameInfoMap[day]; }
+        }
 
         public string Talk()
         {
-            Random r = new Random(Guid.NewGuid().GetHashCode());
-
             TalkType[] talkTypes = (TalkType[])Enum.GetValues(typeof(TalkType));
             List<Agent> allAgent = LatestDayGameInfo.AgentList.Shuffle().ToList();
             Species[] species = (Species[])Enum.GetValues(typeof(Species));
             Role[] roles = (Role[])Enum.GetValues(typeof(Role));
 
-            switch (r.Next(10))
+            switch (rand.Next(10))
             {
-
                 case 0:
-                    return TemplateTalkFactory.Agree(talkTypes[r.Next(talkTypes.Length)], r.Next(100), r.Next(100));
+                    return TemplateTalkFactory.Agree(talkTypes[rand.Next(talkTypes.Length)], rand.Next(100), rand.Next(100));
                 case 1:
-                    return TemplateTalkFactory.Comingout(allAgent[0], roles[r.Next(roles.Length)]);
+                    return TemplateTalkFactory.Comingout(allAgent[0], roles[rand.Next(roles.Length)]);
                 case 2:
-                    return TemplateTalkFactory.Disagree(talkTypes[r.Next(talkTypes.Length)], r.Next(100), r.Next(100));
+                    return TemplateTalkFactory.Disagree(talkTypes[rand.Next(talkTypes.Length)], rand.Next(100), rand.Next(100));
                 case 3:
-                    return TemplateTalkFactory.Divined(allAgent[0], species[r.Next(species.Length)]);
+                    return TemplateTalkFactory.Divined(allAgent[0], species[rand.Next(species.Length)]);
                 case 4:
-                    return TemplateTalkFactory.Estimate(allAgent[0], roles[r.Next(roles.Length)]);
+                    return TemplateTalkFactory.Estimate(allAgent[0], roles[rand.Next(roles.Length)]);
                 case 5:
                     return TemplateTalkFactory.Guarded(allAgent[0]);
                 case 6:
-                    return TemplateTalkFactory.Inquested(allAgent[0], species[r.Next(species.Length)]);
+                    return TemplateTalkFactory.Inquested(allAgent[0], species[rand.Next(species.Length)]);
                 case 7:
                     return TemplateTalkFactory.Over();
                 case 8:
@@ -101,7 +105,6 @@ namespace AIWolf.AgentTester
         public void Update(GameInfo gameInfo)
         {
             day = gameInfo.Day;
-
             gameInfoMap[day] = gameInfo;
         }
 
@@ -112,30 +115,27 @@ namespace AIWolf.AgentTester
 
         public string Whisper()
         {
-            Random r = new Random(Guid.NewGuid().GetHashCode());
-
             TalkType[] talkTypes = (TalkType[])Enum.GetValues(typeof(TalkType));
             List<Agent> allAgent = LatestDayGameInfo.AgentList.Shuffle().ToList();
             Species[] species = (Species[])Enum.GetValues(typeof(Species));
             Role[] roles = (Role[])Enum.GetValues(typeof(Role));
 
-            switch (r.Next(10))
+            switch (rand.Next(10))
             {
-
                 case 0:
-                    return TemplateWhisperFactory.Agree(talkTypes[r.Next(talkTypes.Length)], r.Next(100), r.Next(100));
+                    return TemplateWhisperFactory.Agree(talkTypes[rand.Next(talkTypes.Length)], rand.Next(100), rand.Next(100));
                 case 1:
-                    return TemplateWhisperFactory.Comingout(allAgent[0], roles[r.Next(roles.Length)]);
+                    return TemplateWhisperFactory.Comingout(allAgent[0], roles[rand.Next(roles.Length)]);
                 case 2:
-                    return TemplateWhisperFactory.Disagree(talkTypes[r.Next(talkTypes.Length)], r.Next(100), r.Next(100));
+                    return TemplateWhisperFactory.Disagree(talkTypes[rand.Next(talkTypes.Length)], rand.Next(100), rand.Next(100));
                 case 3:
-                    return TemplateWhisperFactory.Divined(allAgent[0], species[r.Next(species.Length)]);
+                    return TemplateWhisperFactory.Divined(allAgent[0], species[rand.Next(species.Length)]);
                 case 4:
-                    return TemplateWhisperFactory.Estimate(allAgent[0], roles[r.Next(roles.Length)]);
+                    return TemplateWhisperFactory.Estimate(allAgent[0], roles[rand.Next(roles.Length)]);
                 case 5:
                     return TemplateWhisperFactory.Guarded(allAgent[0]);
                 case 6:
-                    return TemplateWhisperFactory.Inquested(allAgent[0], species[r.Next(species.Length)]);
+                    return TemplateWhisperFactory.Inquested(allAgent[0], species[rand.Next(species.Length)]);
                 case 7:
                     return TemplateWhisperFactory.Over();
                 case 8:
@@ -145,7 +145,6 @@ namespace AIWolf.AgentTester
                 case 10:
                     return TemplateWhisperFactory.Attack(allAgent[0]);
             }
-
             return TemplateTalkFactory.Over();
         }
     }

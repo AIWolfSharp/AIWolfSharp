@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerStarter", "ServerStar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientStarter", "ClientStarter\ClientStarter.csproj", "{4D126CCD-7614-49C2-8652-7C2BE3D45CAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonTest", "JsonTest\JsonTest.csproj", "{2E30115D-CC77-40AF-A6D2-9C9A1ADEE1DE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentTester", "AgentTester\AgentTester.csproj", "{530DF815-8E91-4C95-89A5-D237B2AD6378}"
 EndProject
 Global
@@ -67,10 +65,6 @@ Global
 		{4D126CCD-7614-49C2-8652-7C2BE3D45CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D126CCD-7614-49C2-8652-7C2BE3D45CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D126CCD-7614-49C2-8652-7C2BE3D45CAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E30115D-CC77-40AF-A6D2-9C9A1ADEE1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E30115D-CC77-40AF-A6D2-9C9A1ADEE1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E30115D-CC77-40AF-A6D2-9C9A1ADEE1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E30115D-CC77-40AF-A6D2-9C9A1ADEE1DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{530DF815-8E91-4C95-89A5-D237B2AD6378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{530DF815-8E91-4C95-89A5-D237B2AD6378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{530DF815-8E91-4C95-89A5-D237B2AD6378}.Release|Any CPU.ActiveCfg = Release|Any CPU

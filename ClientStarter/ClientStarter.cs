@@ -3,7 +3,7 @@ using AIWolf.Common.Net;
 using System;
 using System.Reflection;
 
-namespace AIWolf.Common.Bin
+namespace AIWolf.ClientStarter
 {
     class ClientStarter
     {

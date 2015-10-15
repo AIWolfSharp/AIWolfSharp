@@ -1,11 +1,6 @@
 ﻿using AIWolf.Client.Base.Player;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AIWolf
+namespace AIWolf.TestPlayer
 {
     public class TestRoleAssignPlayer : AbstractRoleAssignPlayer
     {

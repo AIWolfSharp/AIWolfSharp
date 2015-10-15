@@ -1,6 +1,7 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
 using AIWolf.Common.Util;
+using AIWolf.Server;
 using AIWolf.Server.Net;
 using AIWolf.Server.Util;
 using System;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace AIWolf.Server.Bin
+namespace AIWolf.RoleRequestStarter
 {
     /// <summary>
     /// 役割を指定してスタートするStarter
@@ -109,7 +110,7 @@ namespace AIWolf.Server.Bin
             Dictionary<IPlayer, Role?> playerMap = new Dictionary<IPlayer, Role?>();
             foreach (KeyValuePair<string, Role?> pair in playerRoleList)
             {
-                if(playerAssesmbly == null)
+                if (playerAssesmbly == null)
                 {
                     Console.Error.WriteLine("Please specify player dll file name.");
                     Environment.Exit(0);

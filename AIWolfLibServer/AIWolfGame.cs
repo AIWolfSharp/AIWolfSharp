@@ -525,20 +525,15 @@ namespace AIWolf.Server
         /// </summary>
         public void Talk()
         {
-            HashSet<Agent> overSet = new HashSet<Agent>();
+            List<Agent> overList = new List<Agent>();
             for (int i = 0; i < gameSetting.MaxTalk; i++)
             {
                 bool continueTalk = false;
 
-                List<Agent> aliveList = AliveAgentList.Shuffle().ToList();
-                aliveList.RemoveAll(a => overSet.Contains(a));
-                foreach (Agent a in overSet)
-                {
-                    aliveList.Add(a);
-                }
+                List<Agent> aliveList = AliveAgentList.Union(overList).Shuffle().ToList();
                 foreach (Agent agent in aliveList)
                 {
-                    if (overSet.Contains(agent))
+                    if (overList.Contains(agent))
                     {
                         continue;
                     }
@@ -552,11 +547,11 @@ namespace AIWolf.Server
                             if (!talkContent.Equals(Common.Data.Talk.OVER))
                             {
                                 continueTalk = true;
-                                overSet.Clear();
+                                overList.Clear();
                             }
                             else
                             {
-                                overSet.Add(agent);
+                                overList.Add(agent);
                             }
                             if (GameLogger != null)
                             {
@@ -579,21 +574,16 @@ namespace AIWolf.Server
         /// </summary>
         public void Whisper()
         {
-            HashSet<Agent> overSet = new HashSet<Agent>();
+            List<Agent> overList = new List<Agent>();
             for (int j = 0; j < gameSetting.MaxTalk; j++)
             {
-                List<Agent> aliveList = AliveAgentList.Shuffle().ToList(); ;
                 bool continueWhisper = false;
-                aliveList.RemoveAll(a => overSet.Contains(a));
-                foreach (Agent a in overSet)
-                {
-                    aliveList.Add(a);
-                }
+                List<Agent> aliveList = AliveAgentList.Union(overList).Shuffle().ToList();
                 foreach (Agent agent in aliveList)
                 {
                     if (gameData.GetRole(agent) == Role.WEREWOLF)
                     {
-                        if (overSet.Contains(agent))
+                        if (overList.Contains(agent))
                         {
                             continue;
                         }
@@ -605,11 +595,11 @@ namespace AIWolf.Server
                             if (!whisperContent.Equals(Common.Data.Talk.OVER))
                             {
                                 continueWhisper = true;
-                                overSet.Clear();
+                                overList.Clear();
                             }
                             else
                             {
-                                overSet.Add(agent);
+                                overList.Add(agent);
                             }
 
                             if (GameLogger != null)

@@ -1,6 +1,7 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
 using AIWolf.Common.Util;
+using AIWolf.Server;
 using AIWolf.Server.Net;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace AIWolf.Server.Bin
+namespace AIWolf.DirectStarter
 {
     /// <summary>
     /// クライアントを指定して直接シミュレーションを実行する

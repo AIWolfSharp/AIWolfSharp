@@ -28,7 +28,7 @@ namespace AIWolf.AgentTester
             // ///////////////////////////////////////////
             // これ以降は変更しないでください．
 
-            Type ptyp = player.GetType();
+            Type playerType = player.GetType();
             for (int j = 0; j < 10; j++)
             {
                 foreach (Role requestRole in Enum.GetValues(typeof(Role)))
@@ -38,7 +38,7 @@ namespace AIWolf.AgentTester
                         continue;
                     }
 
-                    player = (IPlayer)Activator.CreateInstance(ptyp);
+                    player = (IPlayer)Activator.CreateInstance(playerType);
 
                     Dictionary<IPlayer, Role?> playerMap = new Dictionary<IPlayer, Role?>();
                     playerMap[player] = requestRole;
@@ -50,7 +50,7 @@ namespace AIWolf.AgentTester
                     DirectConnectServer gameServer = new DirectConnectServer(playerMap);
                     GameSetting gameSetting = GameSetting.GetDefaultGame(playerMap.Count);
                     AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
-                    game.SetRand(new Random());
+                    game.SetRand(new Random(Guid.NewGuid().GetHashCode()));
                     game.Start();
                 }
             }

@@ -1,8 +1,9 @@
 ﻿using AIWolf.Common.Net;
+using AIWolf.Server;
 using AIWolf.Server.Net;
 using System;
 
-namespace AIWolf.Server.Bin
+namespace AIWolf.ServerStarter
 {
     class ServerStarter
     {
