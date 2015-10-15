@@ -30,7 +30,7 @@ namespace AIWolf.Server
         /// </summary>
         IGameServer gameServer;
 
-        SortedDictionary<int, GameData> gameDataMap;
+        Dictionary<int, GameData> gameDataMap;
 
         GameData gameData;
 
@@ -75,7 +75,7 @@ namespace AIWolf.Server
         /// </summary>
         public void Init()
         {
-            gameDataMap = new SortedDictionary<int, GameData>();
+            gameDataMap = new Dictionary<int, GameData>();
             gameData = new GameData(gameSetting);
             agentNameMap = new Dictionary<Agent, string>();
             gameServer.SetGameData(gameData);

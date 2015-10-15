@@ -64,7 +64,7 @@ namespace AIWolf.AgentTester
 
         public string Talk()
         {
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
 
             TalkType[] talkTypes = (TalkType[])Enum.GetValues(typeof(TalkType));
             List<Agent> allAgent = LatestDayGameInfo.AgentList.Shuffle().ToList();
@@ -112,7 +112,7 @@ namespace AIWolf.AgentTester
 
         public string Whisper()
         {
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
 
             TalkType[] talkTypes = (TalkType[])Enum.GetValues(typeof(TalkType));
             List<Agent> allAgent = LatestDayGameInfo.AgentList.Shuffle().ToList();

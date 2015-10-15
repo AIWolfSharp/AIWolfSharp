@@ -29,7 +29,7 @@ namespace AIWolf.AgentTester
             // これ以降は変更しないでください．
 
             Type ptyp = player.GetType();
-            for (int j = 0; j < 1; j++)
+            for (int j = 0; j < 10; j++)
             {
                 foreach (Role requestRole in Enum.GetValues(typeof(Role)))
                 {
