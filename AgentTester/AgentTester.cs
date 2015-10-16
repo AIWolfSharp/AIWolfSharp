@@ -5,6 +5,7 @@ using AIWolf.Server;
 using AIWolf.Server.Net;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace AIWolf.AgentTester
 {
@@ -22,8 +23,15 @@ namespace AIWolf.AgentTester
     {
         static void Main(string[] args)
         {
+            if (args.Length != 2)
+            {
+                Console.Error.WriteLine("Usage: AgentTester dllName playerClassName");
+                Environment.Exit(0);
+            }
+
             // ここにテストしたい自分のPlayerを指定してください．
-            IPlayer player = new SampleRoleAssignPlayer();
+            //IPlayer player = new SampleRoleAssignPlayer();
+            IPlayer player = (IPlayer)Activator.CreateInstance(Assembly.LoadFrom(args[0]).GetType(args[1]));
 
             // ///////////////////////////////////////////
             // これ以降は変更しないでください．

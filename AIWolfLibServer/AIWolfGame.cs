@@ -100,7 +100,7 @@ namespace AIWolf.Server
                 Role? requestedRole = gameServer.RequestRequestRole(agent);
                 if (requestedRole != null)
                 {
-                    if (requestRoleMap[(Role)requestedRole].Count < gameSetting.GetRoleNum((Role)requestedRole))
+                    if (requestRoleMap[(Role)requestedRole].Count < gameSetting.RoleNumMap[(Role)requestedRole])
                     {
                         requestRoleMap[(Role)requestedRole].Add(agent);
                     }
@@ -119,7 +119,7 @@ namespace AIWolf.Server
             foreach (Role role in Enum.GetValues(typeof(Role)))
             {
                 List<Agent> requestedAgentList = requestRoleMap[role];
-                for (int i = 0; i < gameSetting.GetRoleNum(role); i++)
+                for (int i = 0; i < gameSetting.RoleNumMap[role]; i++)
                 {
                     if (requestedAgentList.Count == 0)
                     {
