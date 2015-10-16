@@ -138,11 +138,6 @@ namespace AIWolf.Common.Net
             RandomSeed = Environment.TickCount;
         }
 
-        public int GetRoleNum(Role role)
-        {
-            return RoleNumMap.ContainsKey(role) ? RoleNumMap[role] : 0;
-        }
-
         [DataMember(Name = "playerNum")]
         public int PlayerNum
         {
