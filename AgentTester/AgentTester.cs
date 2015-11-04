@@ -5,6 +5,7 @@ using AIWolf.Server;
 using AIWolf.Server.Net;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 namespace AIWolf.AgentTester
@@ -31,7 +32,31 @@ namespace AIWolf.AgentTester
 
             // ここにテストしたい自分のPlayerを指定してください．
             //IPlayer player = new SampleRoleAssignPlayer();
-            IPlayer player = (IPlayer)Activator.CreateInstance(Assembly.LoadFrom(args[0]).GetType(args[1]));
+            Assembly assembly = null;
+            try
+            {
+                assembly = Assembly.LoadFrom(args[0]);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.Error.WriteLine("Can not find " + args[0]);
+                Environment.Exit(0);
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in loading " + args[0]);
+                Environment.Exit(0);
+            }
+            IPlayer player = null;
+            try
+            {
+                player = (IPlayer)Activator.CreateInstance(assembly.GetType(args[1]));
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in creating instance of " + args[1]);
+                Environment.Exit(0);
+            }
 
             // ///////////////////////////////////////////
             // これ以降は変更しないでください．
