@@ -5,6 +5,13 @@ using System;
 
 namespace AIWolf.ServerStarter
 {
+    /// <summary>
+    /// Main class to start server application.
+    /// <para>
+    /// Original Java code was written by tori,
+    /// and translated into C# by otsuki.
+    /// </para>
+    /// </summary>
     class ServerStarter
     {
         public static void Main(string[] args)

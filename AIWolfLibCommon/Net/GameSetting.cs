@@ -60,11 +60,11 @@ namespace AIWolf.Common.Net
         {
             if (agentNum < 5)
             {
-                throw new ArgumentOutOfRangeException("agentNum must be bigger than 5 but " + agentNum);
+                throw new ArgumentOutOfRangeException("agentNum", "agentNum must be bigger than 5 but " + agentNum);
             }
             if (agentNum > roleNumArray.Length)
             {
-                throw new ArgumentOutOfRangeException("agentNum must be smaller than " + (roleNumArray.Length + 1) + " but " + agentNum);
+                throw new ArgumentOutOfRangeException("agentNum", "agentNum must be smaller than " + (roleNumArray.Length + 1) + " but " + agentNum);
             }
 
             GameSetting setting = new GameSetting();
@@ -130,12 +130,11 @@ namespace AIWolf.Common.Net
         /// Random seed.
         /// </summary>
         [DataMember(Name = "randomSeed")]
-        public int RandomSeed { get; set; }
+        public long RandomSeed { get; set; } = Environment.TickCount;
 
         public GameSetting()
         {
             RoleNumMap = new Dictionary<Role, int>();
-            RandomSeed = Environment.TickCount;
         }
 
         [DataMember(Name = "playerNum")]

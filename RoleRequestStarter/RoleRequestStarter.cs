@@ -104,8 +104,8 @@ namespace AIWolf.RoleRequestStarter
                 Environment.Exit(0);
             }
 
-            Assembly defaultAssesmbly = Assembly.LoadFrom(defaultAssemblyName);
-            Assembly playerAssesmbly = playerAssemblyName != null ? Assembly.LoadFrom(playerAssemblyName) : null;
+            Assembly defaultAssesmbly = LoadDllFile(defaultAssemblyName);
+            Assembly playerAssesmbly = LoadDllFile(playerAssemblyName);
 
             Dictionary<IPlayer, Role?> playerMap = new Dictionary<IPlayer, Role?>();
             foreach (KeyValuePair<string, Role?> pair in playerRoleList)
@@ -115,11 +115,11 @@ namespace AIWolf.RoleRequestStarter
                     Console.Error.WriteLine("Please specify player dll file name.");
                     Environment.Exit(0);
                 }
-                playerMap.Add((IPlayer)Activator.CreateInstance(playerAssesmbly.GetType(pair.Key)), pair.Value);
+                playerMap.Add(CreatePlayer(playerAssesmbly, pair.Key), pair.Value);
             }
             while (playerMap.Count < playerNum)
             {
-                playerMap.Add((IPlayer)Activator.CreateInstance(defaultAssesmbly.GetType(defaultClsName)), null);
+                playerMap.Add(CreatePlayer(defaultAssesmbly, defaultClsName), null);
             }
 
             Start(playerMap, logDir);
@@ -129,14 +129,14 @@ namespace AIWolf.RoleRequestStarter
         /// 一人のRoleを指定してDirectに実行
         /// </summary>
         /// <returns></returns>
-        public static AIWolfGame Start(IPlayer player, Role role, int playerNum, string defaultClsName, string logDir)
+        public static AIWolfGame Start(IPlayer player, Role role, int playerNum, Assembly assembly, string defaultClsName, string logDir)
         {
             Dictionary<IPlayer, Role?> playerMap = new Dictionary<IPlayer, Role?>();
 
             playerMap.Add(player, role);
             while (playerMap.Count < playerNum)
             {
-                playerMap.Add((IPlayer)Activator.CreateInstance(Type.GetType(defaultClsName)), null);
+                playerMap.Add(CreatePlayer(assembly, defaultClsName), null);
             }
             return Start(playerMap, logDir);
         }
@@ -180,5 +180,39 @@ namespace AIWolf.RoleRequestStarter
             return game;
         }
 
+        public static Assembly LoadDllFile(string dllFileName)
+        {
+            Assembly assesmbly = null;
+            try
+            {
+                assesmbly = dllFileName != null ? Assembly.LoadFrom(dllFileName) : null;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.Error.WriteLine("Can not find " + dllFileName);
+                Environment.Exit(0);
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in loading " + dllFileName);
+                Environment.Exit(0);
+            }
+            return assesmbly;
+        }
+
+        public static IPlayer CreatePlayer(Assembly assembly, string clsName)
+        {
+            IPlayer player = null;
+            try
+            {
+                player = (IPlayer)Activator.CreateInstance(assembly.GetType(clsName));
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in creating instance of " + clsName);
+                Environment.Exit(0);
+            }
+            return player;
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace AIWolf.Server
         /// <summary>
         /// Show console log?
         /// </summary>
-        bool isShowConsoleLog = true;
+        public bool IsShowConsoleLog { get; set; } = true;
 
         /// <summary>
         /// Logger.
@@ -112,7 +112,7 @@ namespace AIWolf.Server
                 else
                 {
                     noRequestAgentList.Add(agent);
-                    Console.WriteLine(agent + " request no role");
+                    //Console.WriteLine(agent + " request no role");
                 }
             }
 
@@ -134,7 +134,7 @@ namespace AIWolf.Server
                 }
             }
 
-            gameDataMap.Add(gameData.Day, gameData);
+            gameDataMap[gameData.Day] = gameData;
 
             gameServer.SetGameData(gameData);
             gameServer.SetGameSetting(gameSetting);
@@ -166,7 +166,7 @@ namespace AIWolf.Server
             Log();
             Finish();
 
-            if (isShowConsoleLog)
+            if (IsShowConsoleLog)
             {
                 Console.WriteLine("Winner:" + GetWinner());
             }
@@ -232,7 +232,7 @@ namespace AIWolf.Server
 
         private void Log()
         {
-            if (!isShowConsoleLog)
+            if (!IsShowConsoleLog)
             {
                 return;
             }
@@ -404,7 +404,7 @@ namespace AIWolf.Server
                 }
             }
             gameData = gameData.NextDay();
-            gameDataMap.Add(gameData.Day, gameData);
+            gameDataMap[gameData.Day] = gameData;
             gameServer.SetGameData(gameData);
         }
 
@@ -421,7 +421,7 @@ namespace AIWolf.Server
                     }
                     else
                     {
-                        counter.Add(vote.Target, 1);
+                        counter[vote.Target] = 1;
                     }
                 }
             }
@@ -463,7 +463,7 @@ namespace AIWolf.Server
                     }
                     else
                     {
-                        counter.Add(vote.Target, 1);
+                        counter[vote.Target] = 1;
                     }
                 }
             }
@@ -477,7 +477,7 @@ namespace AIWolf.Server
                     }
                     else
                     {
-                        counter.Add(agent, 1);
+                        counter[agent] = 1;
                     }
                 }
             }

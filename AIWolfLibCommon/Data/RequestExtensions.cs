@@ -3,7 +3,7 @@
 namespace AIWolf.Common.Data
 {
     /// <summary>
-    /// Class to define extension mathod.
+    /// Class to define extension method of enum Request.
     /// <para>
     /// Written by otsuki.
     /// </para>

@@ -22,7 +22,7 @@ namespace AIWolf.Common.Net
         TcpClient tcpClient;
 
         IPlayer player;
-        Role? requestRole; // Nullable
+        Role? requestRole;
 
         bool isRunning;
 
