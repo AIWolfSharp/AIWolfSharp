@@ -23,10 +23,10 @@ namespace AIWolf.Common
         {
         }
 
-        public AIWolfAgentException(Agent agent, string mathod, Exception exception)
+        public AIWolfAgentException(Agent agent, string method, Exception exception)
         {
             this.agent = agent;
-            this.method = mathod;
+            this.method = method;
             this.exception = exception;
         }
 

@@ -5,7 +5,7 @@ using System.Linq;
 namespace AIWolf.Common.Util
 {
     /// <summary>
-    /// Class to define extension mathod.
+    /// Class to define extension method.
     /// <para>
     /// Written by otsuki.
     /// </para>

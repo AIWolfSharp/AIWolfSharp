@@ -28,13 +28,13 @@ namespace AIWolf.Common.Net
         public JudgeToSend DivineResult { get; set; }
 
         [DataMember(Name = "executedAgent")]
-        public int ExecutedAgent { get; set; }
+        public int ExecutedAgent { get; set; } = -1;
 
         [DataMember(Name = "attackedAgent")]
-        public int AttackedAgent { get; set; }
+        public int AttackedAgent { get; set; } = -1;
 
         [DataMember(Name = "guardedAgent")]
-        public int GuardedAgent { get; set; }
+        public int GuardedAgent { get; set; } = -1;
 
         [DataMember(Name = "voteList")]
         public List<VoteToSend> VoteList { get; set; }
@@ -56,9 +56,6 @@ namespace AIWolf.Common.Net
 
         public GameInfoToSend()
         {
-            ExecutedAgent = -1;
-            AttackedAgent = -1;
-            GuardedAgent = -1;
             VoteList = new List<VoteToSend>();
             AttackVoteList = new List<VoteToSend>();
             StatusMap = new Dictionary<int, string>();

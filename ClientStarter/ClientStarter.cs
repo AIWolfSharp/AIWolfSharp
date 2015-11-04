@@ -1,6 +1,7 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
 using System;
+using System.IO;
 using System.Reflection;
 
 namespace AIWolf.ClientStarter
@@ -60,8 +61,33 @@ namespace AIWolf.ClientStarter
                 return;
             }
 
-            Assembly assembly = Assembly.LoadFrom(dllName);
-            IPlayer player = (IPlayer)Activator.CreateInstance(assembly.GetType(clsName));
+            Assembly assembly;
+            try
+            {
+                assembly = Assembly.LoadFrom(dllName);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.Error.WriteLine("Can not find " + dllName);
+                return;
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in loading " + dllName);
+                return;
+            }
+
+            IPlayer player;
+            try
+            {
+                player = (IPlayer)Activator.CreateInstance(assembly.GetType(clsName));
+            }
+            catch (Exception)
+            {
+                Console.Error.WriteLine("Error in creating instance of " + clsName);
+                return;
+            }
+
             TcpipClient client = new TcpipClient(host, port, roleRequest);
             if (client.Connect(player))
             {

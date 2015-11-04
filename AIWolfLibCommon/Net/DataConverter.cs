@@ -40,10 +40,10 @@ namespace AIWolf.Common.Net
 
         DataConverter()
         {
-            // C#のUpperCamelCaseとJSONのlowerCamelCaseの変換
             serializerSetting = new JsonSerializerSettings();
+            // オブジェクトを名前順にして変換
             serializerSetting.ContractResolver = new OrderedContractResolver();
-            // enumを文字列のまま変換するため
+            // enumを文字列のまま変換
             serializerSetting.Converters.Add(new StringEnumConverter());
         }
 

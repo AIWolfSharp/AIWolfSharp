@@ -47,7 +47,7 @@ namespace AIWolf.DirectStarter
             }
             if (clsCountMap.Count == 0)
             {
-                Console.Error.WriteLine("Usage:" + typeof(DirectStarter) + "-c clientClass dllName num [-c clientClass dllName num ...] [-l logDir]");
+                Console.Error.WriteLine("Usage:" + typeof(DirectStarter) + " -c clientClass dllName num [-c clientClass dllName num ...] [-l logDir]");
                 return;
             }
 
@@ -61,10 +61,35 @@ namespace AIWolf.DirectStarter
             foreach (string clsName in clsCountMap.Keys)
             {
                 int num = clsCountMap[clsName];
-                Assembly assembly = Assembly.LoadFrom(clsDllNameMap[clsName]);
+                Assembly assembly = null;
+                try
+                {
+                    assembly = Assembly.LoadFrom(clsDllNameMap[clsName]);
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.Error.WriteLine("Can not find " + clsDllNameMap[clsName]);
+                    Environment.Exit(0);
+                }
+                catch (Exception)
+                {
+                    Console.Error.WriteLine("Error in loading " + clsDllNameMap[clsName]);
+                    Environment.Exit(0);
+                }
+
                 for (int i = 0; i < num; i++)
                 {
-                    playerList.Add((IPlayer)Activator.CreateInstance(assembly.GetType(clsName)));
+                    IPlayer player = null;
+                    try
+                    {
+                        player = (IPlayer)Activator.CreateInstance(assembly.GetType(clsName));
+                    }
+                    catch (Exception)
+                    {
+                        Console.Error.WriteLine("Error in creating instance of " + clsName);
+                        Environment.Exit(0);
+                    }
+                    playerList.Add(player);
                 }
             }
 
@@ -72,7 +97,7 @@ namespace AIWolf.DirectStarter
             IGameServer gameServer = new DirectConnectServer(playerList);
             GameSetting gameSetting = GameSetting.GetDefaultGame(playerNum);
             AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
-            game.SetRand(new Random(gameSetting.RandomSeed));
+            game.SetRand(new Random((int)gameSetting.RandomSeed));
             game.Start();
         }
     }
