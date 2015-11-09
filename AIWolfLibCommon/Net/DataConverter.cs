@@ -56,7 +56,7 @@ namespace AIWolf.Common.Net
         {
             Dictionary<string, object> map = JsonConvert.DeserializeObject<Dictionary<string, object>>(line, serializerSetting);
 
-            Request request = (Request)Enum.Parse(typeof(Request), (string)map["request"]);
+            Request request = map["request"] != null ? (Request)Enum.Parse(typeof(Request), (string)map["request"]) : Request.Dummy;
             GameInfoToSend gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"], serializerSetting), serializerSetting);
             if (map["gameSetting"] != null)
             {

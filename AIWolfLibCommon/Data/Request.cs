@@ -18,6 +18,7 @@
         DailyInitialize,
         DailyFinish,
         //	Update;
-        Finish
+        Finish,
+        Dummy
     }
 }

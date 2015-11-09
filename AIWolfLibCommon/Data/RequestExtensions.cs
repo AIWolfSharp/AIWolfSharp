@@ -27,6 +27,7 @@ namespace AIWolf.Common.Data
             hasReturnMap[Request.DailyFinish] = false;
             //hasReturnMap[Request.Update] = false;
             hasReturnMap[Request.Finish] = false;
+            hasReturnMap[Request.Dummy] = false;
         }
 
         public static bool HasReturn(this Request request)
