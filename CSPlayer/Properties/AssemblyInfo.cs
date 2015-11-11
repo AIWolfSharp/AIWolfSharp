@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("TestPlayer")]
+[assembly: AssemblyTitle("CSPlayer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TestPlayer")]
+[assembly: AssemblyProduct("CSPlayer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります
-[assembly: Guid("232775f6-0e40-448e-9d40-d786edf4f7e4")]
+[assembly: Guid("c1ac6b18-c0e3-4b6f-b772-413f147139bb")]
 
 // アセンブリのバージョン情報は次の 4 つの値で構成されています:
 //
