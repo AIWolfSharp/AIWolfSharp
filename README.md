@@ -189,3 +189,39 @@ AIWolf#とは，元々Javaで書かれていた人狼知能サーバ＆ライブ
     
     - Skip：様子見（他のプレイヤーが全員 OVER でも会話フェーズが終了しない）
     
+  1. GameInfoについて
+    
+    GameInfoクラスには，ゲームの状態を表す以下のプロパティがあります．
+    タイプの詳細は，ソースをご覧ください．
+    
+    | プロパティ名 | タイプ | 説明 |
+    |:---|:---|:---|
+    |Day|int|何日目か|
+    |Agent|Agent|プレイヤー自身|
+    |Role|Role?|プレイヤー自身の役職|
+    |MediumResult|Judge|霊能結果（霊能者のみ）|
+    |DivineResult|Judge|占い結果（占い師のみ）|
+    |ExecutedAgent|Agent|昨夜処刑されたプレイヤー|
+    |AttackedAgent|Agent|昨夜襲撃されたプレイヤー|
+    |GuardedAgent|Agent|昨夜護衛されたプレイヤー|
+    |VoteList|List&lt;Vote&gt;|投票状況のリスト|
+    |AttackVoteList|List&lt;Vote&gt;|襲撃先投票状況のリスト（人狼のみ）|
+    |TalkList|List&lt;Talk&gt;|今日の会話のリスト|
+    |WhisperList|List&lt;Talk&gt;|今日の囁きのリスト（人狼のみ）|
+    |StatusMap|Dictionary&lt;Agent, Status&gt;|各プレイヤーの生死|
+    |RoleMap|Dictionary&lt;Agent, Role&gt;|各プレイヤーの役職（既知の分）|
+    |AgentList|List&lt;Agent&gt;|プレイヤーのリスト|
+    |AliveAgentList|List&lt;Agent&gt;|生きているプレイヤーのリスト|
+  
+  1. GameSettingについて
+    
+    GameSettingクラスには，ゲームの設定を表す以下のプロパティがあります．
+    
+    | プロパティ名 | タイプ | 説明 |
+    |:---|:---|:---|
+    |RoleNumMap|Dictionary&lt;Role, int&gt;|各役職の人数|
+    |MaxTalk|int|発話の最大回数|
+    |EnableNoAttack|bool|誰も襲撃しないことが可能か|
+    |VoteVisible|bool|誰が誰に投票したかがわかるか|
+    |RandomSeed|long|乱数の種|
+    |PlayerNum|int|プレイヤー数|
