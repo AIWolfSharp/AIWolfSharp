@@ -2,7 +2,9 @@
 ## C# version of AIWolf Server&amp;Library
 
 AIWolf#とは，元々Javaで書かれていた人狼知能サーバ＆ライブラリをC#に移植したものです．
-最新のリリースはVersion 0.2.5+です．
+releaseブランチの最新版はVersion 0.2.5+です．
+Java版のVersion 0.2.5互換で，さらに第1回人狼知能大会直前の修正を含んでいます．
+実験的な試みはexperimentalブランチの方にプッシュしていきます．
 
 1. 配布ファイルについて
   
