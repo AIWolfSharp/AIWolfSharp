@@ -6,19 +6,19 @@
     /// </summary>
     public enum Request
     {
-        Name,
-        Role,
-        Talk,
-        Whisper,
-        Vote,
-        Divine,
-        Guard,
-        Attack,
-        Initialize,
-        DailyInitialize,
-        DailyFinish,
-        //	Update;
-        Finish,
-        Dummy
+        NAME,
+        ROLE,
+        TALK,
+        WHISPER,
+        VOTE,
+        DIVINE,
+        GUARD,
+        ATTACK,
+        INITIALIZE,
+        DAILY_INITIALIZE,
+        DAILY_FINISH,
+        //	UPDATE;
+        FINISH,
+        DUMMY
     }
 }

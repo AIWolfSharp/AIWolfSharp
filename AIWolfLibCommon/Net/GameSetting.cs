@@ -130,7 +130,7 @@ namespace AIWolf.Common.Net
         /// Random seed.
         /// </summary>
         [DataMember(Name = "randomSeed")]
-        public long RandomSeed { get; set; }
+        public long RandomSeed { get; set; } = Environment.TickCount;
 
         public GameSetting()
         {

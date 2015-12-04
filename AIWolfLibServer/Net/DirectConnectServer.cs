@@ -94,6 +94,7 @@ namespace AIWolf.Server.Net
             }
             catch (Exception e)
             {
+                Console.Error.WriteLine(e.StackTrace);
                 throw new AIWolfAgentException(agent, "Init", e);
             }
         }

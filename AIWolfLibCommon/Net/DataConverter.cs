@@ -56,17 +56,42 @@ namespace AIWolf.Common.Net
         {
             Dictionary<string, object> map = JsonConvert.DeserializeObject<Dictionary<string, object>>(line, serializerSetting);
 
-            Request request = map["request"] != null ? (Request)Enum.Parse(typeof(Request), (string)map["request"]) : Request.Dummy;
-            GameInfoToSend gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"], serializerSetting), serializerSetting);
-            if (map["gameSetting"] != null)
+            Request request = map["request"] != null ? (Request)Enum.Parse(typeof(Request), (string)map["request"]) : Request.DUMMY;
+            GameInfoToSend gameInfoToSend = null;
+            if (map["gameInfo"] != null)
             {
-                GameSetting gameSetting = JsonConvert.DeserializeObject<GameSetting>(JsonConvert.SerializeObject(map["gameSetting"], serializerSetting), serializerSetting);
-                return new Packet(request, gameInfoToSend, gameSetting);
+                gameInfoToSend = JsonConvert.DeserializeObject<GameInfoToSend>(JsonConvert.SerializeObject(map["gameInfo"], serializerSetting), serializerSetting);
+                if (map["gameSetting"] != null)
+                {
+                    GameSetting gameSetting = JsonConvert.DeserializeObject<GameSetting>(JsonConvert.SerializeObject(map["gameSetting"], serializerSetting), serializerSetting);
+                    return new Packet(request, gameInfoToSend, gameSetting);
+                }
+                else
+                {
+                    return new Packet(request, gameInfoToSend);
+                }
+            }
+            else if (map["talkHistory"] != null)
+            {
+                List<TalkToSend> talkHistoryList = ToTalkList(JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(JsonConvert.SerializeObject(map["talkHistory"], serializerSetting), serializerSetting));
+                List<TalkToSend> whisperHistoryList = ToTalkList(JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(JsonConvert.SerializeObject(map["whisperHistory"], serializerSetting), serializerSetting));
+                return new Packet(request, talkHistoryList, whisperHistoryList);
             }
             else
             {
-                return new Packet(request, gameInfoToSend);
+                return new Packet(request);
             }
+        }
+
+        private List<TalkToSend> ToTalkList(List<Dictionary<string, string>> mapList)
+        {
+            List<TalkToSend> list = new List<TalkToSend>();
+            foreach (var value in mapList)
+            {
+                TalkToSend talk = JsonConvert.DeserializeObject<TalkToSend>(JsonConvert.SerializeObject(value, serializerSetting), serializerSetting);
+                list.Add(talk);
+            }
+            return list;
         }
 
         public Agent ToAgent(object obj)

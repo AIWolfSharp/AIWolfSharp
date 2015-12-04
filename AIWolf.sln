@@ -35,6 +35,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonPlayer", "PythonPlaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapPythonPlayer", "WrapPythonPlayer\WrapPythonPlayer.csproj", "{BE824C0F-1A0A-4B93-A5CD-FBA6AC8BACCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZStarter", "EZStarter\EZStarter.csproj", "{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +229,18 @@ Global
 		{BE824C0F-1A0A-4B93-A5CD-FBA6AC8BACCA}.Release|x64.Build.0 = Release|Any CPU
 		{BE824C0F-1A0A-4B93-A5CD-FBA6AC8BACCA}.Release|x86.ActiveCfg = Release|Any CPU
 		{BE824C0F-1A0A-4B93-A5CD-FBA6AC8BACCA}.Release|x86.Build.0 = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x64.Build.0 = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

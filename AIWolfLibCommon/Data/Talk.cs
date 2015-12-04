@@ -13,6 +13,9 @@ namespace AIWolf.Common.Data
     [DataContract]
     public class Talk
     {
+        public const string OVER = "Over";
+        public const string SKIP = "Skip";
+
         /// <summary>
         /// Index number of sentence.
         /// </summary>
@@ -42,14 +45,6 @@ namespace AIWolf.Common.Data
             Content = content;
         }
 
-        public override string ToString()
-        {
-            return String.Format("Day{0:D2}[{1:D3}]\t{2}\t{3}", Day, Idx, Agent, Content);
-        }
-
-        public const string OVER = "Over";
-        public const string SKIP = "Skip";
-
         [DataMember(Name = "skip")]
         public bool Skip
         {
@@ -60,6 +55,11 @@ namespace AIWolf.Common.Data
         public bool Over
         {
             get { return Content.Equals(OVER); }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Day{0:D2}[{1:D3}]\t{2}\t{3}", Day, Idx, Agent, Content);
         }
     }
 }
