@@ -100,8 +100,7 @@ namespace AIWolf.Common.Net
             }
             catch (Exception)
             {
-                //throw new AIWolfRuntimeException();
-                throw;
+                throw new AIWolfRuntimeException();
             }
             finally
             {

@@ -25,7 +25,7 @@ namespace AIWolf.Common.Data
             hasReturnMap[Request.INITIALIZE] = false;
             hasReturnMap[Request.DAILY_INITIALIZE] = false;
             hasReturnMap[Request.DAILY_FINISH] = false;
-            //hasReturnMap[Request.Update] = false;
+            //hasReturnMap[Request.UPDATE] = false;
             hasReturnMap[Request.FINISH] = false;
             hasReturnMap[Request.DUMMY] = false;
         }
