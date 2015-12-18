@@ -86,7 +86,7 @@ namespace AIWolf.Server.Net
             TcpListener listener = new TcpListener(ipAddress, port);
             listener.Start();
 
-            int idx = 0;
+            int idx = 1;
             isWaitForClient = true;
             while (connectionAgentMap.Count < limit && isWaitForClient)
             {
