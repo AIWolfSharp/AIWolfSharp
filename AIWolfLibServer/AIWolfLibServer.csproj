@@ -44,16 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIWolfGame.cs" />
-    <Compile Include="GameData.cs" />
-    <Compile Include="IllegalPlayerNumException.cs" />
-    <Compile Include="LostClientException.cs" />
-    <Compile Include="Net\DirectConnectServer.cs" />
-    <Compile Include="Net\IGameServer.cs" />
-    <Compile Include="Net\TcpipServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\FileGameLogger.cs" />
-    <Compile Include="Util\IGameLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIWolfLibCommon\AIWolfLibCommon.csproj">
@@ -64,6 +55,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="..\AIWolfSharedServer\AIWolfSharedServer.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

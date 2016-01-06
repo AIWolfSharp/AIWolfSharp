@@ -46,33 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Player\AbstractBodyguard.cs" />
-    <Compile Include="Base\Player\AbstractMedium.cs" />
-    <Compile Include="Base\Player\AbstractPlayer.cs" />
-    <Compile Include="Base\Player\AbstractPossessed.cs" />
-    <Compile Include="Base\Player\AbstractRole.cs" />
-    <Compile Include="Base\Player\AbstractRoleAssignPlayer.cs" />
-    <Compile Include="Base\Player\AbstractSeer.cs" />
-    <Compile Include="Base\Player\AbstractVillager.cs" />
-    <Compile Include="Base\Player\AbstractWerewolf.cs" />
-    <Compile Include="Base\Player\UnsuspectedMethodCallException.cs" />
-    <Compile Include="Base\Smpl\AdvanceGameInfo.cs" />
-    <Compile Include="Base\Smpl\SampleBodyguard.cs" />
-    <Compile Include="Base\Smpl\SampleMedium.cs" />
-    <Compile Include="Base\Smpl\SamplePossessed.cs" />
-    <Compile Include="Base\Smpl\SampleRoleAssignPlayer.cs" />
-    <Compile Include="Base\Smpl\SampleSeer.cs" />
-    <Compile Include="Base\Smpl\SampleVillager.cs" />
-    <Compile Include="Base\Smpl\SampleWerewolf.cs" />
-    <Compile Include="Lib\EnumType.cs" />
-    <Compile Include="Lib\State.cs" />
-    <Compile Include="Lib\StateExtensions.cs" />
-    <Compile Include="Lib\TalkType.cs" />
-    <Compile Include="Lib\TalkTypeExtensions.cs" />
-    <Compile Include="Lib\TemplateTalkFactory.cs" />
-    <Compile Include="Lib\TemplateWhisperFactory.cs" />
-    <Compile Include="Lib\Topic.cs" />
-    <Compile Include="Lib\Utterance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +57,7 @@
       <Name>AIWolfLibCommon</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\AIWolfSharedClient\AIWolfSharedClient.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
