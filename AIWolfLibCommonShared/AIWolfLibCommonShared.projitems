@@ -3,10 +3,10 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>940b0d7b-8d55-4b61-9237-500720c8d219</SharedGUID>
+    <SharedGUID>5e2e5f6b-641d-40d8-a142-4a420df08690</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AIWolfSharedCommon</Import_RootNamespace>
+    <Import_RootNamespace>AIWolfLibCommonShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AIWolfAgentException.cs" />

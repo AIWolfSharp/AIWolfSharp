@@ -3,10 +3,10 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>1c963c14-f4a4-4716-9d05-dbfb888ebe2f</SharedGUID>
+    <SharedGUID>a5494e0a-264b-4bf7-8017-2e41b8f82fe1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AIWolfSharedClient</Import_RootNamespace>
+    <Import_RootNamespace>AIWolfLibClientShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Base\Player\AbstractBodyguard.cs" />

@@ -37,20 +37,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapPythonPlayer", "WrapPyt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZStarter", "EZStarter\EZStarter.csproj", "{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfSharedCommon", "AIWolfSharedCommon\AIWolfSharedCommon.shproj", "{940B0D7B-8D55-4B61-9237-500720C8D219}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfLibCommonShared", "AIWolfLibCommonShared\AIWolfLibCommonShared.shproj", "{5E2E5F6B-641D-40D8-A142-4A420DF08690}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfSharedServer", "AIWolfSharedServer\AIWolfSharedServer.shproj", "{6E2031FB-7B87-415F-A4B8-AF0F3E288206}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfLibServerShared", "AIWolfLibServerShared\AIWolfLibServerShared.shproj", "{36AD42D5-9A0F-40E7-8584-66AA1B64CA1C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfSharedClient", "AIWolfSharedClient\AIWolfSharedClient.shproj", "{1C963C14-F4A4-4716-9D05-DBFB888EBE2F}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfLibClientShared", "AIWolfLibClientShared\AIWolfLibClientShared.shproj", "{A5494E0A-264B-4BF7-8017-2E41B8F82FE1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AIWolfSharedServer\AIWolfSharedServer.projitems*{4bf4d2d8-5b3b-4e8d-9813-94a7920282ba}*SharedItemsImports = 4
-		AIWolfSharedServer\AIWolfSharedServer.projitems*{6e2031fb-7b87-415f-a4b8-af0f3e288206}*SharedItemsImports = 13
-		AIWolfSharedCommon\AIWolfSharedCommon.projitems*{5831b857-0557-4daf-960a-a75fa6fd9864}*SharedItemsImports = 4
-		AIWolfSharedClient\AIWolfSharedClient.projitems*{1c963c14-f4a4-4716-9d05-dbfb888ebe2f}*SharedItemsImports = 13
-		AIWolfSharedCommon\AIWolfSharedCommon.projitems*{940b0d7b-8d55-4b61-9237-500720c8d219}*SharedItemsImports = 13
-		AIWolfSharedClient\AIWolfSharedClient.projitems*{f4f1a7a1-55c1-47fb-a3fe-ce17d413b054}*SharedItemsImports = 4
+		AIWolfLibServerShared\AIWolfLibServerShared.projitems*{4bf4d2d8-5b3b-4e8d-9813-94a7920282ba}*SharedItemsImports = 4
+		AIWolfLibClientShared\AIWolfLibClientShared.projitems*{a5494e0a-264b-4bf7-8017-2e41b8f82fe1}*SharedItemsImports = 13
+		AIWolfLibServerShared\AIWolfLibServerShared.projitems*{36ad42d5-9a0f-40e7-8584-66aa1b64ca1c}*SharedItemsImports = 13
+		AIWolfLibCommonShared\AIWolfLibCommonShared.projitems*{5831b857-0557-4daf-960a-a75fa6fd9864}*SharedItemsImports = 4
+		AIWolfLibCommonShared\AIWolfLibCommonShared.projitems*{5e2e5f6b-641d-40d8-a142-4a420df08690}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
