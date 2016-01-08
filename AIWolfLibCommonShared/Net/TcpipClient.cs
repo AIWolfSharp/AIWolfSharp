@@ -3,7 +3,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AIWolf.Common.Net
 {
@@ -16,10 +17,17 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class TcpipClient : IGameClient
     {
+        const int bufferSize = 8192;
+
+        public event EventHandler Completed;
+        protected virtual void OnCompleted(EventArgs e) { if (Completed != null) Completed(this, e); }
+
+        byte[] recvBuffer = new byte[bufferSize];
+
         string host;
         int port;
 
-        TcpClient tcpClient;
+        Socket socket;
 
         IPlayer player;
         Role? requestRole;
@@ -47,12 +55,22 @@ namespace AIWolf.Common.Net
 
             try
             {
-                tcpClient = new TcpClient();
-                tcpClient.Connect(Dns.GetHostAddresses(host), port);
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                var connectEventArgs = new SocketAsyncEventArgs();
+                connectEventArgs.RemoteEndPoint = new DnsEndPoint(host, port);
+                connectEventArgs.Completed += ConnectCompleted;
 
-                Thread th = new Thread(new ThreadStart(Run));
-                th.Start();
-
+                if (!socket.ConnectAsync(connectEventArgs))
+                {
+                    if (connectEventArgs.SocketError != SocketError.Success)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        Task.Run(() => { ProcessIO(connectEventArgs); });
+                    }
+                }
                 return true;
             }
             catch (Exception e)
@@ -62,41 +80,111 @@ namespace AIWolf.Common.Net
             }
         }
 
-        public void Run()
+        private void ConnectCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            ProcessIO(e);
+        }
+
+        private void ProcessIO(SocketAsyncEventArgs e)
+        {
+            if (e.ConnectSocket == null)
+            {
+                Console.Error.WriteLine("Connection Failed");
+                Environment.Exit(-1);
+            }
+            var ioEventArgs = new SocketAsyncEventArgs();
+            ioEventArgs.Completed += IOCompleted;
+            ioEventArgs.SetBuffer(recvBuffer, 0, bufferSize);
+            if (!socket.ReceiveAsync(ioEventArgs))
+            {
+                ProcessReceive(ioEventArgs);
+            }
+        }
+
+        private void IOCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            switch (e.LastOperation)
+            {
+                case SocketAsyncOperation.Receive:
+                    ProcessReceive(e);
+                    break;
+                case SocketAsyncOperation.Send:
+                    ProcessSend(e);
+                    break;
+                default:
+                    throw new ArgumentException("The last operation completed on the socket was not a receive or send");
+            }
+        }
+
+        private void ProcessReceive(SocketAsyncEventArgs e)
+        {
+            if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
+            {
+                MemoryStream ms = new MemoryStream(bufferSize);
+                StreamReader sr = new StreamReader(new MemoryStream(e.Buffer, e.Offset, e.BytesTransferred));
+                string line = sr.ReadLine();
+                //sr.Dispose();
+                Packet packet = DataConverter.GetInstance().ToPacket(line);
+                object obj = Recieve(packet);
+                string s;
+                if (packet.Request.HasReturn())
+                {
+                    if (obj == null)
+                    {
+                        s = "\n";
+                    }
+                    else if (obj is string)
+                    {
+                        s = obj + "\n";
+                    }
+                    else
+                    {
+                        s = DataConverter.GetInstance().Convert(obj) + "\n";
+                    }
+                    byte[] byteArray = Encoding.ASCII.GetBytes(s);
+                    e.SetBuffer(byteArray, 0, byteArray.Length);
+                    if (!socket.SendAsync(e))
+                    {
+                        ProcessSend(e);
+                    }
+                }
+                else
+                {
+                    e.SetBuffer(recvBuffer, 0, bufferSize);
+                    if (!socket.ReceiveAsync(e))
+                    {
+                        ProcessReceive(e);
+                    }
+                }
+            }
+            else
+            {
+                CloseSocket(e);
+            }
+        }
+
+        private void ProcessSend(SocketAsyncEventArgs e)
+        {
+            if (e.SocketError == SocketError.Success)
+            {
+                e.SetBuffer(recvBuffer, 0, bufferSize);
+                if (!socket.ReceiveAsync(e))
+                {
+                    ProcessReceive(e);
+                }
+            }
+            else
+            {
+                CloseSocket(e);
+            }
+        }
+
+        private void CloseSocket(SocketAsyncEventArgs e)
         {
             try
             {
-                // サーバと接続されたソケットを利用して処理を行う
-                StreamReader sr = new StreamReader(tcpClient.GetStream());
-                StreamWriter sw = new StreamWriter(tcpClient.GetStream());
-                string line;
-                isRunning = true;
-                while ((line = sr.ReadLine()) != null && isRunning)
-                {
-                    Packet packet = DataConverter.GetInstance().ToPacket(line);
-
-                    object obj = Recieve(packet);
-                    if (packet.Request.HasReturn())
-                    {
-                        if (obj == null)
-                        {
-                            sw.WriteLine();
-                        }
-                        else if (obj is string)
-                        {
-                            sw.WriteLine(obj);
-                        }
-                        else
-                        {
-                            sw.WriteLine(DataConverter.GetInstance().Convert(obj));
-                        }
-                        sw.Flush();
-                    }
-                }
                 Console.WriteLine("Close connection of " + player);
-                sr.Close();
-                sw.Close();
-                tcpClient.Close();
+                socket.Shutdown(SocketShutdown.Both);
             }
             catch (Exception)
             {
@@ -104,7 +192,8 @@ namespace AIWolf.Common.Net
             }
             finally
             {
-                isRunning = false;
+                socket.Dispose();
+                OnCompleted(EventArgs.Empty);
             }
         }
 

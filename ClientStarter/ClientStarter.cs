@@ -3,11 +3,15 @@ using AIWolf.Common.Net;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace AIWolf.ClientStarter
 {
     class ClientStarter
     {
+        // クライアントが終了したことを通知する
+        static AutoResetEvent are = new AutoResetEvent(false);
+
         public static void Main(string[] args)
         {
             string host = null;
@@ -89,10 +93,17 @@ namespace AIWolf.ClientStarter
             }
 
             TcpipClient client = new TcpipClient(host, port, roleRequest);
+            client.Completed += Client_Completed; // 完了コールバック
             if (client.Connect(player))
             {
                 Console.WriteLine("Player connected to server:" + player);
             }
+            are.WaitOne(); // クライアント終了までブロック
+        }
+
+        private static void Client_Completed(object sender, EventArgs e)
+        {
+            are.Set();
         }
     }
 }

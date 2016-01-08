@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace EZStarter
 {
@@ -71,8 +71,17 @@ namespace EZStarter
                 Environment.Exit(0);
             }
 
-            Thread th = new Thread(new ThreadStart(Run));
-            th.Start();
+            Task task = Task.Run(() =>
+           {
+               Console.WriteLine("Start AIWolf Server port:{0} playerNum:{1}", port, playerNum);
+               GameSetting gameSetting = GameSetting.GetDefaultGame(playerNum);
+               TcpipServer gameServer = new TcpipServer(port, playerNum, gameSetting);
+               gameServer.WaitForConnection();
+
+               AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
+               game.SetRand(new Random());
+               game.Start();
+           });
 
             for (int i = 0; i < clsNameList.Count; i++)
             {
@@ -111,18 +120,7 @@ namespace EZStarter
                     Console.WriteLine("Player connected to server:" + player);
                 }
             }
-        }
-
-        static void Run()
-        {
-            Console.WriteLine("Start AIWolf Server port:{0} playerNum:{1}", port, playerNum);
-            GameSetting gameSetting = GameSetting.GetDefaultGame(playerNum);
-            TcpipServer gameServer = new TcpipServer(port, playerNum, gameSetting);
-            gameServer.WaitForConnection();
-
-            AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
-            game.SetRand(new Random());
-            game.Start();
+            task.Wait();
         }
     }
 }
