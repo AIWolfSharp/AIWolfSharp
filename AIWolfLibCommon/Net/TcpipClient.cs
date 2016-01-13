@@ -32,6 +32,7 @@ namespace AIWolf.Common.Net
         {
             this.host = host;
             this.port = port;
+            isRunning = false;
         }
 
         public TcpipClient(string host, int port, Role? requestRole)
@@ -39,6 +40,7 @@ namespace AIWolf.Common.Net
             this.host = host;
             this.port = port;
             this.requestRole = requestRole;
+            isRunning = false;
         }
 
         public bool Connect(IPlayer player)
@@ -70,8 +72,7 @@ namespace AIWolf.Common.Net
                 StreamReader sr = new StreamReader(tcpClient.GetStream());
                 StreamWriter sw = new StreamWriter(tcpClient.GetStream());
                 string line;
-                isRunning = true;
-                while ((line = sr.ReadLine()) != null && isRunning)
+                while ((line = sr.ReadLine()) != null)
                 {
                     Packet packet = DataConverter.GetInstance().ToPacket(line);
 
@@ -93,18 +94,16 @@ namespace AIWolf.Common.Net
                         sw.Flush();
                     }
                 }
-                Console.WriteLine("Close connection of " + player);
-                sr.Close();
-                sw.Close();
-                tcpClient.Close();
             }
             catch (Exception)
             {
-                throw new AIWolfRuntimeException();
+                if (isRunning)
+                {
+                    throw new AIWolfRuntimeException();
+                }
             }
             finally
             {
-                isRunning = false;
             }
         }
 
@@ -155,6 +154,7 @@ namespace AIWolf.Common.Net
             switch (packet.Request)
             {
                 case Request.INITIALIZE:
+                    isRunning = true;
                     player.Initialize(gameInfo, gameSetting);
                     break;
                 case Request.DAILY_INITIALIZE:
@@ -166,6 +166,10 @@ namespace AIWolf.Common.Net
                     break;
                 case Request.NAME:
                     returnObject = player.Name;
+                    if (returnObject == null)
+                    {
+                        returnObject = player.GetType().Name;
+                    }
                     break;
                 case Request.ROLE:
                     if (requestRole != null)
@@ -244,8 +248,8 @@ namespace AIWolf.Common.Net
 
         public void Finish()
         {
-            isRunning = false;
             player.Finish();
+            isRunning = false;
         }
     }
 }
