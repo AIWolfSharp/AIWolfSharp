@@ -30,7 +30,7 @@ namespace AIWolf.Common.Data
 
         public override string ToString()
         {
-            return Agent + " voted " + Target + "@" + Day;
+            return Agent + "voted " + Target + "@" + Day;
         }
     }
 }

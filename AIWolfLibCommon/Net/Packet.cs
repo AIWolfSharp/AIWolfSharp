@@ -1,4 +1,5 @@
 ﻿using AIWolf.Common.Data;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace AIWolf.Common.Net
@@ -22,8 +23,19 @@ namespace AIWolf.Common.Net
         [DataMember(Name = "gameSetting")]
         public GameSetting GameSetting { get; }
 
+        [DataMember(Name = "talkHistory")]
+        public List<TalkToSend> TalkHistory { get; set; }
+
+        [DataMember(Name = "whisperHistory")]
+        public List<TalkToSend> WhisperHistory { get; set; }
+
         public Packet()
         {
+        }
+
+        public Packet(Request request)
+        {
+            Request = request;
         }
 
         /// <summary>
@@ -48,6 +60,13 @@ namespace AIWolf.Common.Net
             Request = request;
             GameInfo = gameInfoToSend;
             GameSetting = gameSetting;
+        }
+
+        public Packet(Request request, List<TalkToSend> talkHistoryList, List<TalkToSend> whisperHistoryList)
+        {
+            Request = request;
+            TalkHistory = talkHistoryList;
+            WhisperHistory = whisperHistoryList;
         }
     }
 }

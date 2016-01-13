@@ -150,25 +150,36 @@ namespace AIWolf.Server
         /// </summary>
         public void Start()
         {
-            Init();
-
-            while (!IsGameFinished)
+            try
             {
-                Log();
+                Init();
 
-                Day();
-                Night();
-                if (GameLogger != null)
+                while (!IsGameFinished)
                 {
-                    GameLogger.Flush();
+                    Log();
+
+                    Day();
+                    Night();
+                    if (GameLogger != null)
+                    {
+                        GameLogger.Flush();
+                    }
+                }
+                Log();
+                Finish();
+
+                if (IsShowConsoleLog)
+                {
+                    Console.WriteLine("Winner:" + GetWinner());
                 }
             }
-            Log();
-            Finish();
-
-            if (IsShowConsoleLog)
+            catch (LostClientException e)
             {
-                Console.WriteLine("Winner:" + GetWinner());
+                if (GameLogger != null)
+                {
+                    GameLogger.Log("Lost Connection of " + e.Agent);
+                }
+                throw e;
             }
         }
 
@@ -207,7 +218,7 @@ namespace AIWolf.Server
                 {
                     continue;
                 }
-                if (gameData.GetRole(agent).GetSpecies() == Species.HUMAN)
+                if (((Role)gameData.GetRole(agent)).GetSpecies() == Species.HUMAN)
                 {
                     humanSide++;
                 }
@@ -642,13 +653,14 @@ namespace AIWolf.Server
                 if (gameData.GetRole(agent) == Role.SEER)
                 {
                     Agent target = gameServer.RequestDivineTarget(agent);
-                    if (gameData.GetStatus(target) == Status.DEAD || target == null)
+                    Role? targetRole = gameData.GetRole(target);
+                    if (gameData.GetStatus(target) == Status.DEAD || target == null || targetRole == null)
                     {
                         //					target = getRandomAgent(agentList, agent);
                     }
                     else
                     {
-                        Judge divine = new Judge(gameData.Day, agent, target, gameData.GetRole(target).GetSpecies());
+                        Judge divine = new Judge(gameData.Day, agent, target, ((Role)targetRole).GetSpecies());
                         gameData.Divine = divine;
 
                         if (GameLogger != null)

@@ -55,14 +55,28 @@ namespace AIWolf.Server.Net
 
         static Logger serverLogger = LogManager.GetCurrentClassLogger();
 
+        Dictionary<Agent, string> nameMap;
+
+        HashSet<IServerListener> serverListenerSet;
+
+        Dictionary<Agent, int> lastTalkIdxMap;
+        Dictionary<Agent, int> lastWhisperIdxMap;
+
+        TcpListener serverSocket;
+
         public TcpipServer(int port, int limit, GameSetting gameSetting)
         {
             this.gameSetting = gameSetting;
             this.port = port;
             this.limit = limit;
             ipAddress = IPAddress.Parse("127.0.0.1");
+            nameMap = new Dictionary<Agent, string>();
+            serverListenerSet = new HashSet<IServerListener>();
 
             connectionAgentMap = new Dictionary<TcpClient, Agent>();
+            agentConnectionMap = new Dictionary<Agent, TcpClient>();
+            lastTalkIdxMap = new Dictionary<Agent, int>();
+            lastWhisperIdxMap = new Dictionary<Agent, int>();
         }
 
         public void WaitForConnection()
@@ -74,33 +88,60 @@ namespace AIWolf.Server.Net
                     client.Close();
                 }
             }
+
             connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
+            nameMap.Clear();
 
-            //サーバソケットの作成
             Console.WriteLine("Waiting for connection...");
-            TcpListener listener = new TcpListener(ipAddress, port);
-            listener.Start();
+            serverSocket = new TcpListener(ipAddress, port);
+            serverSocket.Start();
 
-            int idx = 0;
             isWaitForClient = true;
+
             while (connectionAgentMap.Count < limit && isWaitForClient)
             {
-                TcpClient client = listener.AcceptTcpClient();
+                TcpClient client = serverSocket.AcceptTcpClient();
                 lock (connectionAgentMap)
                 {
-                    Agent agent = Agent.GetAgent(idx++);
+                    Agent agent = null;
+                    for (int i = 0; i < limit; i++)
+                    {
+                        if (!connectionAgentMap.ContainsValue(Agent.GetAgent(i)))
+                        {
+                            agent = Agent.GetAgent(i);
+                            break;
+                        }
+                    }
+                    if (agent == null)
+                    {
+                        throw new IllegalPlayerNumException("Fail to create agent");
+                    }
                     connectionAgentMap[client] = agent;
+                    agentConnectionMap[agent] = client;
+                    string name = RequestName(agent);
+                    nameMap[agent] = name;
 
-                    Console.WriteLine("Connect {0} ( {1}/{2} )", agent, connectionAgentMap.Count, limit);
-                    serverLogger.Info("Connect {0} ( {1}/{2} )", agent, connectionAgentMap.Count, limit);
+                    foreach (var listener in serverListenerSet)
+                    {
+                        listener.Connected(client, agent, name);
+                    }
                 }
             }
-            agentConnectionMap = new Dictionary<Agent, TcpClient>();
-            foreach (TcpClient client in connectionAgentMap.Keys)
+            isWaitForClient = false;
+            serverSocket.Stop();
+        }
+
+        public void StopWaitForConnection()
+        {
+            isWaitForClient = false;
+            serverSocket.Stop();
+            foreach (var client in connectionAgentMap.Keys)
             {
-                agentConnectionMap[connectionAgentMap[client]] = client;
+                client.Close();
             }
-            listener.Stop();
+            connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
         }
 
         /// <summary>
@@ -113,9 +154,26 @@ namespace AIWolf.Server.Net
             try
             {
                 string message;
-                if (request != Common.Data.Request.Finish)
+                if (request == Common.Data.Request.DAILY_INITIALIZE || request == Common.Data.Request.INITIALIZE)
                 {
+                    lastTalkIdxMap.Clear();
+                    lastWhisperIdxMap.Clear();
                     Packet packet = new Packet(request, gameData.GetGameInfoToSend(agent), gameSetting);
+                    message = DataConverter.GetInstance().Convert(packet);
+                }
+                else if (request == Common.Data.Request.NAME || request == Common.Data.Request.ROLE)
+                {
+                    Packet packet = new Packet(request);
+                    message = DataConverter.GetInstance().Convert(packet);
+                }
+                else if (request != Common.Data.Request.FINISH)
+                {
+                    List<TalkToSend> talkList = gameData.GetGameInfoToSend(agent).TalkList;
+                    List<TalkToSend> whisperList = gameData.GetGameInfoToSend(agent).WhisperList;
+                    talkList = Minimize(agent, talkList, lastTalkIdxMap);
+                    whisperList = Minimize(agent, whisperList, lastWhisperIdxMap);
+
+                    Packet packet = new Packet(request, talkList, whisperList);
                     message = DataConverter.GetInstance().Convert(packet);
                 }
                 else
@@ -137,6 +195,24 @@ namespace AIWolf.Server.Net
             }
         }
 
+        /// <summary>
+        /// Delete talks already sent.
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="list"></param>
+        /// <param name="lastIdxMap"></param>
+        /// <returns></returns>
+        private List<TalkToSend> Minimize(Agent agent, List<TalkToSend> list, Dictionary<Agent, int> lastIdxMap)
+        {
+            int lastIdx = list.Count;
+            if (lastIdxMap.ContainsKey(agent) && list.Count >= lastIdxMap[agent])
+            {
+                list = list.GetRange(lastIdxMap[agent], lastIdx - lastIdxMap[agent]);
+            }
+            lastIdxMap[agent] = lastIdx;
+            return list;
+        }
+
         public Object Request(Agent agent, Request request)
         {
             try
@@ -153,11 +229,11 @@ namespace AIWolf.Server.Net
                 {
                     line = null;
                 }
-                if (request == Common.Data.Request.Talk || request == Common.Data.Request.Whisper || request == Common.Data.Request.Name || request == Common.Data.Request.Role)
+                if (request == Common.Data.Request.TALK || request == Common.Data.Request.WHISPER || request == Common.Data.Request.NAME || request == Common.Data.Request.ROLE)
                 {
                     return line;
                 }
-                else if (request == Common.Data.Request.Attack || request == Common.Data.Request.Divine || request == Common.Data.Request.Guard || request == Common.Data.Request.Vote)
+                else if (request == Common.Data.Request.ATTACK || request == Common.Data.Request.DIVINE || request == Common.Data.Request.GUARD || request == Common.Data.Request.VOTE)
                 {
                     return DataConverter.GetInstance().ToAgent(line);
                 }
@@ -168,33 +244,33 @@ namespace AIWolf.Server.Net
             }
             catch (IOException e)
             {
-                throw new LostClientException("Lost connection with " + agent, e);
+                throw new LostClientException("Lost connection with " + agent, e, agent);
             }
         }
 
         public void Init(Agent agent)
         {
-            Send(agent, Common.Data.Request.Initialize);
+            Send(agent, Common.Data.Request.INITIALIZE);
         }
 
         public void DayStart(Agent agent)
         {
-            Send(agent, Common.Data.Request.DailyInitialize);
+            Send(agent, Common.Data.Request.DAILY_INITIALIZE);
         }
 
         public void DayFinish(Agent agent)
         {
-            Send(agent, Common.Data.Request.DailyFinish);
+            Send(agent, Common.Data.Request.DAILY_FINISH);
         }
 
         public string RequestName(Agent agent)
         {
-            return (string)Request(agent, Common.Data.Request.Name);
+            return (string)Request(agent, Common.Data.Request.NAME);
         }
 
         public Role? RequestRequestRole(Agent agent)
         {
-            string roleString = (string)Request(agent, Common.Data.Request.Role);
+            string roleString = (string)Request(agent, Common.Data.Request.ROLE);
             try
             {
                 return (Role?)Enum.Parse(typeof(Role), roleString);
@@ -207,38 +283,38 @@ namespace AIWolf.Server.Net
 
         public string RequestTalk(Agent agent)
         {
-            return (string)Request(agent, Common.Data.Request.Talk);
+            return (string)Request(agent, Common.Data.Request.TALK);
         }
 
         public string RequestWhisper(Agent agent)
         {
-            return (string)Request(agent, Common.Data.Request.Whisper);
+            return (string)Request(agent, Common.Data.Request.WHISPER);
         }
 
         public Agent RequestVote(Agent agent)
         {
-            return (Agent)Request(agent, Common.Data.Request.Vote);
+            return (Agent)Request(agent, Common.Data.Request.VOTE);
         }
 
         public Agent RequestDivineTarget(Agent agent)
         {
-            return (Agent)Request(agent, Common.Data.Request.Divine);
+            return (Agent)Request(agent, Common.Data.Request.DIVINE);
         }
 
         public Agent RequestGuardTarget(Agent agent)
         {
-            return (Agent)Request(agent, Common.Data.Request.Guard);
+            return (Agent)Request(agent, Common.Data.Request.GUARD);
         }
 
         public Agent RequestAttackTarget(Agent agent)
         {
-            return (Agent)Request(agent, Common.Data.Request.Attack);
+            return (Agent)Request(agent, Common.Data.Request.ATTACK);
         }
 
         public void Finish(Agent agent)
         {
-            Send(agent, Common.Data.Request.Finish);
-            Send(agent, Common.Data.Request.Finish);
+            Send(agent, Common.Data.Request.FINISH);
+            Send(agent, Common.Data.Request.FINISH);
         }
 
         public void SetGameData(GameData gameData)
@@ -253,17 +329,26 @@ namespace AIWolf.Server.Net
 
         public void Close()
         {
-            foreach (TcpClient client in agentConnectionMap.Values)
+            if (serverSocket != null && serverSocket.Server.Connected)
             {
-                try
-                {
-                    client.Close();
-                }
-                catch (IOException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                }
+                serverSocket.Stop();
             }
+            foreach (TcpClient client in connectionAgentMap.Keys)
+            {
+                client.Close();
+            }
+            connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
+        }
+
+        public bool AddServerListener(IServerListener listener)
+        {
+            return serverListenerSet.Add(listener);
+        }
+
+        public bool RemoveServerListener(IServerListener listener)
+        {
+            return serverListenerSet.Remove(listener);
         }
     }
 }

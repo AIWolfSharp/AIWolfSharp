@@ -26,10 +26,13 @@ namespace AIWolf.Common.Net
 
         bool isRunning;
 
+        GameInfo lastGameInfo;
+
         public TcpipClient(string host, int port)
         {
             this.host = host;
             this.port = port;
+            isRunning = false;
         }
 
         public TcpipClient(string host, int port, Role? requestRole)
@@ -37,6 +40,7 @@ namespace AIWolf.Common.Net
             this.host = host;
             this.port = port;
             this.requestRole = requestRole;
+            isRunning = false;
         }
 
         public bool Connect(IPlayer player)
@@ -68,8 +72,7 @@ namespace AIWolf.Common.Net
                 StreamReader sr = new StreamReader(tcpClient.GetStream());
                 StreamWriter sw = new StreamWriter(tcpClient.GetStream());
                 string line;
-                isRunning = true;
-                while ((line = sr.ReadLine()) != null && isRunning)
+                while ((line = sr.ReadLine()) != null)
                 {
                     Packet packet = DataConverter.GetInstance().ToPacket(line);
 
@@ -80,7 +83,7 @@ namespace AIWolf.Common.Net
                         {
                             sw.WriteLine();
                         }
-                        if (obj is string)
+                        else if (obj is string)
                         {
                             sw.WriteLine(obj);
                         }
@@ -91,43 +94,84 @@ namespace AIWolf.Common.Net
                         sw.Flush();
                     }
                 }
-                Console.WriteLine("Close connection of " + player);
-                sr.Close();
-                sw.Close();
-                tcpClient.Close();
             }
             catch (Exception)
             {
-                throw new AIWolfRuntimeException();
+                if (isRunning)
+                {
+                    throw new AIWolfRuntimeException();
+                }
             }
             finally
             {
-                isRunning = false;
             }
         }
 
         public object Recieve(Packet packet)
         {
-            GameInfo gameInfo = packet.GameInfo.ToGameInfo();
+            GameInfo gameInfo = lastGameInfo;
             GameSetting gameSetting = packet.GameSetting;
+
+            if (packet.GameInfo != null)
+            {
+                gameInfo = packet.GameInfo.ToGameInfo();
+                lastGameInfo = gameInfo;
+            }
+
+            if (packet.TalkHistory != null)
+            {
+                Talk lastTalk = null;
+                if (gameInfo.TalkList != null && gameInfo.TalkList.Count != 0)
+                {
+                    lastTalk = gameInfo.TalkList[gameInfo.TalkList.Count - 1];
+                }
+                foreach (var talk in packet.TalkHistory)
+                {
+                    if (IsAfter(talk, lastTalk))
+                    {
+                        gameInfo.TalkList.Add(talk.ToTalk());
+                    }
+                }
+            }
+
+            if (packet.WhisperHistory != null)
+            {
+                Talk lastWhisper = null;
+                if (gameInfo.WhisperList != null && gameInfo.WhisperList.Count != 0)
+                {
+                    lastWhisper = gameInfo.WhisperList[gameInfo.WhisperList.Count - 1];
+                }
+                foreach (var whisper in packet.WhisperHistory)
+                {
+                    if (IsAfter(whisper, lastWhisper))
+                    {
+                        gameInfo.WhisperList.Add(whisper.ToTalk());
+                    }
+                }
+            }
 
             object returnObject = null;
             switch (packet.Request)
             {
-                case Request.Initialize:
+                case Request.INITIALIZE:
+                    isRunning = true;
                     player.Initialize(gameInfo, gameSetting);
                     break;
-                case Request.DailyInitialize:
+                case Request.DAILY_INITIALIZE:
                     player.Update(gameInfo);
                     player.DayStart();
                     break;
-                case Request.DailyFinish:
+                case Request.DAILY_FINISH:
                     player.Update(gameInfo);
                     break;
-                case Request.Name:
+                case Request.NAME:
                     returnObject = player.Name;
+                    if (returnObject == null)
+                    {
+                        returnObject = player.GetType().Name;
+                    }
                     break;
-                case Request.Role:
+                case Request.ROLE:
                     if (requestRole != null)
                     {
                         returnObject = requestRole.ToString();
@@ -137,11 +181,11 @@ namespace AIWolf.Common.Net
                         returnObject = "none";
                     }
                     break;
-                case Request.Attack:
+                case Request.ATTACK:
                     player.Update(gameInfo);
                     returnObject = player.Attack();
                     break;
-                case Request.Talk:
+                case Request.TALK:
                     player.Update(gameInfo);
                     returnObject = player.Talk();
                     if (returnObject == null)
@@ -149,7 +193,7 @@ namespace AIWolf.Common.Net
                         returnObject = Talk.SKIP;
                     }
                     break;
-                case Request.Whisper:
+                case Request.WHISPER:
                     player.Update(gameInfo);
                     returnObject = player.Whisper();
                     if (returnObject == null)
@@ -157,19 +201,19 @@ namespace AIWolf.Common.Net
                         returnObject = Talk.SKIP;
                     }
                     break;
-                case Request.Divine:
+                case Request.DIVINE:
                     player.Update(gameInfo);
                     returnObject = player.Divine();
                     break;
-                case Request.Guard:
+                case Request.GUARD:
                     player.Update(gameInfo);
                     returnObject = player.Guard();
                     break;
-                case Request.Vote:
+                case Request.VOTE:
                     player.Update(gameInfo);
                     returnObject = player.Vote();
                     break;
-                case Request.Finish:
+                case Request.FINISH:
                     player.Update(gameInfo);
                     Finish();
                     break;
@@ -179,10 +223,33 @@ namespace AIWolf.Common.Net
             return returnObject;
         }
 
+        /// <summary>
+        /// Check is talk after lastTalk.
+        /// <para>If it is same, return false.</para>
+        /// </summary>
+        /// <param name="talk"></param>
+        /// <param name="lastTalk"></param>
+        /// <returns></returns>
+        private bool IsAfter(TalkToSend talk, Talk lastTalk)
+        {
+            if (lastTalk != null)
+            {
+                if (talk.Day < lastTalk.Day)
+                {
+                    return false;
+                }
+                if (talk.Day == lastTalk.Day && talk.Idx <= lastTalk.Idx)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public void Finish()
         {
-            isRunning = false;
             player.Finish();
+            isRunning = false;
         }
     }
 }

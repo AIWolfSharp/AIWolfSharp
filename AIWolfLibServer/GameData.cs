@@ -1,5 +1,6 @@
 ﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AIWolf.Server
@@ -28,7 +29,7 @@ namespace AIWolf.Server
         /// <summary>
         /// Roles of each agents.
         /// </summary>
-        Dictionary<Agent, Role> agentRoleMap;
+        IDictionary agentRoleMap;
 
         public List<Talk> TalkList { get; }
 
@@ -72,7 +73,7 @@ namespace AIWolf.Server
         {
             get
             {
-                return new List<Agent>(agentRoleMap.Keys);
+                return new List<Agent>(((Dictionary<Agent, Role>)agentRoleMap).Keys);
             }
         }
 
@@ -166,7 +167,7 @@ namespace AIWolf.Server
 
                 if (agent != null && (today.GetRole(agent) == Role.MEDIUM && executed != null))
                 {
-                    Species result = yesterday.GetRole(executed).GetSpecies();
+                    Species result = ((Role)yesterday.GetRole(executed)).GetSpecies();
                     gi.MediumResult = new JudgeToSend(new Judge(day, agent, executed, result));
                 }
 
@@ -175,7 +176,7 @@ namespace AIWolf.Server
                     Judge divine = yesterday.Divine;
                     if (divine != null && divine.Target != null)
                     {
-                        Species result = yesterday.GetRole(divine.Target).GetSpecies();
+                        Species result = ((Role)yesterday.GetRole(divine.Target)).GetSpecies();
                         gi.DivineResult = new JudgeToSend(new Judge(day, divine.Agent, divine.Target, result));
                     }
                 }
@@ -213,7 +214,7 @@ namespace AIWolf.Server
             gi.StatusMap = statusMap;
 
             Dictionary<int, string> roleMap = new Dictionary<int, string>();
-            Role? role = agentRoleMap.ContainsKey(agent) ? (Role?)agentRoleMap[agent] : null;
+            Role? role = (Role?)agentRoleMap[agent];
 
             if (Role.WEREWOLF == role || agent == null)
             {
@@ -291,9 +292,9 @@ namespace AIWolf.Server
             return agentStatusMap[agent];
         }
 
-        public Role GetRole(Agent agent)
+        public Role? GetRole(Agent agent)
         {
-            return agentRoleMap[agent];
+            return (Role?)agentRoleMap[agent];
         }
 
         public void AddTalk(Agent agent, Talk talk)
@@ -338,7 +339,7 @@ namespace AIWolf.Server
             {
                 gameData.agentStatusMap[Attacked] = Status.DEAD;
             }
-            gameData.agentRoleMap = new Dictionary<Agent, Role>(agentRoleMap);
+            gameData.agentRoleMap = new Dictionary<Agent, Role>((Dictionary<Agent, Role>)agentRoleMap);
 
             gameData.DayBefore = this;
 
@@ -350,7 +351,7 @@ namespace AIWolf.Server
             List<Agent> resultList = new List<Agent>();
             foreach (Agent agent in agentList)
             {
-                if (GetRole(agent).GetSpecies() == species)
+                if (((Role)GetRole(agent)).GetSpecies() == species)
                 {
                     resultList.Add(agent);
                 }
@@ -389,7 +390,7 @@ namespace AIWolf.Server
             List<Agent> resultList = new List<Agent>();
             foreach (Agent agent in agentList)
             {
-                if (GetRole(agent).GetTeam() == team)
+                if (((Role)GetRole(agent)).GetTeam() == team)
                 {
                     resultList.Add(agent);
                 }

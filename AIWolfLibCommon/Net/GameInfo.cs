@@ -31,7 +31,7 @@ namespace AIWolf.Common.Net
         {
             get
             {
-                return Agent != null ? (Role?)RoleMap[Agent] : null;
+                return Agent != null && RoleMap.ContainsKey(Agent) ? (Role?)RoleMap[Agent] : null;
             }
         }
 

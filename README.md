@@ -1,27 +1,34 @@
 # AIWolfSharp
 ## C# version of AIWolf Server&amp;Library
 
-AIWolf#とは，元々Javaで書かれていた人狼知能サーバ＆ライブラリをC#に移植したものです．
-releaseブランチの最新版はVersion 0.2.5+です．
-Java版のVersion 0.2.5互換で，さらに第1回人狼知能大会直前の修正を含んでいます．
-実験的な試みはexperimentalブランチの方にプッシュしていきます．
+AIWolf#とは，人狼知能プラットフォームのサーバ＆ライブラリをC#に移植したもの（＋α）です．
+releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）です．
+実験的な試みは引き続きexperimentalブランチの方にプッシュしていきます．
 
-1. 配布ファイルについて
+1. プロジェクトについて
   
-  ファイルAIWolfSharp.zip内には以下のファイルがあります．
+  Version 0.3.0からは配布ファイルAIWolfSharp.zipは廃止します．
+  以下のプロジェクトをビルドしてください．
   
-  | ファイル名 | 説明 |
+  | プロジェクト | 説明 |
   |:---|:---|
-  |C#版人狼知能サーバ＆ライブラリについて.pdf|このREADMEと同じ内容|
-  |AgentTester.exe|人狼知能大会の事前テスト用クラスを移植したもの|
-  |ClientStarter.exe|プレイヤーをTCP/IP経由でサーバに接続する|
-  |DirectStarter.exe|サーバとプレイヤーを直接接続してゲームを実行する|
-  |RoleRequestStarter.exe|RoleRequestStarterクラスを移植したもの|
-  |ServerStarter.exe|TCP/IP経由での接続を受け付けるサーバを立ち上げる|
-  |AIWolfLibClient.dll|プレイヤーに必要なライブラリ|
-  |AIWolfLibCommon.dll|サーバ，プレイヤー共通のライブラリ|
-  |AIWolfLibServer.dll|サーバに必要なライブラリ|
-  |TestPlayer.dll|実行テストのため作成したほとんど何もしないプレイヤー|
+  |AgentTester|第1回人狼知能大会の事前テスト用クラスを移植したもの|
+  |AIWolfLibClient|プレイヤーに必要なライブラリ|
+  |AIWolfLibCommon|サーバ，プレイヤー共通のライブラリ|
+  |AIWolfLibServer|サーバに必要なライブラリ|
+  |ClientStarter|プレイヤーをTCP/IP経由でサーバに接続する|
+  |CLIPlayer|C++/CLIで書いたプレイヤーの例|
+  |CSPlayer|C#で書いたプレイヤーの例|
+  |CSWrapper|JNIを利用してJavaから呼ぶためのラッパー（2段目）|
+  |DirectStarter|サーバとプレイヤーを直接接続してゲームを実行する|
+  |EZStarter|サーバとエージェントを同時に起動して，さらに足りないエージェントについてはTCP/IP接続を待つ|
+  |NativePlayer|JNIを利用してJavaから呼ぶためのラッパー（3段目）|
+  |NativeWrapper|JNIを利用してJavaから呼ぶためのラッパー（1段目）|
+  |PythonPlayer|IronPythonで書いたプレイヤーの例|
+  |RoleRequestStarter|RoleRequestStarterクラスを移植したもの|
+  |ServerStarter|TCP/IP経由での接続を受け付けるサーバを立ち上げる|
+  |VBPlayer|VB.NETで書いたプレイヤーの例|
+  |WrapPythonPlayer|PythonPlayer用のラッパー|
   
 1. 入手が必要なライブラリについて
   
