@@ -14,19 +14,20 @@ namespace AIWolf.Common.Data
 
         static RequestExtensions()
         {
-            hasReturnMap[Request.Name] = true;
-            hasReturnMap[Request.Role] = true;
-            hasReturnMap[Request.Talk] = true;
-            hasReturnMap[Request.Whisper] = true;
-            hasReturnMap[Request.Vote] = true;
-            hasReturnMap[Request.Divine] = true;
-            hasReturnMap[Request.Guard] = true;
-            hasReturnMap[Request.Attack] = true;
-            hasReturnMap[Request.Initialize] = false;
-            hasReturnMap[Request.DailyInitialize] = false;
-            hasReturnMap[Request.DailyFinish] = false;
-            //hasReturnMap[Request.Update] = false;
-            hasReturnMap[Request.Finish] = false;
+            hasReturnMap[Request.NAME] = true;
+            hasReturnMap[Request.ROLE] = true;
+            hasReturnMap[Request.TALK] = true;
+            hasReturnMap[Request.WHISPER] = true;
+            hasReturnMap[Request.VOTE] = true;
+            hasReturnMap[Request.DIVINE] = true;
+            hasReturnMap[Request.GUARD] = true;
+            hasReturnMap[Request.ATTACK] = true;
+            hasReturnMap[Request.INITIALIZE] = false;
+            hasReturnMap[Request.DAILY_INITIALIZE] = false;
+            hasReturnMap[Request.DAILY_FINISH] = false;
+            //hasReturnMap[Request.UPDATE] = false;
+            hasReturnMap[Request.FINISH] = false;
+            hasReturnMap[Request.DUMMY] = false;
         }
 
         public static bool HasReturn(this Request request)

@@ -1,5 +1,4 @@
-﻿using AIWolf.Client.Base.Smpl;
-using AIWolf.Common.Data;
+﻿using AIWolf.Common.Data;
 using AIWolf.Common.Net;
 using AIWolf.Server;
 using AIWolf.Server.Net;
@@ -30,8 +29,6 @@ namespace AIWolf.AgentTester
                 Environment.Exit(0);
             }
 
-            // ここにテストしたい自分のPlayerを指定してください．
-            //IPlayer player = new SampleRoleAssignPlayer();
             Assembly assembly = null;
             try
             {
@@ -39,29 +36,21 @@ namespace AIWolf.AgentTester
             }
             catch (FileNotFoundException)
             {
-                Console.Error.WriteLine("Can not find " + args[0]);
+                Console.Error.WriteLine("Can not find {0}.", args[0]);
                 Environment.Exit(0);
             }
             catch (Exception)
             {
-                Console.Error.WriteLine("Error in loading " + args[0]);
+                Console.Error.WriteLine("Error in loading {0}.", args[0]);
                 Environment.Exit(0);
             }
-            IPlayer player = null;
-            try
+            Type playerType = assembly.GetType(args[1]);
+            if (playerType == null)
             {
-                player = (IPlayer)Activator.CreateInstance(assembly.GetType(args[1]));
-            }
-            catch (Exception)
-            {
-                Console.Error.WriteLine("Error in creating instance of " + args[1]);
+                Console.Error.WriteLine("Can not get Type of {0} from {1}.", args[1], args[0]);
                 Environment.Exit(0);
             }
 
-            // ///////////////////////////////////////////
-            // これ以降は変更しないでください．
-
-            Type playerType = player.GetType();
             for (int j = 0; j < 10; j++)
             {
                 foreach (Role requestRole in Enum.GetValues(typeof(Role)))
@@ -71,7 +60,16 @@ namespace AIWolf.AgentTester
                         continue;
                     }
 
-                    player = (IPlayer)Activator.CreateInstance(playerType);
+                    IPlayer player = null;
+                    try
+                    {
+                        player = (IPlayer)Activator.CreateInstance(playerType);
+                    }
+                    catch (Exception)
+                    {
+                        Console.Error.WriteLine("Error in creating instance of {0}.", args[1]);
+                        Environment.Exit(0);
+                    }
 
                     Dictionary<IPlayer, Role?> playerMap = new Dictionary<IPlayer, Role?>();
                     playerMap[player] = requestRole;
