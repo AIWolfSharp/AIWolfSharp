@@ -7,7 +7,7 @@
     <ProjectGuid>{4BF4D2D8-5B3B-4E8D-9813-94A7920282BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AIWolfLibServer</RootNamespace>
+    <RootNamespace>AIWolf.Server</RootNamespace>
     <AssemblyName>AIWolfLibServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,7 @@
     <Compile Include="LostClientException.cs" />
     <Compile Include="Net\DirectConnectServer.cs" />
     <Compile Include="Net\IGameServer.cs" />
+    <Compile Include="Net\IServerListener.cs" />
     <Compile Include="Net\TcpipServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\FileGameLogger.cs" />
