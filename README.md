@@ -12,7 +12,7 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
   
   | プロジェクト | 説明 |
   |:---|:---|
-  |AgentTester|第1回人狼知能大会の事前テスト用クラスを移植したもの|
+  |AgentTester|第1回人狼知能大会の事前テスト用クラスを移植したもの（非推奨）|
   |AIWolfLibClient|プレイヤーに必要なライブラリ|
   |AIWolfLibCommon|サーバ，プレイヤー共通のライブラリ|
   |AIWolfLibServer|サーバに必要なライブラリ|
@@ -20,23 +20,84 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
   |CLIPlayer|C++/CLIで書いたプレイヤーの例|
   |CSPlayer|C#で書いたプレイヤーの例|
   |CSWrapper|JNIを利用してJavaから呼ぶためのラッパー（2段目）|
-  |DirectStarter|サーバとプレイヤーを直接接続してゲームを実行する|
+  |DirectStarter|サーバとプレイヤーを直接接続してゲームを実行する（非推奨）|
   |EZStarter|サーバとエージェントを同時に起動して，さらに足りないエージェントについてはTCP/IP接続を待つ|
   |NativePlayer|JNIを利用してJavaから呼ぶためのラッパー（3段目）|
   |NativeWrapper|JNIを利用してJavaから呼ぶためのラッパー（1段目）|
   |PythonPlayer|IronPythonで書いたプレイヤーの例|
-  |RoleRequestStarter|RoleRequestStarterクラスを移植したもの|
+  |RoleRequestStarter|RoleRequestStarterクラスを移植したもの（非推奨）|
   |ServerStarter|TCP/IP経由での接続を受け付けるサーバを立ち上げる|
+  |TcpipAgentTester|AgentTesterのTCP/IP接続版|
   |VBPlayer|VB.NETで書いたプレイヤーの例|
   |WrapPythonPlayer|PythonPlayer用のラッパー|
   
 1. 入手が必要なライブラリについて
   
-  配布するライブラリの他に，Json.NET および NLog が必要です．
+  Json.NET および NLog が必要です．
   
 1. 起動方法
   
-  1. DirectStarter.exeを使用する場合（直接接続）
+  1. ServerStarter.exeによるサーバの起動
+    
+    ServerStarter.exeのコマンドラインオプションは，
+    
+    `-n ゲームに参加するプレイヤー数（デフォルトは12）
+    -p ポート番号（デフォルトは10000）`
+    
+    です．例えば，
+    
+    `ServerStarter.exe –p 12345 –n 15`
+    
+    で，
+    `Start AIWolf Server port:12345 playerNum:15
+    Waiting for connection...`
+    
+    と出力して，12345番ポートを使って15人でプレイするサーバーが起動し，
+    プレイヤーからの接続を待ちます．
+    
+  1. ClientStarter.exeを使用したプレイヤーの起動
+    
+    ClientStarter.exeのコマンドラインオプションは，
+    
+    `-h サーバの走っているホスト名
+    -p 接続ポート番号
+    -c プレイヤークラス名 プレイヤーDLLファイル名 設定したい役職（省略可）`
+    
+    です．
+    
+    例：`ClientStarter.exe –h localhost –p 12345 –c AIWolf.CSPlayer.SimplePlayer
+    CSPlayer.dll villager`
+    
+  1. TcpipAgentTester.exeについて
+    
+    TcpipAgentTester.exeのコマンドラインオプションは，
+    
+    `-p 接続ポート番号（省略可）
+    -c プレイヤークラス名 プレイヤーDLLファイル名`
+    
+    です．
+    
+    例：`TcpipAgentTester.exe -c AIWolf.CSPlayer.SimplePlayer CSPlayer.dll`
+    
+  1. EZStarter.exeを使用する場合
+    EZStarter.exeのコマンドラインオプションは，
+
+    `-p 接続ポート番号（省略可）
+    -n ゲームに参加するプレイヤー数
+    -c プレイヤークラス名 プレイヤーDLLファイル名 設定したい役職（省略可）`
+    
+    で，-c オプションは複数回使用可能です．
+    また，指定したプレイヤーの数が参加人数に満たない場合は，定員を満たすまでTCP/IP接続を待ちます．
+    例えば，
+    
+    `EZStarter.exe -p 12345 –n 5 -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
+    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
+    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
+    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll`
+    
+    で，`AIWolf.CSPlayer.SimplePlayerPlayer`4体からの接続を受け付けた後ポート12345番で1体からの接続を待ちます．
+    
+  1. （非推奨）DirectStarter.exeを使用する場合（直接接続）
       
     DirectStarter.exeのコマンドラインオプションは，
     
@@ -54,7 +115,7 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
     AIWolfLibClient.dll 内のAIWolf.Client.Base.Smpl.SampleRoleAssignPlayerを11体，
     TestPlayer.dll内のAIWolf.TestPlayer.TestRoleAssignPlayerを一体使ってゲームを開始します．
     
-  1. RoleRequestStarter.exeを使用する場合（直接接続）
+  1. （非推奨）RoleRequestStarter.exeを使用する場合（直接接続）
     RoleRequestStarter.exeのコマンドラインオプションは，
 
     `-n ゲームに参加するプレイヤー数
@@ -74,38 +135,7 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
     で，TestPlayer.dll内のAIWolf.TestPlayer.TestRoleAssignPlayerを使ったSEERとWEREWOLF一体ずつと
     AIWolf.Client.Base.Smpl.SampleRoleAssignPlayer13体からなる15人の村でゲームを開始します．
     
-  1. ServerStarter.exeによるサーバの起動
-    
-    ServerStarter.exeのコマンドラインオプションは，
-    
-    `-n ゲームに参加するプレイヤー数（デフォルトは12）
-    -p ポート番号（デフォルトは10000）`
-    
-    です．例えば，
-    
-    `ServerStarter.exe –p 12345 –n 15`
-    
-    で，
-    `Start AIWolf Server port:12345 playerNum:15
-    Waiting for connection...`
-    
-    と出力して，12345番ポートを使って15人でプレイするサーバーが起動し，
-    プレイヤーからの接続を待ちます．Java版のプレイヤーからの接続も大丈夫（なはず）です．
-    
-  1. ClientStarter.exeを使用したプレイヤーの起動
-    
-    ClientStarter.exeのコマンドラインオプションは，
-    
-    `-h サーバの走っているホスト名
-    -p 接続ポート番号
-    -c プレイヤークラス名 プレイヤーDLLファイル名 設定したい役職（省略可）`
-    
-    です．Java版のサーバへの接続も大丈夫（なはず）です．
-    
-    例：`ClientStarter.exe –h localhost –p 12345 –c AIWolf.TestPlayer.TestRoleAssignPlayer
-    TestPlayer.dll villager`
-    
-  1. AgentTester.exeについて
+  1. （非推奨）AgentTester.exeについて
     
     Java版と異なり，テストするプレイヤーをコマンドラインオプションで指定します．
     
