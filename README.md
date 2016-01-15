@@ -80,8 +80,9 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
     例：`TcpipAgentTester.exe -c AIWolf.CSPlayer.SimplePlayer CSPlayer.dll`
     
   1. EZStarter.exeを使用する場合
+    
     EZStarter.exeのコマンドラインオプションは，
-
+    
     `-p 接続ポート番号（省略可）
     -n ゲームに参加するプレイヤー数
     -c プレイヤークラス名 プレイヤーDLLファイル名 設定したい役職（省略可）`
