@@ -55,8 +55,14 @@ namespace AIWolf.Server.Net
 
         static Logger serverLogger = LogManager.GetCurrentClassLogger();
 
+        Dictionary<Agent, string> nameMap;
+
+        HashSet<IServerListener> serverListenerSet;
+
         Dictionary<Agent, int> lastTalkIdxMap;
         Dictionary<Agent, int> lastWhisperIdxMap;
+
+        TcpListener serverSocket;
 
         public TcpipServer(int port, int limit, GameSetting gameSetting)
         {
@@ -64,8 +70,11 @@ namespace AIWolf.Server.Net
             this.port = port;
             this.limit = limit;
             ipAddress = IPAddress.Parse("127.0.0.1");
+            nameMap = new Dictionary<Agent, string>();
+            serverListenerSet = new HashSet<IServerListener>();
 
             connectionAgentMap = new Dictionary<TcpClient, Agent>();
+            agentConnectionMap = new Dictionary<Agent, TcpClient>();
             lastTalkIdxMap = new Dictionary<Agent, int>();
             lastWhisperIdxMap = new Dictionary<Agent, int>();
         }
@@ -79,31 +88,60 @@ namespace AIWolf.Server.Net
                     client.Close();
                 }
             }
+
             connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
+            nameMap.Clear();
 
-            //サーバソケットの作成
             Console.WriteLine("Waiting for connection...");
-            TcpListener listener = new TcpListener(ipAddress, port);
-            listener.Start();
+            serverSocket = new TcpListener(ipAddress, port);
+            serverSocket.Start();
 
-            int idx = 1;
             isWaitForClient = true;
+
             while (connectionAgentMap.Count < limit && isWaitForClient)
             {
-                TcpClient client = listener.AcceptTcpClient();
+                TcpClient client = serverSocket.AcceptTcpClient();
                 lock (connectionAgentMap)
                 {
-                    Agent agent = Agent.GetAgent(idx++);
+                    Agent agent = null;
+                    for (int i = 0; i < limit; i++)
+                    {
+                        if (!connectionAgentMap.ContainsValue(Agent.GetAgent(i)))
+                        {
+                            agent = Agent.GetAgent(i);
+                            break;
+                        }
+                    }
+                    if (agent == null)
+                    {
+                        throw new IllegalPlayerNumException("Fail to create agent");
+                    }
                     connectionAgentMap[client] = agent;
-                    serverLogger.Info("Connect {0} ( {1}/{2} )", agent, connectionAgentMap.Count, limit);
+                    agentConnectionMap[agent] = client;
+                    string name = RequestName(agent);
+                    nameMap[agent] = name;
+
+                    foreach (var listener in serverListenerSet)
+                    {
+                        listener.Connected(client, agent, name);
+                    }
                 }
             }
-            agentConnectionMap = new Dictionary<Agent, TcpClient>();
-            foreach (TcpClient client in connectionAgentMap.Keys)
+            isWaitForClient = false;
+            serverSocket.Stop();
+        }
+
+        public void StopWaitForConnection()
+        {
+            isWaitForClient = false;
+            serverSocket.Stop();
+            foreach (var client in connectionAgentMap.Keys)
             {
-                agentConnectionMap[connectionAgentMap[client]] = client;
+                client.Close();
             }
-            listener.Stop();
+            connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
         }
 
         /// <summary>
@@ -206,7 +244,7 @@ namespace AIWolf.Server.Net
             }
             catch (IOException e)
             {
-                throw new LostClientException("Lost connection with " + agent, e);
+                throw new LostClientException("Lost connection with " + agent, e, agent);
             }
         }
 
@@ -291,17 +329,26 @@ namespace AIWolf.Server.Net
 
         public void Close()
         {
-            foreach (TcpClient client in agentConnectionMap.Values)
+            if (serverSocket != null && serverSocket.Server.Connected)
             {
-                try
-                {
-                    client.Close();
-                }
-                catch (IOException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                }
+                serverSocket.Stop();
             }
+            foreach (TcpClient client in connectionAgentMap.Keys)
+            {
+                client.Close();
+            }
+            connectionAgentMap.Clear();
+            agentConnectionMap.Clear();
+        }
+
+        public bool AddServerListener(IServerListener listener)
+        {
+            return serverListenerSet.Add(listener);
+        }
+
+        public bool RemoveServerListener(IServerListener listener)
+        {
+            return serverListenerSet.Remove(listener);
         }
     }
 }

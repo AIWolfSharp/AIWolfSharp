@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LostClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Net\DirectConnectServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Net\IGameServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\IServerListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Net\TcpipServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\FileGameLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\IGameLogger.cs" />
