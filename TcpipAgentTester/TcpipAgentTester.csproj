@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F4F1A7A1-55C1-47FB-A3FE-CE17D413B054}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{E329B71F-D3D3-4394-AEBB-2F1C265A6117}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AIWolfLibClient</RootNamespace>
-    <AssemblyName>AIWolfLibClient</AssemblyName>
+    <RootNamespace>TcpipAgentTester</RootNamespace>
+    <AssemblyName>TcpipAgentTester</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -20,10 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,17 +44,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomPlayer.cs" />
+    <Compile Include="TcpipAgentTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIWolfLibClient\AIWolfLibClient.csproj">
+      <Project>{f4f1a7a1-55c1-47fb-a3fe-ce17d413b054}</Project>
+      <Name>AIWolfLibClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AIWolfLibCommon\AIWolfLibCommon.csproj">
       <Project>{5831b857-0557-4daf-960a-a75fa6fd9864}</Project>
       <Name>AIWolfLibCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AIWolfLibServer\AIWolfLibServer.csproj">
+      <Project>{4bf4d2d8-5b3b-4e8d-9813-94a7920282ba}</Project>
+      <Name>AIWolfLibServer</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\AIWolfLibClientShared\AIWolfLibClientShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

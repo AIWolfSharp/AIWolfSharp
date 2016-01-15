@@ -43,12 +43,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfLibServerShared", "AI
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AIWolfLibClientShared", "AIWolfLibClientShared\AIWolfLibClientShared.shproj", "{A5494E0A-264B-4BF7-8017-2E41B8F82FE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpipAgentTester", "TcpipAgentTester\TcpipAgentTester.csproj", "{E329B71F-D3D3-4394-AEBB-2F1C265A6117}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AIWolfLibServerShared\AIWolfLibServerShared.projitems*{4bf4d2d8-5b3b-4e8d-9813-94a7920282ba}*SharedItemsImports = 4
 		AIWolfLibClientShared\AIWolfLibClientShared.projitems*{a5494e0a-264b-4bf7-8017-2e41b8f82fe1}*SharedItemsImports = 13
 		AIWolfLibServerShared\AIWolfLibServerShared.projitems*{36ad42d5-9a0f-40e7-8584-66aa1b64ca1c}*SharedItemsImports = 13
 		AIWolfLibCommonShared\AIWolfLibCommonShared.projitems*{5831b857-0557-4daf-960a-a75fa6fd9864}*SharedItemsImports = 4
+		AIWolfLibClientShared\AIWolfLibClientShared.projitems*{f4f1a7a1-55c1-47fb-a3fe-ce17d413b054}*SharedItemsImports = 4
 		AIWolfLibCommonShared\AIWolfLibCommonShared.projitems*{5e2e5f6b-641d-40d8-a142-4a420df08690}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -318,6 +321,22 @@ Global
 		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x64.Build.0 = Release|Any CPU
 		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x86.ActiveCfg = Release|Any CPU
 		{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}.Release|x86.Build.0 = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|x64.Build.0 = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Debug|x86.Build.0 = Debug|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|ARM.Build.0 = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|x64.ActiveCfg = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|x64.Build.0 = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|x86.ActiveCfg = Release|Any CPU
+		{E329B71F-D3D3-4394-AEBB-2F1C265A6117}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
