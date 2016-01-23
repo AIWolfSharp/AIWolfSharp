@@ -105,7 +105,7 @@ namespace AIWolf.Server.Net
                 lock (connectionAgentMap)
                 {
                     Agent agent = null;
-                    for (int i = 0; i < limit; i++)
+                    for (int i = 1; i <= limit; i++)
                     {
                         if (!connectionAgentMap.ContainsValue(Agent.GetAgent(i)))
                         {
