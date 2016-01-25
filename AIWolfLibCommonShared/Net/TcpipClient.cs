@@ -27,7 +27,8 @@ namespace AIWolf.Common.Net
         IPlayer player;
         Role? requestRole;
 
-        bool isRunning;
+        public bool Running { get; private set; }
+        public bool Connecting { get; private set; }
 
         GameInfo lastGameInfo;
 
@@ -35,7 +36,7 @@ namespace AIWolf.Common.Net
         {
             this.host = host;
             this.port = port;
-            isRunning = false;
+            Running = false;
         }
 
         public TcpipClient(string host, int port, Role? requestRole)
@@ -43,7 +44,7 @@ namespace AIWolf.Common.Net
             this.host = host;
             this.port = port;
             this.requestRole = requestRole;
-            isRunning = false;
+            Running = false;
         }
 
         public bool Connect(IPlayer player)
@@ -54,6 +55,7 @@ namespace AIWolf.Common.Net
             {
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect(new DnsEndPoint(host, port));
+                Connecting = true;
                 Task.Run(() =>
                 {
                     try
@@ -87,8 +89,10 @@ namespace AIWolf.Common.Net
                     }
                     catch (Exception)
                     {
-                        if (isRunning)
+                        if (Connecting)
                         {
+                            Running = false;
+                            Connecting = false;
                             throw new AIWolfRuntimeException();
                         }
                     }
@@ -101,6 +105,7 @@ namespace AIWolf.Common.Net
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.StackTrace);
+                Connecting = false;
                 return false;
             }
         }
@@ -152,7 +157,7 @@ namespace AIWolf.Common.Net
             switch (packet.Request)
             {
                 case Request.INITIALIZE:
-                    isRunning = true;
+                    Running = true;
                     player.Initialize(gameInfo, gameSetting);
                     break;
                 case Request.DAILY_INITIALIZE:
@@ -247,7 +252,7 @@ namespace AIWolf.Common.Net
         public void Finish()
         {
             player.Finish();
-            isRunning = false;
+            Running = false;
         }
     }
 }
