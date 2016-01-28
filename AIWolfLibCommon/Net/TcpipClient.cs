@@ -16,6 +16,9 @@ namespace AIWolf.Common.Net
     /// </summary>
     public class TcpipClient : IGameClient
     {
+        public event EventHandler Completed;
+        protected virtual void OnCompleted(EventArgs e) { if (Completed != null) Completed(this, e); }
+
         string host;
         int port;
 
@@ -109,6 +112,7 @@ namespace AIWolf.Common.Net
             }
             finally
             {
+                OnCompleted(EventArgs.Empty);
             }
         }
 
