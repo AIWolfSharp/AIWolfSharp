@@ -25,7 +25,7 @@ namespace AIWolf.Common.Net
         TcpClient tcpClient;
 
         IPlayer player;
-        Role? requestRole;
+        public Role? RequestRole { get; set; }
 
         public bool Running { get; private set; }
         public bool Connecting { get; private set; }
@@ -43,7 +43,7 @@ namespace AIWolf.Common.Net
         {
             this.host = host;
             this.port = port;
-            this.requestRole = requestRole;
+            this.RequestRole = requestRole;
             Running = false;
         }
 
@@ -181,9 +181,9 @@ namespace AIWolf.Common.Net
                     }
                     break;
                 case Request.ROLE:
-                    if (requestRole != null)
+                    if (RequestRole != null)
                     {
-                        returnObject = requestRole.ToString();
+                        returnObject = RequestRole.ToString();
                     }
                     else
                     {
