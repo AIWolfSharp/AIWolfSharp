@@ -188,7 +188,7 @@ namespace AIWolf.TcpipAgentTester
                     Console.Error.WriteLine("Error in creating instance of {0}.", args[1]);
                     Environment.Exit(0);
                 }
-                TcpipClient client = new TcpipClient("localhost", port, null);
+                TcpipClient client = new TcpipClient(host, port, null);
                 client.Completed += Client_Completed;
                 client.Connect(player);
                 are.WaitOne();
