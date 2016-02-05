@@ -3,6 +3,7 @@ using AIWolf.Common.Net;
 using AIWolf.Server;
 using AIWolf.Server.Net;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -18,55 +19,14 @@ namespace AIWolf.TcpipAgentTester
         // クライアントが終了したことを通知する
         static AutoResetEvent are = new AutoResetEvent(false);
 
-        static string host = "localhost";
-        static int port = 10000;
-
         static void Usage()
         {
-            Console.Error.WriteLine("Usage:" + typeof(TcpipAgentTester) + " -c clientClass dllName (-h host) (-p port) (-o)");
+            Console.Error.WriteLine("Usage:" + typeof(TcpipAgentTester) + " [-c clientClass dllName ] [-h host] [-p port]");
+            Environment.Exit(0);
         }
 
-        static void Main(string[] args)
+        static Type GetPlayerType(string className, string dllName)
         {
-            string clsName = null;
-            string dllName = null;
-            bool clientOnly = false;
-
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (args[i].StartsWith("-"))
-                {
-                    if (args[i].Equals("-p"))
-                    {
-                        i++;
-                        port = int.Parse(args[i]);
-                    }
-                    else if (args[i].Equals("-h"))
-                    {
-                        i++;
-                        host = args[i];
-                    }
-                    else if (args[i].Equals("-c"))
-                    {
-                        i++;
-                        clsName = args[i];
-                        i++;
-                        dllName = args[i];
-                        i++;
-                    }
-                    else if (args[i].Equals("-o"))
-                    {
-                        clientOnly = true;
-                    }
-                }
-            }
-
-            if (port < 0 || host == null || clsName == null || dllName == null)
-            {
-                Usage();
-                Environment.Exit(0);
-            }
-
             Assembly assembly = null;
             try
             {
@@ -82,50 +42,82 @@ namespace AIWolf.TcpipAgentTester
                 Console.Error.WriteLine("Error in loading {0}.", dllName);
                 Environment.Exit(0);
             }
-            Type playerType = assembly.GetType(clsName);
+            Type playerType = assembly.GetType(className);
             if (playerType == null)
             {
-                Console.Error.WriteLine("Can not get Type of {0} from {1}.", clsName, dllName);
+                Console.Error.WriteLine("Can not get Type of {0} from {1}.", className, dllName);
                 Environment.Exit(0);
             }
+            return playerType;
+        }
 
-            if (clientOnly)
+        static void Main(string[] args)
+        {
+            int port = 10000;
+            string host = null;
+            Type playerType = null;
+            int playerNum = 15;
+
+            for (int i = 0; i < args.Length; i++)
             {
-                foreach (Role requestRole in Enum.GetValues(typeof(Role)))
+                if (args[i].StartsWith("-"))
                 {
-                    if (requestRole == Role.FREEMASON)
-                    {
-                        continue;
-                    }
-                    IPlayer player = null;
                     try
                     {
-                        player = (IPlayer)Activator.CreateInstance(playerType);
+                        if (args[i].Equals("-p"))
+                        {
+                            i++;
+                            port = int.Parse(args[i]);
+                            if (port < 0)
+                            {
+                                Usage();
+                            }
+                        }
+                        else if (args[i].Equals("-h"))
+                        {
+                            i++;
+                            host = args[i];
+                        }
+                        else if (args[i].Equals("-c"))
+                        {
+                            i++;
+                            string className = args[i];
+                            i++;
+                            string dllName = args[i];
+                            playerType = GetPlayerType(className, dllName);
+                        }
+                        else
+                        {
+                            Usage();
+                        }
                     }
-                    catch (Exception)
+                    catch (IndexOutOfRangeException)
                     {
-                        Console.Error.WriteLine("Error in creating instance of {0}.", args[1]);
-                        Environment.Exit(0);
+                        Usage();
                     }
-                    Console.WriteLine("Role:" + requestRole);
-                    TcpipClient client = new TcpipClient("localhost", port, requestRole);
-                    client.Completed += Client_Completed;
-                    client.Connect(player);
-                    are.WaitOne();
                 }
             }
-            else
-            {
-                Console.WriteLine("Start AIWolf Server port:{0} playerNum:{1}", port, 15);
-                GameSetting gameSetting = GameSetting.GetDefaultGame(15);
-                TcpipServer gameServer = new TcpipServer(port, 15, gameSetting);
 
-                foreach (Role requestRole in Enum.GetValues(typeof(Role)))
+            if (host == null) // スタンドアロンモード（サーバーモード）
+            {
+                Console.WriteLine("Start AIWolf Server port:{0} playerNum:{1}", port, playerNum);
+                GameSetting gameSetting = GameSetting.GetDefaultGame(playerNum);
+                TcpipServer gameServer = new TcpipServer(port, playerNum, gameSetting);
+
+                Task task = Task.Run(() =>
                 {
-                    if (requestRole == Role.FREEMASON)
-                    {
-                        continue;
-                    }
+                    gameServer.WaitForConnection();
+                });
+
+                List<TcpipClient> randomPlayerList = new List<TcpipClient>();
+                for (int i = 0; i < playerNum - 1; i++)
+                {
+                    TcpipClient client = new TcpipClient("localhost", port, null);
+                    randomPlayerList.Add(client);
+                    client.Connect(new RandomPlayer());
+                }
+                if (playerType != null)
+                {
                     IPlayer player = null;
                     try
                     {
@@ -136,26 +128,70 @@ namespace AIWolf.TcpipAgentTester
                         Console.Error.WriteLine("Error in creating instance of {0}.", args[1]);
                         Environment.Exit(0);
                     }
-                    TcpipClient client = new TcpipClient("localhost", port, requestRole);
-                    Task task = Task.Run(() =>
-                    {
-                        gameServer.WaitForConnection();
-                    });
+                    TcpipClient client = new TcpipClient("localhost", port, null);
                     client.Connect(player);
-                    for (int i = 0; i < 14; i++)
-                    {
-                        client = new TcpipClient("localhost", port, null);
-                        client.Connect(new RandomPlayer());
-                    }
-                    task.Wait();
-                    for (int j = 0; j < 10; j++)
-                    {
-                        AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
-                        game.SetRand(new Random());
-                        game.Start();
-                    }
-                    gameServer.Close();
                 }
+
+                task.Wait();
+
+                foreach (Role requestRole in Enum.GetValues(typeof(Role)))
+                {
+                    if (requestRole == Role.FREEMASON)
+                    {
+                        continue;
+                    }
+
+                    IEnumerator<TcpipClient> ie = randomPlayerList.GetEnumerator();
+                    foreach (Role role in Enum.GetValues(typeof(Role)))
+                    {
+                        if (role == Role.FREEMASON)
+                        {
+                            continue;
+                        }
+                        int i = 0;
+                        if (role == requestRole)
+                        {
+                            i = 1;
+                        }
+                        while (i < gameSetting.RoleNumMap[role])
+                        {
+                            if (ie.MoveNext())
+                            {
+                                ie.Current.RequestRole = role;
+                            }
+                            i++;
+                        }
+                    }
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        new AIWolfGame(gameSetting, gameServer).Start();
+                    }
+                }
+                gameServer.Close();
+            }
+            else // クライアントモード
+            {
+                if (playerType == null) // クライアントモードならクラス指定必須
+                {
+                    Console.Error.WriteLine("Player class must be specified in client mode.");
+                    Usage();
+                }
+
+                IPlayer player = null;
+                try
+                {
+                    player = (IPlayer)Activator.CreateInstance(playerType);
+                }
+                catch (Exception)
+                {
+                    Console.Error.WriteLine("Error in creating instance of {0}.", args[1]);
+                    Environment.Exit(0);
+                }
+                TcpipClient client = new TcpipClient("localhost", port, null);
+                client.Completed += Client_Completed;
+                client.Connect(player);
+                are.WaitOne();
             }
         }
 
