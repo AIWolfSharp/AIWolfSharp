@@ -48,65 +48,52 @@ namespace AIWolf.Common.Net
         {
             this.host = host;
             this.port = port;
-            this.RequestRole = requestRole;
+            RequestRole = requestRole;
             Running = false;
         }
 
 #if WINDOWS_UWP
         StreamSocket socket;
-#else
-        TcpClient tcpClient;
-#endif
-#if WINDOWS_UWP
+
         public async Task<bool> Connect(IPlayer player)
-#else
-        public bool Connect(IPlayer player)
-#endif
         {
             this.player = player;
 
             try
             {
-#if WINDOWS_UWP
                 socket = new StreamSocket();
                 await socket.ConnectAsync(new HostName(host), port.ToString());
                 Task.Run(() => { Run(); });
-#else
-                tcpClient = new TcpClient();
-                tcpClient.Connect(Dns.GetHostAddresses(host), port);
-                Thread th = new Thread(new ThreadStart(Run));
-                th.Start();
-#endif
                 Connecting = true;
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-#if !WINDOWS_UWP
-                Console.Error.WriteLine(e.StackTrace);
-#endif
                 Connecting = false;
                 return false;
             }
         }
+#else
+        TcpClient tcpClient;
 
-#if WINDOWS_UWP
-        string ReadLine(StreamReader sr)
+        public bool Connect(IPlayer player)
         {
-            StringBuilder sb = new StringBuilder();
-            while (sr.Peek() > -1)
+            this.player = player;
+
+            try
             {
-                int c = sr.Read();
-                if (c != '\n')
-                {
-                    sb.Append((char)c);
-                }
-                else
-                {
-                    return sb.ToString();
-                }
+                tcpClient = new TcpClient();
+                tcpClient.Connect(Dns.GetHostAddresses(host), port);
+                Thread th = new Thread(new ThreadStart(Run));
+                th.Start();
+                Connecting = true;
+                return true;
             }
-            throw new AIWolfRuntimeException("Socket read error in ReadLine(StreamReader)");
+            catch (Exception)
+            {
+                Connecting = false;
+                return false;
+            }
         }
 #endif
 
@@ -116,33 +103,37 @@ namespace AIWolf.Common.Net
             {
                 string line;
 #if WINDOWS_UWP
-                StreamReader sr = new StreamReader(socket.InputStream.AsStreamForRead(), Encoding.ASCII);
-                StreamWriter sw = new StreamWriter(socket.OutputStream.AsStreamForWrite());
-                while ((line = ReadLine(sr)) != null)
-#else
-                StreamReader sr = new StreamReader(tcpClient.GetStream());
-                StreamWriter sw = new StreamWriter(tcpClient.GetStream());
-                while ((line = sr.ReadLine()) != null)
-#endif
+                using (StreamReader sr = new StreamReader(socket.InputStream.AsStreamForRead(), Encoding.ASCII, false, 8192))
                 {
-                    Packet packet = DataConverter.GetInstance().ToPacket(line);
-
-                    object obj = Recieve(packet);
-                    if (packet.Request.HasReturn())
+                    using (StreamWriter sw = new StreamWriter(socket.OutputStream.AsStreamForWrite()))
+#else
+                using (StreamReader sr = new StreamReader(tcpClient.GetStream()))
+                {
+                    using (StreamWriter sw = new StreamWriter(tcpClient.GetStream()))
+#endif
                     {
-                        if (obj == null)
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            sw.WriteLine();
+                            Packet packet = DataConverter.GetInstance().ToPacket(line);
+
+                            object obj = Recieve(packet);
+                            if (packet.Request.HasReturn())
+                            {
+                                if (obj == null)
+                                {
+                                    sw.WriteLine();
+                                }
+                                else if (obj is string)
+                                {
+                                    sw.WriteLine(obj);
+                                }
+                                else
+                                {
+                                    sw.WriteLine(DataConverter.GetInstance().Convert(obj));
+                                }
+                                sw.Flush();
+                            }
                         }
-                        else if (obj is string)
-                        {
-                            sw.WriteLine(obj);
-                        }
-                        else
-                        {
-                            sw.WriteLine(DataConverter.GetInstance().Convert(obj));
-                        }
-                        sw.Flush();
                     }
                 }
             }
@@ -152,8 +143,7 @@ namespace AIWolf.Common.Net
                 {
                     Running = false;
                     Connecting = false;
-                    //throw new AIWolfRuntimeException();
-                    throw;
+                    throw new AIWolfRuntimeException();
                 }
             }
             finally
