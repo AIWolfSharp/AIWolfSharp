@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpipAgentTester", "TcpipAg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIWolfLibCommonUWP", "AIWolfLibCommonUWP\AIWolfLibCommonUWP.csproj", "{DFCB3DCF-9989-497D-8CFB-08B2B681065A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpipAgentTesterUWP", "TcpipAgentTesterUWP\TcpipAgentTesterUWP.csproj", "{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		AIWolfLibServerShared\AIWolfLibServerShared.projitems*{4bf4d2d8-5b3b-4e8d-9813-94a7920282ba}*SharedItemsImports = 4
@@ -356,6 +358,26 @@ Global
 		{DFCB3DCF-9989-497D-8CFB-08B2B681065A}.Release|x64.Build.0 = Release|x64
 		{DFCB3DCF-9989-497D-8CFB-08B2B681065A}.Release|x86.ActiveCfg = Release|x86
 		{DFCB3DCF-9989-497D-8CFB-08B2B681065A}.Release|x86.Build.0 = Release|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|ARM.Build.0 = Debug|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|ARM.Deploy.0 = Debug|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x64.ActiveCfg = Debug|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x64.Build.0 = Debug|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x64.Deploy.0 = Debug|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x86.ActiveCfg = Debug|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x86.Build.0 = Debug|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Debug|x86.Deploy.0 = Debug|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|Any CPU.ActiveCfg = Release|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|ARM.ActiveCfg = Release|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|ARM.Build.0 = Release|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|ARM.Deploy.0 = Release|ARM
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x64.ActiveCfg = Release|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x64.Build.0 = Release|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x64.Deploy.0 = Release|x64
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x86.ActiveCfg = Release|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x86.Build.0 = Release|x86
+		{5DDFAB3E-CD2E-4BA7-9EEF-C2424ABA77BD}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

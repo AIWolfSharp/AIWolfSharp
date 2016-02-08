@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="TcpipAgentTesterUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TcpipAgentTesterUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Background="White">
+        <TextBlock x:Name="titleTextBlock" TextWrapping="Wrap" Margin="20,10" Text="UWP Client Starter for AIWolf"/>
+        <TextBlock x:Name="hostTextBlock" TextWrapping="Wrap" Text="Host" Margin="20,10,20,0"/>
+        <TextBox x:Name="hostTextBox" TextWrapping="Wrap" Text="localhost" Margin="20,0"/>
+        <TextBlock x:Name="portTextBlock" TextWrapping="Wrap" Text="Port" Margin="20,20,20,0"/>
+        <TextBox x:Name="portTextBox" TextWrapping="Wrap" Text="10000" Margin="20,0"/>
+        <Button x:Name="connectButton" Content="Connect" Click="button_Click" Margin="20,20,0,0"/>
+    </StackPanel>
+
+</Page>
