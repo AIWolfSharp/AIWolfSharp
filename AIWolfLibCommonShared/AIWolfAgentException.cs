@@ -4,7 +4,9 @@ using AIWolf.Common.Data;
 
 namespace AIWolf.Common
 {
+#if !WINDOWS_UWP
     [Serializable]
+#endif
     public class AIWolfAgentException : AIWolfRuntimeException
     {
         private Agent agent;
@@ -30,8 +32,10 @@ namespace AIWolf.Common
             this.exception = exception;
         }
 
+#if !WINDOWS_UWP
         protected AIWolfAgentException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+#endif
     }
 }

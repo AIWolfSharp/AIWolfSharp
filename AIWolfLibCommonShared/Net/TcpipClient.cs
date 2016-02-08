@@ -1,9 +1,16 @@
 ﻿using AIWolf.Common.Data;
 using System;
 using System.IO;
+#if WINDOWS_UWP
+using System.Text;
+using System.Threading.Tasks;
+using Windows.Networking;
+using Windows.Networking.Sockets;
+#else
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
+using System.Threading;
+#endif
 
 namespace AIWolf.Common.Net
 {
@@ -21,8 +28,6 @@ namespace AIWolf.Common.Net
 
         string host;
         int port;
-
-        Socket socket;
 
         IPlayer player;
         public Role? RequestRole { get; set; }
@@ -43,70 +48,117 @@ namespace AIWolf.Common.Net
         {
             this.host = host;
             this.port = port;
-            RequestRole = requestRole;
+            this.RequestRole = requestRole;
             Running = false;
         }
 
+#if WINDOWS_UWP
+        StreamSocket socket;
+#else
+        TcpClient tcpClient;
+#endif
+#if WINDOWS_UWP
+        public async Task<bool> Connect(IPlayer player)
+#else
         public bool Connect(IPlayer player)
+#endif
         {
             this.player = player;
 
             try
             {
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(new DnsEndPoint(host, port));
+#if WINDOWS_UWP
+                socket = new StreamSocket();
+                await socket.ConnectAsync(new HostName(host), port.ToString());
+                Task.Run(() => { Run(); });
+#else
+                tcpClient = new TcpClient();
+                tcpClient.Connect(Dns.GetHostAddresses(host), port);
+                Thread th = new Thread(new ThreadStart(Run));
+                th.Start();
+#endif
                 Connecting = true;
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        StreamReader sr = new StreamReader(new NetworkStream(socket));
-                        StreamWriter sw = new StreamWriter(new NetworkStream(socket));
-                        string line;
-                        while ((line = sr.ReadLine()) != null)
-                        {
-                            Packet packet = DataConverter.GetInstance().ToPacket(line);
-
-                            object obj = Recieve(packet);
-                            if (packet.Request.HasReturn())
-                            {
-                                if (obj == null)
-                                {
-                                    sw.WriteLine();
-                                }
-                                else if (obj is string)
-                                {
-                                    sw.WriteLine(obj);
-                                }
-                                else
-                                {
-                                    sw.WriteLine(DataConverter.GetInstance().Convert(obj));
-                                }
-                                sw.Flush();
-                            }
-                        }
-                        OnCompleted(EventArgs.Empty);
-                    }
-                    catch (Exception)
-                    {
-                        if (Connecting)
-                        {
-                            Running = false;
-                            Connecting = false;
-                            throw new AIWolfRuntimeException();
-                        }
-                    }
-                    finally
-                    {
-                    }
-                });
                 return true;
             }
             catch (Exception e)
             {
+#if !WINDOWS_UWP
                 Console.Error.WriteLine(e.StackTrace);
+#endif
                 Connecting = false;
                 return false;
+            }
+        }
+
+#if WINDOWS_UWP
+        string ReadLine(StreamReader sr)
+        {
+            StringBuilder sb = new StringBuilder();
+            while (sr.Peek() > -1)
+            {
+                int c = sr.Read();
+                if (c != '\n')
+                {
+                    sb.Append((char)c);
+                }
+                else
+                {
+                    return sb.ToString();
+                }
+            }
+            throw new AIWolfRuntimeException("Socket read error in ReadLine(StreamReader)");
+        }
+#endif
+
+        public void Run()
+        {
+            try
+            {
+                string line;
+#if WINDOWS_UWP
+                StreamReader sr = new StreamReader(socket.InputStream.AsStreamForRead(), Encoding.ASCII);
+                StreamWriter sw = new StreamWriter(socket.OutputStream.AsStreamForWrite());
+                while ((line = ReadLine(sr)) != null)
+#else
+                StreamReader sr = new StreamReader(tcpClient.GetStream());
+                StreamWriter sw = new StreamWriter(tcpClient.GetStream());
+                while ((line = sr.ReadLine()) != null)
+#endif
+                {
+                    Packet packet = DataConverter.GetInstance().ToPacket(line);
+
+                    object obj = Recieve(packet);
+                    if (packet.Request.HasReturn())
+                    {
+                        if (obj == null)
+                        {
+                            sw.WriteLine();
+                        }
+                        else if (obj is string)
+                        {
+                            sw.WriteLine(obj);
+                        }
+                        else
+                        {
+                            sw.WriteLine(DataConverter.GetInstance().Convert(obj));
+                        }
+                        sw.Flush();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (Connecting)
+                {
+                    Running = false;
+                    Connecting = false;
+                    //throw new AIWolfRuntimeException();
+                    throw;
+                }
+            }
+            finally
+            {
+                OnCompleted(EventArgs.Empty);
             }
         }
 

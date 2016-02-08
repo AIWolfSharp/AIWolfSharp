@@ -3,7 +3,9 @@ using System.Runtime.Serialization;
 
 namespace AIWolf.Common
 {
+#if !WINDOWS_UWP
     [Serializable]
+#endif
     public class AIWolfRuntimeException : Exception
     {
         public AIWolfRuntimeException()
@@ -18,8 +20,10 @@ namespace AIWolf.Common
         {
         }
 
+#if !WINDOWS_UWP
         protected AIWolfRuntimeException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+#endif
     }
 }
