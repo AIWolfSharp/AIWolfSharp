@@ -7,7 +7,7 @@ namespace AIWolf.Client.Lib
     /// <summary>
     /// 発話をパースしたもの
     /// </summary>
-    class Utterance
+    public class Utterance
     {
         // 原文
         public string Text { get; }
