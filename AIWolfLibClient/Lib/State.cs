@@ -7,7 +7,7 @@
     /// and translated into C# by otsuki.
     /// </para>
     /// </summary>
-    enum State
+    public enum State
     {
         // bodyguard
         bodyguard,
