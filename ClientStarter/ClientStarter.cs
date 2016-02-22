@@ -14,7 +14,8 @@ namespace AIWolf.ClientStarter
             int port = -1;
             string clsName = null;
             string dllName = null;
-            Role? roleRequest = null; // Nullable
+            Role? roleRequest = null;
+            string playerName = null;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -53,11 +54,16 @@ namespace AIWolf.ClientStarter
                             return;
                         }
                     }
+                    else if (args[i].Equals("-n"))
+                    {
+                        i++;
+                        playerName = args[i];
+                    }
                 }
             }
             if (port < 0 || host == null || clsName == null)
             {
-                Console.Error.WriteLine("Usage:" + typeof(ClientStarter) + " -h host -p port -c clientClass dllName (roleRequest)");
+                Console.Error.WriteLine("Usage:" + typeof(ClientStarter) + " -h host -p port -c clientClass dllName (roleRequest) [-n name]");
                 return;
             }
 
@@ -89,6 +95,10 @@ namespace AIWolf.ClientStarter
             }
 
             TcpipClient client = new TcpipClient(host, port, roleRequest);
+            if (playerName != null)
+            {
+                client.PlayerName = playerName;
+            }
             if (client.Connect(player))
             {
                 Console.WriteLine("Player connected to server:" + player);

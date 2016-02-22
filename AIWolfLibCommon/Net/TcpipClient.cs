@@ -32,6 +32,8 @@ namespace AIWolf.Common.Net
 
         GameInfo lastGameInfo;
 
+        public string PlayerName { get; set; }
+
         public TcpipClient(string host, int port)
         {
             this.host = host;
@@ -101,17 +103,21 @@ namespace AIWolf.Common.Net
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
                 if (Connecting)
                 {
-                    Running = false;
                     Connecting = false;
-                    throw new AIWolfRuntimeException();
+                    if (Running)
+                    {
+                        Running = false;
+                        throw new AIWolfRuntimeException();
+                    }
                 }
             }
             finally
             {
+                Running = false;
                 OnCompleted(EventArgs.Empty);
             }
         }
@@ -174,10 +180,17 @@ namespace AIWolf.Common.Net
                     player.Update(gameInfo);
                     break;
                 case Request.NAME:
-                    returnObject = player.Name;
-                    if (returnObject == null)
+                    if (PlayerName == null)
                     {
-                        returnObject = player.GetType().Name;
+                        returnObject = player.Name;
+                        if (returnObject == null)
+                        {
+                            returnObject = player.GetType().Name;
+                        }
+                    }
+                    else
+                    {
+                        returnObject = PlayerName;
                     }
                     break;
                 case Request.ROLE:
