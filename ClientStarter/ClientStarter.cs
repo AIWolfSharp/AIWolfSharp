@@ -63,7 +63,7 @@ namespace AIWolf.ClientStarter
             }
             if (port < 0 || host == null || clsName == null)
             {
-                Console.Error.WriteLine("Usage:" + typeof(ClientStarter) + " -h host -p port -c clientClass dllName (roleRequest) [-n name]");
+                Console.Error.WriteLine("Usage:" + typeof(ClientStarter).Name + " -h host -p port -c clientClass dllName (roleRequest) [-n name]");
                 return;
             }
 
