@@ -3,11 +3,14 @@ using AIWolf.Common.Net;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace AIWolf.ClientStarter
 {
     class ClientStarter
     {
+        static AutoResetEvent are = new AutoResetEvent(false);
+
         public static void Main(string[] args)
         {
             string host = null;
@@ -16,6 +19,7 @@ namespace AIWolf.ClientStarter
             string dllName = null;
             Role? roleRequest = null;
             string playerName = null;
+            bool eternity = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -25,6 +29,10 @@ namespace AIWolf.ClientStarter
                     {
                         i++;
                         port = int.Parse(args[i]);
+                    }
+                    else if (args[i].Equals("-e"))
+                    {
+                        eternity = true;
                     }
                     else if (args[i].Equals("-h"))
                     {
@@ -95,14 +103,32 @@ namespace AIWolf.ClientStarter
             }
 
             TcpipClient client = new TcpipClient(host, port, roleRequest);
+            client.Completed += Client_Completed;
             if (playerName != null)
             {
                 client.PlayerName = playerName;
             }
-            if (client.Connect(player))
+
+            int turn = 1;
+            do
             {
-                Console.WriteLine("Player connected to server:" + player);
+                if (client.Connect(player))
+                {
+                    Console.WriteLine("{0}:Player connected to server:{1}", turn, player);
+                    are.WaitOne();
+                    turn++;
+                }
+                else
+                {
+                    break;
+                }
             }
+            while (eternity);
+        }
+
+        private static void Client_Completed(object sender, EventArgs e)
+        {
+            are.Set();
         }
     }
 }
