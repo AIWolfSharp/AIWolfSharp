@@ -20,6 +20,7 @@ namespace AIWolf.ClientStarter
             Role? roleRequest = null;
             string playerName = null;
             bool eternity = false;
+            bool verbose = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -67,11 +68,15 @@ namespace AIWolf.ClientStarter
                         i++;
                         playerName = args[i];
                     }
+                    else if (args[i].Equals("-v"))
+                    {
+                        verbose = true;
+                    }
                 }
             }
             if (port < 0 || host == null || clsName == null)
             {
-                Console.Error.WriteLine("Usage:" + typeof(ClientStarter).Name + " -h host -p port -c clientClass dllName (roleRequest) [-n name]");
+                Console.Error.WriteLine("Usage:" + typeof(ClientStarter).Name + " -h host -p port -c clientClass dllName (roleRequest) [-n name] [-e] [-v]");
                 return;
             }
 
@@ -114,7 +119,10 @@ namespace AIWolf.ClientStarter
             {
                 if (client.Connect(player))
                 {
-                    Console.WriteLine("{0}:Player connected to server:{1}", turn, player);
+                    if (verbose)
+                    {
+                        Console.WriteLine("{0}:Player connected to server:{1}", turn, player);
+                    }
                     are.WaitOne();
                     turn++;
                 }
