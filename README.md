@@ -1,39 +1,28 @@
-# AIWolfSharp
-## C# version of AIWolf Server&amp;Library
+# AIWolf.NET
+## .NET version of AIWolf Library
 
-AIWolf#とは，人狼知能プラットフォームのサーバ＆ライブラリをC#に移植したもの（＋α）です．
-releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）です．
-実験的な試みは引き続きexperimentalブランチの方にプッシュしていきます．
+AIWolf.NETとは，人狼知能プラットフォームのライブラリ群を.NET Framework 4.5用にC#で書き直したものです．
+最新バージョンは0.3.2で，本家Java版の0.3.2に対応します．
+
+1. ファイルGAT2016Sharp.zipについて
+  
+  ミニ人狼知能大会@GAT(Game AI Tournaments)2016で実際に使用する.NET版ライブラリ(AIWolfLibCommon.dll, AIWolfLibClient.dll)と
+スターター(ClientStarter.exe)をGAT2016Sharp.zipにまとめました．
 
 1. プロジェクトについて
   
-  Version 0.3.0からは配布ファイルAIWolfSharp.zipは廃止します．
-  以下のプロジェクトをビルドしてください．
   
   | プロジェクト | 説明 |
   |:---|:---|
-  |AgentTester|第1回人狼知能大会の事前テスト用クラスを移植したもの（非推奨）|
   |AIWolfLibClient|プレイヤーに必要なライブラリ|
   |AIWolfLibCommon|サーバ，プレイヤー共通のライブラリ|
   |AIWolfLibServer|サーバに必要なライブラリ|
   |ClientStarter|プレイヤーをTCP/IP経由でサーバに接続する|
-  |CLIPlayer|C++/CLIで書いたプレイヤーの例|
-  |CSPlayer|C#で書いたプレイヤーの例|
-  |CSWrapper|JNIを利用してJavaから呼ぶためのラッパー（2段目）|
-  |DirectStarter|サーバとプレイヤーを直接接続してゲームを実行する（非推奨）|
-  |EZStarter|サーバとエージェントを同時に起動して，さらに足りないエージェントについてはTCP/IP接続を待つ|
-  |NativePlayer|JNIを利用してJavaから呼ぶためのラッパー（3段目）|
-  |NativeWrapper|JNIを利用してJavaから呼ぶためのラッパー（1段目）|
-  |PythonPlayer|IronPythonで書いたプレイヤーの例|
-  |RoleRequestStarter|RoleRequestStarterクラスを移植したもの（非推奨）|
   |ServerStarter|TCP/IP経由での接続を受け付けるサーバを立ち上げる|
-  |TcpipAgentTester|AgentTesterのTCP/IP接続版|
-  |VBPlayer|VB.NETで書いたプレイヤーの例|
-  |WrapPythonPlayer|PythonPlayer用のラッパー|
   
-1. 入手が必要なライブラリについて
+1. 必要なライブラリについて
   
-  Json.NET および NLog が必要です．
+  ClientStarterにはJson.NET，ServerStarterにはNLogが必要です．
   
 1. 起動方法
   
@@ -68,79 +57,6 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
     例：`ClientStarter.exe –h localhost –p 12345 –c AIWolf.CSPlayer.SimplePlayer
     CSPlayer.dll villager`
     
-  1. TcpipAgentTester.exeについて
-    
-    TcpipAgentTester.exeのコマンドラインオプションは，
-    
-    `-p 接続ポート番号（省略可）
-    -c プレイヤークラス名 プレイヤーDLLファイル名`
-    
-    です．
-    
-    例：`TcpipAgentTester.exe -c AIWolf.CSPlayer.SimplePlayer CSPlayer.dll`
-    
-  1. EZStarter.exeを使用する場合
-    
-    EZStarter.exeのコマンドラインオプションは，
-    
-    `-p 接続ポート番号（省略可）
-    -n ゲームに参加するプレイヤー数
-    -c プレイヤークラス名 プレイヤーDLLファイル名 設定したい役職（省略可）`
-    
-    で，-c オプションは複数回使用可能です．
-    また，指定したプレイヤーの数が参加人数に満たない場合は，定員を満たすまでTCP/IP接続を待ちます．
-    例えば，
-    
-    `EZStarter.exe -p 12345 –n 5 -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
-    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
-    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll 
-    -c AIWolf.CSPlayer.SimplePlayerPlayer CSPlayer.dll`
-    
-    で，`AIWolf.CSPlayer.SimplePlayerPlayer`4体からの接続を受け付けた後ポート12345番で1体からの接続を待ちます．
-    
-  1. （非推奨）DirectStarter.exeを使用する場合（直接接続）
-      
-    DirectStarter.exeのコマンドラインオプションは，
-    
-      `-c プレイヤークラス名 プレイヤーDLLファイル名 当該クラスを使ったプレイヤー数
-    -l ログディレクトリ（デフォルトは./log/）`
-    
-    で，-c オプションは複数回使用可能です．
-    ただし，現在ログ機能は殺してありますので –l オプションは無効となっています．
-    例えば，
-    
-    `DirectStarter.exe -c AIWolf.Client.Base.Smpl.SampleRoleAssignPlayer AIWolfLibClient.dll 11
-    -c AIWolf.TestPlayer.TestRoleAssignPlayer TestPlayer.dll 1`
-    
-    で，
-    AIWolfLibClient.dll 内のAIWolf.Client.Base.Smpl.SampleRoleAssignPlayerを11体，
-    TestPlayer.dll内のAIWolf.TestPlayer.TestRoleAssignPlayerを一体使ってゲームを開始します．
-    
-  1. （非推奨）RoleRequestStarter.exeを使用する場合（直接接続）
-    RoleRequestStarter.exeのコマンドラインオプションは，
-
-    `-n ゲームに参加するプレイヤー数
-    -a プレイヤーDLLファイル名
-    -c プレイヤークラス名 設定したい役職（省略可）
-    -d デフォルトのプレイヤークラス名
-    -l ログディレクトリ（デフォルトは./log/）`
-    
-    で，-c オプションは複数回使用可能です．
-    また，デフォルトプレイヤーを指定しなかった場合，
-    AIWolf.Client.Base.Smpl.SampleRoleAssignPlayerが使われます．
-    例えば，
-    
-    `RoleRequestStarter.exe –n 15 –a TestPlayer.dll -c AIWolf.TestPlayer.TestRoleAssignPlayer seer
-    -c AIWolf.TestPlayer.TestRoleAssignPlayer werewolf`
-    
-    で，TestPlayer.dll内のAIWolf.TestPlayer.TestRoleAssignPlayerを使ったSEERとWEREWOLF一体ずつと
-    AIWolf.Client.Base.Smpl.SampleRoleAssignPlayer13体からなる15人の村でゲームを開始します．
-    
-  1. （非推奨）AgentTester.exeについて
-    
-    Java版と異なり，テストするプレイヤーをコマンドラインオプションで指定します．
-    
-    例：`AgentTester.exe TestPlayer.dll AIWolf.TestPlayer.TestRoleAssignPlayer`
     
 1. C#版プレイヤーのプログラム実装について
   
