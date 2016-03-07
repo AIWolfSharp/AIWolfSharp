@@ -1,4 +1,4 @@
-# AIWolf.NET
+# AIWolf.NET(aka AIWolf#)
 ## .NET version of AIWolf Library
 
 AIWolf.NETとは，人狼知能プラットフォームのライブラリ群を.NET Framework 4.5用にC#で書き直したものです．
