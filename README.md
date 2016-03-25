@@ -1,4 +1,5 @@
-# AIWolfSharp
+# AIWolfSharpの開発は2016年2月で終了いたしました．
+# 開発は[AIWolf.NET](https://github.com/AIWolfSharp/AIWolf_NET)に引き継がれております．
 ## C# version of AIWolf Server&amp;Library
 
 AIWolf#とは，人狼知能プラットフォームのサーバ＆ライブラリをC#に移植したもの（＋α）です．
