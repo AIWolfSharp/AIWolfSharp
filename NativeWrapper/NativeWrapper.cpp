@@ -1,18 +1,27 @@
 //
-// 1’i–Ú‚Ìwrapper(C++, unmanaged managed ¬‡)
+// NativeWrapper.cpp
+//
+// Copyright (c) 2016 Takashi OTSUKI
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+//
+
+//
+// 1æ®µç›®ã®wrapper(C++, unmanaged managed æ··åˆ)
 //
 
 #include "NativeWrapper.h"
 #include "org_aiwolf_sharp_NativePlayer.h"
 
-// ‚±‚Ìƒ‰ƒbƒp[‚ÌŠÖ”‚ðŒÄ‚ÔJava‚ÌƒNƒ‰ƒX
+// ã“ã®ãƒ©ãƒƒãƒ‘ãƒ¼ã®é–¢æ•°ã‚’å‘¼ã¶Javaã®ã‚¯ãƒ©ã‚¹
 const char* javaClassName = "org/aiwolf/sharp/NativePlayer";
-// CSWrapper‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ðŠi”[‚·‚éCã‹LƒNƒ‰ƒX‚ÌƒtƒB[ƒ‹ƒh–¼
+// CSWrapperã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´ã™ã‚‹ï¼Œä¸Šè¨˜ã‚¯ãƒ©ã‚¹ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å
 const char* javaContextFieldName = "nativeContext";
 
 void storePlayerInstance(JNIEnv* env, jobject obj, CSWrapper^ wrapper)
 {
-	// Java‚ÌNativePlayerƒNƒ‰ƒX‚ÌnativeContextƒtƒB[ƒ‹ƒh‚ðŒŸõ
+	// Javaã®NativePlayerã‚¯ãƒ©ã‚¹ã®nativeContextãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¤œç´¢
 	jclass clazz = env->FindClass(javaClassName);
 	if (clazz == NULL)
 	{
@@ -23,14 +32,14 @@ void storePlayerInstance(JNIEnv* env, jobject obj, CSWrapper^ wrapper)
 	{
 		return;
 	}
-	// managedƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ð64ƒrƒbƒg®”‚Æ‚µ‚ÄŽæ“¾‚µ
-	// ŒÄ‚Ño‚µŒ³‚ÌJava‚ÌNativePlayerƒNƒ‰ƒX‚ÌnativeContextƒtƒB[ƒ‹ƒh‚ÉŠi”[
+	// managedã‚¯ãƒ©ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’64ãƒ“ãƒƒãƒˆæ•´æ•°ã¨ã—ã¦å–å¾—ã—
+	// å‘¼ã³å‡ºã—å…ƒã®Javaã®NativePlayerã‚¯ãƒ©ã‚¹ã®nativeContextãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«æ ¼ç´
 	env->SetLongField(obj, nativeContextFID, ((IntPtr)GCHandle::Alloc(wrapper)).ToInt64());
 }
 
 CSWrapper^ restorePlayerInstance(JNIEnv* env, jobject obj)
 {
-	// Java‚ÌNativePlayerƒNƒ‰ƒX‚ÌnativeContextƒtƒB[ƒ‹ƒh‚ðŒŸõ
+	// Javaã®NativePlayerã‚¯ãƒ©ã‚¹ã®nativeContextãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’æ¤œç´¢
 	jclass clazz = env->FindClass(javaClassName);
 	if (clazz == NULL)
 	{
@@ -41,8 +50,8 @@ CSWrapper^ restorePlayerInstance(JNIEnv* env, jobject obj)
 	{
 		return nullptr;
 	}
-	// ŒÄ‚Ño‚µŒ³‚ÌJava‚ÌNativePlayerƒNƒ‰ƒX‚ÌnativeContextƒtƒB[ƒ‹ƒh‚Ì
-	// managedƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚æ‚èC#ƒvƒŒƒCƒ„[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ð“¾‚é
+	// å‘¼ã³å‡ºã—å…ƒã®Javaã®NativePlayerã‚¯ãƒ©ã‚¹ã®nativeContextãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®
+	// managedã‚¯ãƒ©ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚ˆã‚ŠC#ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å¾—ã‚‹
 	return (CSWrapper^)GCHandle::FromIntPtr(IntPtr(env->GetLongField(obj, nativeContextFID))).Target;
 }
 
