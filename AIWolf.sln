@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoleRequestStarter", "RoleRequestStarter\RoleRequestStarter.csproj", "{02381047-71AE-49B5-96DD-D007B1985F14}"
 EndProject
@@ -38,6 +38,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZStarter", "EZStarter\EZStarter.csproj", "{4D9FF3D5-5709-47F5-975C-4B487B6FF2A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpipAgentTester", "TcpipAgentTester\TcpipAgentTester.csproj", "{25DCDC7F-34FC-4590-AAC2-D5B0C347A391}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E346F76-44FA-43F8-A01B-5EE148FE1FF2}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

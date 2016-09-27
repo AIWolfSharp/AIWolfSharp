@@ -266,3 +266,6 @@ releaseブランチの最新版はVersion 0.3.0（本家Version 0.3.0互換）�
     |VoteVisible|bool|誰が誰に投票したかがわかるか|
     |RandomSeed|long|乱数の種|
     |PlayerNum|int|プレイヤー数|
+
+---
+This software is released under the MIT License, see [LICENSE](https://github.com/AIWolfSharp/AIWolfSharp/blob/release/LICENSE).
